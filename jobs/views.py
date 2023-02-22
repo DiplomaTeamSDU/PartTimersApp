@@ -39,3 +39,6 @@ def profile(request):
     except Company.DoesNotExist:
         company = None
     return render(request, 'registration/profile.html', {'user': user, 'company': company})
+
+def index(request):
+    return render(request, 'index.html')

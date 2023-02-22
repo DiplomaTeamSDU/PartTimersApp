@@ -42,7 +42,7 @@ ROOT_URLCONF = 'parttimers.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend-react/build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,7 +66,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'parttimers',
         'USER': 'postgres',
-        'PASSWORD': 'admin',
+        'PASSWORD': '147963',
         'HOST': 'localhost',
         'PORT': '5433',
     }
@@ -109,7 +109,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'frontend-react/build/static')
 ]
 
 # Default primary key field type
