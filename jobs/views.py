@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages, auth
 from .models import Company, Job
 
 def register(request):
@@ -30,8 +31,13 @@ def login_view(request):
             context = {'error_message': 'Invalid login credentials'}
             return render(request, 'login.html', context=context)
     else:
-        return render(request, 'login.html')
+        return render(request, 'registration/login.html')
     
+def logout(request):
+    auth.logout(request)
+    messages.success(request, ("You were logged out"))
+    return redirect('home')
+
 def profile(request):
     user = request.user
     try:
@@ -41,4 +47,4 @@ def profile(request):
     return render(request, 'registration/profile.html', {'user': user, 'company': company})
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'base.html')
