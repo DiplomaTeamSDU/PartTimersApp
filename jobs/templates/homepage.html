@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="container1">
+        <div id="home1">
+            <div id="hometitle">
+                <h1>Find the <span>job</span> of your Dreams</h1>
+            </div>
+            <div id="homesearch">
+                <span class="aligncenter">
+                    <img src="{% static 'images/searchicon.svg' %}" alt="search">
+                    <input type="text" placeholder="Job title or keyword" id="searchinput">
+                    
+                </span>
+                <img src="{% static 'images/line.svg' %}" alt="line">
+                <span id="geolocation" class="aligncenter">
+                    
+                    <img src="{% static 'images/geoicon.svg' %}" alt="geo"> 
+                    <span>Almaty, Kazakhstan</span>
+                </span>
+                <input type="submit" value="Search" id="searchbtn">
+            </div>
+            <div>
+                <div id="hometrending">
+                    <h3>Trending Jobs keyword : </h3>
+                    <ul>
+                        <li><a href="">Web Designer</a></li>
+                        <li><a href="">UI/UX Designer</a></li>
+                        <li><a href="">Frontend</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="home2">
+            <img src="{% static 'images/home2.png' %}" alt="figure">
+        </div>
+    </div>
+    <div class="container2">
+        <span><h1>Choose Categories</h1></span>
+        <div class="categorycontainer">
+            <div class="categorybox">
+                <img src="" alt="">
+                <div class="categoryinfo">
+                    <h4>Marketing & Communication</h4>
+                    <p>58 Jobs Available</p>
+                </div>
+            </div>
+            <div class="categorybox">
+                <img src="" alt="">
+                <div class="categoryinfo">
+                    <h4>UI/UX Design</h4>
+                    <p>120 Jobs Available</p>
+                </div>
+            </div>
+            <div class="categorybox">
+                <img src="" alt="">
+                <div class="categoryinfo">
+                    <h4>Finance Management</h4>
+                    <p>230 Jobs Available</p>
+                </div>
+            </div>
+            <div class="categorybox">
+                <img src="" alt="">
+                <div class="categoryinfo">
+                    <h4>Web Development</h4>
+                    <p>100 Jobs Available</p>
+                </div>
+            </div>
+            <div class="categorybox">
+                <img src="" alt="">
+                <div class="categoryinfo">
+                    <h4>Project Management</h4>
+                    <p>87 Jobs Available</p>
+                </div>
+            </div>
+            <div class="categorybox">
+                <img src="" alt="">
+                <div class="categoryinfo">
+                    <h4>Business & Consulting</h4>
+                    <p>23 Jobs Available</p>
+                </div>
+            </div>
+            <div class="categorybox">
+                <img src="" alt="">
+                <div class="categoryinfo">
+                    <h4>Graphic Designer</h4>
+                    <p>65 Jobs Available</p>
+                </div>
+            </div>
+            <div class="categorybox">
+                <img src="" alt="">
+                <div class="categoryinfo">
+                    <h4>Video Editor</h4>
+                    <p>120 Jobs Available</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

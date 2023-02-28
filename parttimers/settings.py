@@ -13,9 +13,8 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
-OGIN_URL = '/jobs/login/'
-LOGIN_REDIRECT_URL = '/jobs/profile/'
+OGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/profile/'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -42,7 +41,7 @@ ROOT_URLCONF = 'parttimers.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'frontend-react/build')],
+        'DIRS': 'django.template.backends.django.DjangoTemplates',
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -57,25 +56,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'parttimers.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'parttimers',
         'USER': 'postgres',
-        'PASSWORD': '147963',
+        'PASSWORD': 'admin',
         'HOST': 'localhost',
         'PORT': '5433',
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -106,18 +101,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'frontend-react/build/static')
+    os.path.join(BASE_DIR, 'jobs/static')
 ]
 
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, '/media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-MEDIA_URL = '/media/'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
