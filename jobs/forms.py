@@ -8,8 +8,7 @@ class RegistrationForm(UserCreationForm):
         ('freelancer', 'I am a freelancer'),
         ('company', 'I am a company'),
     )
-
-    choice = forms.ChoiceField(choices=CHOICES)
+    choice = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
 
     class Meta:
         model = User

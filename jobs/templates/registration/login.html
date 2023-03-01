@@ -1,24 +1,50 @@
-{% extends 'base.html' %}
-{% block title %}Login{% endblock %}
-{% block content %}
-<div class="layout-register">
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {% if form.non_field_errors %}
-            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
-        {% endif %}
-        <label for="username">Username:</label>
-        <input type="text" name="username" required>
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
-        {% if form.errors.username %}
-            <div class="alert alert-danger">{{ form.errors.username }}</div>
-        {% endif %}
-        {% if form.errors.password %}
-            <div class="alert alert-danger">{{ form.errors.password }}</div>
-        {% endif %}
-        <button type="submit">Login</button>
-    </form>
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link type="text/css" href="{% static 'home/main.css' %}" rel="stylesheet"> -->
+    <link rel="stylesheet" href="{% static 'home/login.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <div class="column left-column">
+        <div class="center-text">
+            <h1>Welcome</h1>
+            <p>Some text here</p>
+          </div>
+    </div>
+    <div class="column right-column">
+        <div class="layout-register">
+            <h2>Log in</h2>
+            <form method="post">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                {% endif %}
+                <input type="text" name="username" required><br>
+                <input type="password" name="password" required>
+                {% if form.errors.username %}
+                    <div class="alert alert-danger">{{ form.errors.username }}</div>
+                {% endif %}
+                {% if form.errors.password %}
+                    <div class="alert alert-danger">{{ form.errors.password }}</div>
+                {% endif %}
+                <div class="form-group">
+                    <button type="submit" class="login-btn">Login</button>
+                    <a href="#" class="forget-link">Forget your password?</a>
+                </div>
+            </form>
+            <div class="divider">
+                <span>or</span>
+            </div>
+            <button class="google-button">Continue with Google</button>
+        </div>
+    </div>
 </div>
-{% endblock %}
+</body>
+</html>

@@ -23,11 +23,6 @@ def register(request):
         form = RegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
 
-
-class CustomLoginView(LoginView):
-    template_name = 'registration/login.html'
-    success_url = reverse_lazy('profile')
-
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
