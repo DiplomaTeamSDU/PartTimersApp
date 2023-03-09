@@ -26,10 +26,10 @@
                 {% if form.non_field_errors %}
                     <div class="alert alert-danger">{{ form.non_field_errors }}</div>
                 {% endif %}
-                <input type="text" name="username" required><br>
+                <input type="text" name="email" required><br>
                 <input type="password" name="password" required>
-                {% if form.errors.username %}
-                    <div class="alert alert-danger">{{ form.errors.username }}</div>
+                {% if form.errors.email %}
+                    <div class="alert alert-danger">{{ form.errors.email }}</div>
                 {% endif %}
                 {% if form.errors.password %}
                     <div class="alert alert-danger">{{ form.errors.password }}</div>
