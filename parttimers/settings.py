@@ -66,7 +66,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'parttimers',
         'USER': 'postgres',
-        'PASSWORD': 'admin',
+        'PASSWORD': '147963',
         'HOST': 'localhost',
         'PORT': '5433',
     }
