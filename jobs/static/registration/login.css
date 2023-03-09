@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.login-container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.width-reg {
+    width: 50%;
+    max-width: 50%;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-login {
+    background-color: #4C56CC;
+}
+
+#title-login {
+    color: #FFFFFF;
+    font-size: 50px;
+    line-height: 55.2px;
+    width: 42%;
+    max-width: 42%;
+}
+
+#title-login span {
+    background-image: linear-gradient(90deg, #FFB619, #FFB619);
+    background-position: bottom;
+    background-size: 100% 13%;
+    background-repeat: no-repeat;
+}
+
+.right-login {
+    
+}
+
+.login-box {
+    width: 68%;
+    max-width: 68%;
+    height: 66.5%;
+    max-height: 66.5%;
+}
+
+.login-fields {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-fields input {
+    border: 2px solid #4C56CC;
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.08);
+    border-radius: 7px;
+    margin-bottom: 36px;
+    padding: 14px 39px;
+    height: 19px;
+}
+
+.login-fields input::placeholder {
+    font-size: 13px;
+    font-weight: 300;
+    color: #A1A1A1;
+    font-family: 'Poppins', sans-serif;
+}
+
+.login-btn {
+    background: #4C56CC;
+    padding: 12px 0;
+    border: 1px solid #4C56CC;
+    border-radius: 35px;
+    font-size: 16px;
+    color: #FFFFFF;
+    width: 25%;
+    height: ;
+}
+
+.login-btn:hover {
+    background-color: transparent;
+    color: #000;
+}
+
+.login-reset {
+    text-decoration: none;
+    color: #A1A1A1;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.lines {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    margin-bottom: 23px;
+}
+
+.line {
+    height: 1px;
+    background: black;
+    width: 40%;
+    max-width: 40%;
+}
+
+.login-google {
+    text-decoration: none;
+    padding: 11px 0;
+    font-weight: 500;
+    font-size: 16px;
+    color: #333333;
+    width: 100%;
+    border: 1px solid #000000;
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.08);
+    border-radius: 7px;
+    display: ;
+}
+
+.close {
+    position: absolute;
+    right: 3.75%;
+    top: 3%;
+    font-size: 45px;
+    text-decoration: none;
+    color: #000000;
+}

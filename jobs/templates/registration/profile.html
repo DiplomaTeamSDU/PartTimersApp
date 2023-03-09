@@ -1,28 +1,81 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block title %}Profile{% endblock %}
 {% block content %}
-<h1>{{ role|title }} Profile</h1>
-{% if profile %}
-  <ul>
-    {% if role == 'company' %}
-      <li><strong>Name:</strong> {{ profile.name }}</li>
-      <li><strong>Description:</strong> {{ profile.description }}</li>
-      {% if profile.photo %}
-        <li><strong>Logo:</strong> <img src="{{ profile.logo.url }}" alt="{{ profile.name }} logo"></li>
-      {% endif %}
+<div class="container">
+    <h1 style="font-weight: 700; font-size: 40px; color: #4C56CC; text-align: center;">My Profile</h1>
+    <div class="profile">
+        <div class="profilemain">
+            {% if profile.photo %}
+                <div class="profileimage">
+                    <!-- <img src="{{ profile.photo.url }}" alt="Photo"> -->
+                    <img src="{% static 'images/profile.png' %}" alt="Photo">
+                </div>
+            {% endif %}
+            <div style="margin-left: 144px;">
+                {% if profile %}
+                    <h2>{{ profile.user }}</h2>
+                    <p>Software Engineer</p>
+                    <p>Senior</p>
+                    <a href="{% url 'edit_profile' role=role %}">Edit</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="profilebio">
+            <h3 style="color: #4C56CC; font-size: 25px;">Bio</h3>
+            <p>{{ profile.bio }}</p>
+        </div>
+        <div class="profileskills">
+            <h3 style="color: #4C56CC; font-size: 25px;">Skills</h3>
+            <div>{{ profile.skills }}</div>
+        </div>
+        <div class="profileeducation">
+            <h3 style="color: #4C56CC; font-size: 25px;">Education</h3>
+            <div style="display: flex;">
+                <p><strong>Date of education</strong></p> 
+                <p>{{ profile.education }}</p>
+            </div>
+        </div>
+        <div class="profileexperience">
+            <h3 style="color: #4C56CC; font-size: 25px;">Experience</h3>
+            <div style="display: flex;">
+                <p><strong>Date of experience</strong></p>
+                <p>{{ profile.experience }}</p>
+            </div>
+            
+        </div>
+        <div class="profileportfolio">
+            <h3 style="color: #4C56CC; font-size: 25px;">Portfolio</h3>
+            <div>
+                <img src="{% static 'images/portfolio1.png' %}" alt="">
+                <img src="{% static 'images/portfolio2.png' %}" alt="">
+            </div>
+        </div>
+    </div>
+    
+    <!-- <h1>{{ role|title }} Profile</h1> -->
+    <!-- {% if profile %}
+        <ul>
+            {% if role == 'company' %}
+                <li><strong>Name:</strong> {{ profile.name }}</li>
+                <li><strong>Description:</strong> {{ profile.description }}</li>
+                {% if profile.photo %}
+                    <li><strong>Logo:</strong> <img src="{{ profile.logo.url }}" alt="{{ profile.name }} logo"></li>
+                {% endif %}
+            {% else %}
+            <li><strong>Bio:</strong> {{ profile.bio }}</li>
+            <li><strong>Skills:</strong> {{ profile.skills }}</li>
+            <li><strong>Education:</strong> {{ profile.education }}</li>
+            <li><strong>Experience:</strong> {{ profile.experience }}</li>
+            <li><strong>Portfolio Link:</strong> <a href="{{ profile.portfolio_link }}">{{ profile.portfolio_link }}</a></li>
+            {% if profile.photo %}
+                <li><strong>Photo:</strong> <img src="{{ profile.photo.url }}" alt="{{ profile.bio }} photo"></li>
+            {% endif %}
+            {% endif %}
+        </ul>
+        <a href="{% url 'edit_profile' role=role %}">Edit Profile</a>
     {% else %}
-      <li><strong>Bio:</strong> {{ profile.bio }}</li>
-      <li><strong>Skills:</strong> {{ profile.skills }}</li>
-      <li><strong>Education:</strong> {{ profile.education }}</li>
-      <li><strong>Experience:</strong> {{ profile.experience }}</li>
-      <li><strong>Portfolio Link:</strong> <a href="{{ profile.portfolio_link }}">{{ profile.portfolio_link }}</a></li>
-      {% if profile.photo %}
-        <li><strong>Photo:</strong> <img src="{{ profile.photo.url }}" alt="{{ profile.bio }} photo"></li>
-      {% endif %}
-    {% endif %}
-  </ul>
-  <a href="{% url 'edit_profile' role=role %}">Edit Profile</a>
-{% else %}
-  <p>No profile found for {{ request.user.email }}</p>
-{% endif %}
+        <p>No profile found for {{ request.user.email }}</p>
+    {% endif %} -->
+</div>
 {% endblock %}

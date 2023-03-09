@@ -1,24 +1,40 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Login{% endblock %}
 {% block content %}
 <div class="layout-register">
-    <h2>Login</h2>
+    <h2>Log In</h2>
     <form method="post">
         {% csrf_token %}
         {% if form.non_field_errors %}
             <div class="alert alert-danger">{{ form.non_field_errors }}</div>
         {% endif %}
-        <label for="username">Username:</label>
-        <input type="text" name="username" required>
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
+        <!-- <label for="username">Username:</label> -->
+        <input type="text" name="username" required placeholder="Username">
+        <!-- <label for="password">Password:</label> -->
+        <input type="password" name="password" required placeholder="Password">
         {% if form.errors.username %}
             <div class="alert alert-danger">{{ form.errors.username }}</div>
         {% endif %}
         {% if form.errors.password %}
             <div class="alert alert-danger">{{ form.errors.password }}</div>
         {% endif %}
-        <button type="submit">Login</button>
+        <div style="display: flex; justify-content: space-between;">
+            <button type="submit" id="loginbtn">Sign In</button> 
+            <a href="">Forgot your password?</a>
+        </div>
+        
     </form>
+    <div>
+        <div style="display: flex; justify-content: space-between;"">
+            <img src="{% static 'images/linelgn.svg' %}" alt="">
+            <p>or</p>
+            <img src="{% static 'images/linelgn.svg' %}" alt="">
+        </div>
+        <div style="display: flex;">
+            <button type="submit" id="googlebtn"><img src="{% static 'images/googlelogo.svg' %}" alt="" width="15px"> Continue with Google</button>
+        </div>
+        
+    </div>
 </div>
 {% endblock %}

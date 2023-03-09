@@ -21,12 +21,27 @@ def register(request):
             return redirect('profile')
     else:
         form = RegistrationForm()
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'registerpage.html', {'form': form})
 
 
 class CustomLoginView(LoginView):
-    template_name = 'registration/login.html'
+    template_name = 'loginpage.html'
     success_url = reverse_lazy('profile')
+
+# def login_view(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         user = authenticate(request, username=username, password=password)
+#         if user is not None:
+#             login(request, user)
+#             return redirect('home')
+#         else:
+#             context = {'error_message': 'Invalid login credentials'}
+#             return render(request, 'registration/login.html', context=context)
+#     else:
+#         return render(request, 'registration/login.html')
+    
 
 def login_view(request):
     if request.method == 'POST':
@@ -38,9 +53,9 @@ def login_view(request):
             return redirect('home')
         else:
             context = {'error_message': 'Invalid login credentials'}
-            return render(request, 'registration/login.html', context=context)
+            return render(request, 'loginpage.html', context=context)
     else:
-        return render(request, 'registration/login.html')
+        return render(request, 'loginpage.html')
     
 def logout(request):
     auth.logout(request)
@@ -57,6 +72,7 @@ def profile(request):
         profile = user.freelancer
         role = 'freelancer'
     return render(request, 'registration/profile.html', {'profile': profile, 'role': role})
+
 
 @login_required
 def edit_profile(request, role):

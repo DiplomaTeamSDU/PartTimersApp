@@ -1,6 +1,36 @@
 {% extends 'base.html' %}
 {% block title %}Registration{% endblock %}
 {% block content %}
+<!-- <div class="container">
+    <div class="column left-column">
+        <div class="center-text">
+            <h1>Welcome</h1>
+            <p>Some text here</p>
+          </div>
+    </div>
+    <div class="column right-column">
+        <div class="layout-register">
+            <h2>Registration</h2>
+            <button id="googlebtn">Continue with Google</button>
+            <div class="divider">
+                <span>or</span>
+            </div>
+            <div class="layout-register">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.username }}
+                    {{ form.password1 }}
+                    {{ form.password2 }}
+                    <div class="radio-buttons">
+                        {{ form.choice }}
+                    </div>
+                    <button type="submit">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> -->
+
 <div class="layout-register">
     <h2 id="hregister">Register</h2>
     <form method="post">
