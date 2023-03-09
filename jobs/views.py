@@ -23,7 +23,7 @@ def register(request):
             return redirect('home')
     else:
         form = RegistrationForm()
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'registerpage.html', {'form': form})
  
 def login_view(request): 
     if request.method == 'POST': 
@@ -35,9 +35,9 @@ def login_view(request):
             return redirect('home') 
         else: 
             context = {'error_message': 'Invalid login credentials'} 
-            return render(request, 'registration/login.html', context=context) 
+            return render(request, 'loginpage.html', context=context) 
     else: 
-        return render(request, 'registration/login.html') 
+        return render(request, 'loginpage.html') 
      
 def logout(request): 
     auth.logout(request) 

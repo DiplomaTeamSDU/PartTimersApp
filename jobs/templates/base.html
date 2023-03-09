@@ -8,16 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link type="text/css" href="{% static 'home/main.css' %}" rel="stylesheet"> -->
     <link rel="stylesheet" href="{% static 'home/style.css' %}">
+    <link rel="icon" href="{% static 'images/LOGO_PARTTIMERS.svg' %}">
+    <link href="{% static 'fontawesome-free-6.3.0-web/css/fontawesome.css' %}" rel="stylesheet">
+    <link href="{% static 'fontawesome-free-6.3.0-web/css/brands.css' %}" rel="stylesheet">
+    <link href="{% static 'fontawesome-free-6.3.0-web/css/solid.css' %}" rel="stylesheet">
 </head>
 <body>
     <header>
         <div class="container">
             <nav id="nav">
                 <ul id="navul">
-                    <li><img src="{% static 'images/logo.png' %}" alt="Logo"></li>
+                    <li><img src="{% static 'images/logo.svg' %}" alt="Logo"></li>
                     <li><a class="navlinks" href="{% url 'home' %}">Home</a></li>
-                    <li><a class="navlinks" href="#">Employer</a></li>
-                    <li><a class="navlinks" href="#">Candidate</a></li>
+                    <li><a class="navlinks" href="#">Find Talant</a></li>
+                    <li><a class="navlinks" href="#">Find Work</a></li>
                 </ul>
                 <div id="navbuttons">
                     {% if user.is_authenticated %}
@@ -31,16 +35,45 @@
             </nav>
         </div>
     </header>
-    </nav>
+    <!-- </nav> -->
     <main>
         {% block content %}
         {% endblock %}
-    </main>
-    
+    </main> 
     <footer>
-        <p>&copy; {{ year }} PartTimers App. All rights reserved.</p>
-    </footer>
-    
+        <div class="container">
+            <div class="footer">
+                <div class="footer1">
+                    <h1 style="color: #4C56CC;">PartTimers</h1>
+                    <p>Joobs is the largest talent platform in Central Asia for career development and recruitment.</p>
+                </div>
+                <div class="footer2">
+                    <h3>Employer</h3>
+                    <ul>
+                        <li><a href="">About Us</a></li>
+                        <li><a href="">Careers</a></li>
+                        <li><a href="">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer2">
+                    <h3>Find Vacancy Based On</h3>
+                    <ul>
+                        <li><a href="">Help Center</a></li>
+                        <li><a href="">Job Location</a></li>
+                        <li><a href="">Company Name</a></li>
+                    </ul>
+                </div>
+                <div class="footer2">   
+                    <h3>Address</h3>
+                    <ul>
+                        <li><a href="mailto:">hello@jobbb.com</a></li>
+                        <li><a href="">Kazakhstan, Almaty, Kaskelen city</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p style="text-align: center; font-weight: 500; margin-top: 100px;">&copy; {{ year }} 2023 PartTimers App. All rights reserved.</p>
+        </div>
+    </footer>   
     <!-- <script src="{% static 'js/scripts.js' %}"></script> -->
 </body>
 </html>

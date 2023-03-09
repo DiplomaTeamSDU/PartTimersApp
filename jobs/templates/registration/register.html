@@ -1,16 +1,7 @@
-{% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'home/register.css' %}">
-</head>
-<body>
-
-<div class="container">
+{% extends 'base.html' %}
+{% block title %}Registration{% endblock %}
+{% block content %}
+<!-- <div class="container">
     <div class="column left-column">
         <div class="center-text">
             <h1>Welcome</h1>
@@ -20,14 +11,14 @@
     <div class="column right-column">
         <div class="layout-register">
             <h2>Registration</h2>
-            <button class="google-button">Continue with Google</button>
+            <button id="googlebtn">Continue with Google</button>
             <div class="divider">
                 <span>or</span>
             </div>
             <div class="layout-register">
                 <form method="post">
                     {% csrf_token %}
-                    {{ form.email }}
+                    {{ form.username }}
                     {{ form.password1 }}
                     {{ form.password2 }}
                     <div class="radio-buttons">
@@ -38,6 +29,14 @@
             </div>
         </div>
     </div>
+</div> -->
+
+<div class="layout-register">
+    <h2 id="hregister">Register</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
 </div>
-</body>
-</html>
+{% endblock %}
