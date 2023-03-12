@@ -1,0 +1,25 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>My Jobs</h2>
+  {% if jobs %}
+    <ul>
+    {% for job in jobs %}
+      <li>
+        <h3>{{ job.title }}</h3>
+        <p>{{ job.description }}</p>
+        <p>Category: {{ job.category }}</p>
+        <p>Created: {{ job.created_at }}</p>
+        <p>Salary: {{ job.salary }}</p>
+        {% if job.is_featured %}
+          <p>Featured</p>
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>No jobs posted yet.</p>
+  {% endif %}
+  <a href="{% url 'post_job' %}">Post a new job</a>
+{% endblock %}
