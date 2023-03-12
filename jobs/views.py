@@ -9,7 +9,7 @@ from django.contrib import messages, auth
 from django.urls import reverse_lazy 
 from .forms import CompanyForm, FreelancerForm, JobForm 
 from jobs.forms import RegistrationForm 
-from .models import Company, CustomUser, Job 
+from .models import Category, Company, CustomUser, Job 
  
 def home(request): 
     return render(request, 'homepage.html') 
@@ -53,6 +53,8 @@ def profile(request):
         role = 'company' 
     else: 
         profile = user.freelancer 
+        print(profile)  # Check the value of profile
+        print(profile.skills.all())  #
         role = 'freelancer' 
     return render(request, 'registration/profile.html', {'profile': profile, 'role': role}) 
  
@@ -70,6 +72,7 @@ def edit_profile(request, role):
         form = form_class(request.POST, request.FILES, instance=profile) 
         if form.is_valid(): 
             form.save() 
+            form.save_m2m() 
             return redirect('profile') 
     else: 
         form = form_class(instance=profile) 
@@ -81,6 +84,7 @@ def company_dashboard(request):
     jobs = Job.objects.filter(company=company)
 
     return render(request, 'jobs/company_dashboard.html', {'jobs': jobs})
+
 
 @login_required
 def post_job(request):
@@ -95,3 +99,26 @@ def post_job(request):
     else:
         form = JobForm()
     return render(request, 'jobs/post_job.html', {'form': form})
+
+@login_required
+def view_jobs(request):
+    jobs = Job.objects.filter(is_active=True)
+    companies = Company.objects.all()
+    categories = Category.objects.all()
+    company_id = request.GET.get('company')
+    category_id = request.GET.get('category')
+    sort_by_salary = request.GET.get('sort_by_salary')
+
+    if company_id:
+        jobs = jobs.filter(company__id=company_id)
+
+    if category_id:
+        jobs = jobs.filter(category__id=category_id)
+
+    if sort_by_salary:
+        if sort_by_salary == 'asc':
+            jobs = jobs.order_by('salary')
+        elif sort_by_salary == 'desc':
+            jobs = jobs.order_by('-salary')
+
+    return render(request, 'jobs/view_jobs.html', {'jobs': jobs, 'companies': companies, 'categories': categories})

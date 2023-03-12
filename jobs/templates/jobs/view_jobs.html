@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="get">
+    <label for="company">Filter by company:</label>
+    <select name="company" id="company">
+        <option value="">All companies</option>
+        {% for company in companies %}
+            <option value="{{ company.id }}" {% if company.id == company_id %}selected{% endif %}>{{ company.name }}</option>
+        {% endfor %}
+    </select>
+    <label for="category">Filter by category:</label>
+    <select name="category" id="category">
+        <option value="">All categories</option>
+        {% for category in categories %}
+            <option value="{{ category.id }}" {% if category.id == category_id %}selected{% endif %}>{{ category.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+<p>Sort by salary:</p>
+<a href="?sort_by_salary=asc">Ascending</a>
+<a href="?sort_by_salary=desc">Descending</a>
+
+{% for job in jobs %}
+    <div>
+        <h2>{{ job.title }}</h2>
+        <p>{{ job.description }}</p>
+        <p>Company: {{ job.company.name }}</p>
+        <p>Category: {{ job.category.name }}</p>
+        <p>Salary: {{ job.salary }}</p>
+        <p>Timeline: {{ job.timeline }}</p>
+    </div>
+{% endfor %}
+{% endblock %}

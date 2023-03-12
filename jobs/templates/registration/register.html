@@ -18,7 +18,7 @@
             <div class="layout-register">
                 <form method="post">
                     {% csrf_token %}
-                    {{ form.username }}
+                    {{ form.email }}
                     {{ form.password1 }}
                     {{ form.password2 }}
                     <div class="radio-buttons">

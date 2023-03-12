@@ -20,6 +20,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('post_job/', post_job, name='post_job'),
     path('company_dashboard/',company_dashboard,name='company_dashboard'),
+    path('jobs/', views.view_jobs, name='view_jobs'),
     path('job_search/', views.home, name='job_search'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
