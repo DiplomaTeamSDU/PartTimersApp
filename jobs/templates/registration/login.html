@@ -10,11 +10,11 @@
             <div class="alert alert-danger">{{ form.non_field_errors }}</div>
         {% endif %}
         <!-- <label for="username">Username:</label> -->
-        <input type="text" name="username" required placeholder="Username">
+        <input type="text" name="email" required placeholder="Email">
         <!-- <label for="password">Password:</label> -->
         <input type="password" name="password" required placeholder="Password">
-        {% if form.errors.username %}
-            <div class="alert alert-danger">{{ form.errors.username }}</div>
+        {% if form.errors.email %}
+            <div class="alert alert-danger">{{ form.errors.email }}</div>
         {% endif %}
         {% if form.errors.password %}
             <div class="alert alert-danger">{{ form.errors.password }}</div>

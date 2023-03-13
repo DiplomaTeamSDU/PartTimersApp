@@ -2,7 +2,7 @@ import random
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Freelancer, Company,CustomUser, Job
+from .models import Category, Freelancer, Company,CustomUser, Job, Skill, TimeField, TimeInput
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class RegistrationForm(UserCreationForm):
@@ -43,13 +43,51 @@ class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = ['name', 'description', 'logo']
-
 class FreelancerForm(forms.ModelForm):
+    skills = forms.ModelMultipleChoiceField(
+        queryset=Skill.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+
     class Meta:
         model = Freelancer
-        fields = ['bio', 'photo', 'skills', 'education', 'experience', 'portfolio_link']
+        fields = ['bio', 'photo', 'education', 'experience', 'portfolio_link', 'skills']
+
+    def clean_skills(self):
+        skills = self.cleaned_data.get('skills')
+        if skills:
+            try:
+                return [int(skill_id) for skill_id in skills.split(',')]
+            except ValueError:
+                return Skill.objects.filter(name__in=[skill.strip() for skill in skills.split(',')])
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance:
+            self.fields['skills'].initial = self.instance.skills.all()
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if commit:
+            instance.save()
+            selected_skills = self.cleaned_data['skills']
+            instance.skills.clear()
+            instance.skills.add(*selected_skills)
+        if commit:
+            instance.save()
+            self.save_m2m()
+        return instance
+
+    
 
 class JobForm(forms.ModelForm):
-    class Meta:
+     timeline = TimeField(widget=TimeInput)
+
+     def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['category'].queryset = Category.objects.all()
+
+     class Meta:
         model = Job
-        fields = ['title', 'description', 'category', 'salary', 'is_featured']
+        fields = ['title', 'description', 'category', 'salary', 'timeline']
