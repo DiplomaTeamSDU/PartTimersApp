@@ -147,7 +147,6 @@ def select_freelancer(request, job_id, application_id):
     application.status = 'accepted'
     application.save()
     # Notify the freelancer that their application was accepted
-    # Redirect to the job details page
     return redirect('view_job', job_id=job_id)
 
 @user_passes_test(is_company)
@@ -182,21 +181,4 @@ def view_jobs(request):
         elif sort_by_salary == 'desc':
             jobs = jobs.order_by('-salary')
 
-    if hasattr(request.user, 'freelancer'):
-        return render(request, 'jobs/view_jobs_freelancer.html', {'jobs': jobs, 'companies': companies, 'categories': categories})
-    else:
-        return render(request, 'jobs/view_jobs.html', {'jobs': jobs, 'companies': companies, 'categories': categories})
-
-
-@login_required
-def view_job_freelancer(request, job_id):
-    job = Job.objects.get(id=job_id)
-    form = JobApplicationForm(request.POST or None)
-    if form.is_valid():
-        application = form.save(commit=False)
-        application.job = job
-        application.freelancer = request.user.freelancer
-        application.save()
-        messages.success(request, 'Your application has been submitted.')
-        return redirect('view_job_freelancer', job_id=job_id)
-    return render(request, 'jobs/view_job_freelancer.html', {'job': job, 'form': form})
+    return render(request, 'jobs/view_jobs.html', {'jobs': jobs, 'companies': companies, 'categories': categories})
