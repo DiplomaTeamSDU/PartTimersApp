@@ -1,35 +1,43 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<form method="get">
-    <label for="company">Filter by company:</label>
+  <h2>View Jobs</h2>
+  <form method="GET">
+    <label for="company">Filter by Company:</label>
     <select name="company" id="company">
-        <option value="">All companies</option>
-        {% for company in companies %}
-            <option value="{{ company.id }}" {% if company.id == company_id %}selected{% endif %}>{{ company.name }}</option>
-        {% endfor %}
+      <option value="">All</option>
+      {% for company in companies %}
+        <option value="{{ company.id }}" {% if company.id|stringformat:"s" == company_id %}selected{% endif %}>{{ company.name }}</option>
+      {% endfor %}
     </select>
-    <label for="category">Filter by category:</label>
+    <label for="category">Filter by Category:</label>
     <select name="category" id="category">
-        <option value="">All categories</option>
-        {% for category in categories %}
-            <option value="{{ category.id }}" {% if category.id == category_id %}selected{% endif %}>{{ category.name }}</option>
-        {% endfor %}
+      <option value="">All</option>
+      {% for category in categories %}
+        <option value="{{ category.id }}" {% if category.id|stringformat:"s" == category_id %}selected{% endif %}>{{ category.name }}</option>
+      {% endfor %}
     </select>
-    <button type="submit">Filter</button>
-</form>
-
-<p>Sort by salary:</p>
-<a href="?sort_by_salary=asc">Ascending</a>
-<a href="?sort_by_salary=desc">Descending</a>
-
-{% for job in jobs %}
-    <div>
-        <h2>{{ job.title }}</h2>
-        <p>{{ job.description }}</p>
-        <p>Company: {{ job.company.name }}</p>
-        <p>Category: {{ job.category.name }}</p>
-        <p>Salary: {{ job.salary }}</p>
-        <p>Timeline: {{ job.timeline }}</p>
-    </div>
-{% endfor %}
+    <label for="sort_by_salary">Sort by Salary:</label>
+    <select name="sort_by_salary" id="sort_by_salary">
+      <option value="">None</option>
+      <option value="asc" {% if sort_by_salary == 'asc' %}selected{% endif %}>Ascending</option>
+      <option value="desc" {% if sort_by_salary == 'desc' %}selected{% endif %}>Descending</option>
+      <label for="search">Search:</label>
+      <input type="text" name="search" id="search" value="{{ search_query }}">
+      <button type="submit">Filter/Sort/Search</button>
+  </form>
+  <ul>
+    {% for job in jobs %}
+      <li>
+        <a href="{% url 'view_job' job.id %}">{{ job.title }}</a>
+        {% if job.salary %}
+          - Salary: {{ job.salary }}
+        {% endif %}
+        - Company: {{ job.company.name }}
+        - Category: {{ job.category }}
+      </li>
+    {% empty %}
+      <li>No jobs found.</li>
+    {% endfor %}
+  </ul>
 {% endblock %}

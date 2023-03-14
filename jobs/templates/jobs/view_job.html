@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ job.title }}</h2>
+  <p>{{ job.description }}</p>
+  <p>Salary: {{ job.salary }}</p>
+  <p>Category: {{ job.category }}</p>
+  <p>Timeline: {{ job.timeline }}</p>
+  
+  {% if request.user.company %}
+    <h3>Applications:</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Applicant</th>
+          <th>Resume</th>
+          <th>Cover Letter</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for application in applications %}
+          <tr>
+            <td>{{ application.freelancer.user.username }}</td>
+            <td><a href="{{ application.resume.url }}">{{ application.resume.name }}</a></td>
+            <td>{{ application.cover_letter }}</td>
+            <td>
+              <form method="POST" action="{% url 'select_freelancer' job_id=job.id application_id=application.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Select</button>
+              </form>
+            </td>
+            <td>
+              <a href="{% url 'view_freelancer' freelancer_id=application.freelancer.id %}">View Profile</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="4">No applications yet.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <a href="{% url 'apply_to_job' job.id %}">Apply to Job</a>
+  {% endif %}
+{% endblock %}
+

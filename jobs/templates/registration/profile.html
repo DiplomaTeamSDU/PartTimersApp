@@ -57,30 +57,5 @@
             </div>
         </div>
     </div>
-
-    <!-- <h1>{{ role|title }} Profile</h1> -->
-    <!-- {% if profile %}
-        <ul>
-            {% if role == 'company' %}
-                <li><strong>Name:</strong> {{ profile.name }}</li>
-                <li><strong>Description:</strong> {{ profile.description }}</li>
-                {% if profile.photo %}
-                    <li><strong>Logo:</strong> <img src="{{ profile.logo.url }}" alt="{{ profile.name }} logo"></li>
-                {% endif %}
-            {% else %}
-            <li><strong>Bio:</strong> {{ profile.bio }}</li>
-            <li><strong>Skills:</strong> {{ profile.skills }}</li>
-            <li><strong>Education:</strong> {{ profile.education }}</li>
-            <li><strong>Experience:</strong> {{ profile.experience }}</li>
-            <li><strong>Portfolio Link:</strong> <a href="{{ profile.portfolio_link }}">{{ profile.portfolio_link }}</a></li>
-            {% if profile.photo %}
-                <li><strong>Photo:</strong> <img src="{{ profile.photo.url }}" alt="{{ profile.bio }} photo"></li>
-            {% endif %}
-            {% endif %}
-        </ul>
-        <a href="{% url 'edit_profile' role=role %}">Edit Profile</a>
-    {% else %}
-        <p>No profile found for {{ request.user.email }}</p>
-    {% endif %} -->
-</div>
-{% endblock %}
+    
+{% endblock %} 

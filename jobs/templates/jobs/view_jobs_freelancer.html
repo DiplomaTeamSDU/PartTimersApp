@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Available Jobs</h1>
+  <form method="get" class="form-inline mb-3">
+    <div class="form-group mr-2">
+      <label for="category">Category:</label>
+      <select name="category" id="category" class="form-control">
+        <option value="">All Categories</option>
+        {% for category in categories %}
+          <option value="{{ category.id }}" {% if category.id|stringformat:"s" == category_id %}selected{% endif %}>{{ category.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group mr-2">
+      <label for="company">Company:</label>
+      <select name="company" id="company" class="form-control">
+        <option value="">All Companies</option>
+        {% for company in companies %}
+          <option value="{{ company.id }}" {% if company.id|stringformat:"s" == company_id %}selected{% endif %}>{{ company.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group mr-2">
+      <label for="sort_by_salary">Sort by Salary:</label>
+      <select name="sort_by_salary" id="sort_by_salary" class="form-control">
+        <option value="">---</option>
+        <option value="asc" {% if sort_by_salary == 'asc' %}selected{% endif %}>Ascending</option>
+        <option value="desc" {% if sort_by_salary == 'desc' %}selected{% endif %}>Descending</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+  </form>
+  {% if jobs %}
+    {% for job in jobs %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ job.title }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ job.company }}</h6>
+          <p class="card-text">{{ job.description }}</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Category: {{ job.category }}</li>
+            <li class="list-group-item">Salary: {{ job.salary }}</li>
+            <li class="list-group-item">Timeline: {{ job.timeline }}</li>
+            <li class="list-group-item">Applications: {{ job.num_applications }}</li>
+          </ul>
+          <a href="{% url 'view_job' job.id %}" class="card-link">View Details</a>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No jobs found.</p>
+  {% endif %}
+{% endblock %}

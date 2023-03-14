@@ -1,18 +1,23 @@
 from django.http import JsonResponse 
 from django.shortcuts import render, redirect 
 from django.contrib.auth import authenticate, login, logout 
-from django.contrib.auth.decorators import login_required 
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import Count,Q
 from rest_framework_simplejwt.tokens import AccessToken 
 from rest_framework.decorators import api_view, permission_classes 
 from rest_framework.permissions import IsAuthenticated 
 from django.contrib import messages, auth 
 from django.urls import reverse_lazy 
-from .forms import CompanyForm, FreelancerForm, JobForm 
+from .forms import CompanyForm, FreelancerForm, JobApplicationForm, JobForm 
 from jobs.forms import RegistrationForm 
-from .models import Category, Company, CustomUser, Job 
+from .models import Category, Company, CustomUser, Freelancer, Job, JobApplication 
  
 def home(request): 
     return render(request, 'homepage.html') 
+
+
+def is_company(user):
+    return hasattr(user, 'company')
  
 def register(request):
     if request.method == 'POST':
@@ -51,10 +56,10 @@ def profile(request):
     if hasattr(user, 'company'): 
         profile = user.company 
         role = 'company' 
+        company_dashboard(request)
+        post_job(request)
     else: 
         profile = user.freelancer 
-        print(profile)  # Check the value of profile
-        print(profile.skills.all())  #
         role = 'freelancer' 
     return render(request, 'registration/profile.html', {'profile': profile, 'role': role}) 
  
@@ -71,13 +76,13 @@ def edit_profile(request, role):
     if request.method == 'POST': 
         form = form_class(request.POST, request.FILES, instance=profile) 
         if form.is_valid(): 
-            form.save() 
-            form.save_m2m() 
+            form.save()     
             return redirect('profile') 
     else: 
         form = form_class(instance=profile) 
     return render(request, 'registration/edit_profile.html', {'form': form})
 
+@user_passes_test(is_company)
 @login_required
 def company_dashboard(request):
     company = request.user.company
@@ -85,7 +90,7 @@ def company_dashboard(request):
 
     return render(request, 'jobs/company_dashboard.html', {'jobs': jobs})
 
-
+@user_passes_test(is_company)
 @login_required
 def post_job(request):
     if request.method == 'POST':
@@ -100,14 +105,70 @@ def post_job(request):
         form = JobForm()
     return render(request, 'jobs/post_job.html', {'form': form})
 
+
+@login_required
+def apply_to_job(request, job_id):
+    job = Job.objects.get(id=job_id)
+    form = JobApplicationForm(request.POST or None)
+    if form.is_valid():
+        application = form.save(commit=False)
+        application.job = job
+        application.freelancer = request.user.freelancer
+        application.save()
+        messages.success(request, 'Your application has been submitted.')
+        return redirect('view_job', job_id=job_id)
+    return render(request, 'jobs/apply_to_job.html', {'job': job, 'form': form})
+
+
+@login_required
+def view_job(request, job_id):
+    job = Job.objects.get(id=job_id)
+    applications = JobApplication.objects.filter(job=job)
+    if request.method == 'POST' and hasattr(request.user, 'company'):
+        form = FreelancerForm(request.POST)
+        if form.is_valid():
+            freelancers = form.cleaned_data['freelancer']
+            selected_freelancers = list(freelancers.all())
+            job.freelancer.set(selected_freelancers)
+            messages.success(request, 'Freelancer chosen for job.')
+            return redirect('view_job', job_id=job_id)
+    else:
+        form = FreelancerForm()
+    return render(request, 'jobs/view_job.html', {'job': job, 'applications': applications, 'form': form})
+
+@user_passes_test(is_company)
+@login_required
+def select_freelancer(request, job_id, application_id):
+    job = Job.objects.get(id=job_id)
+    application = JobApplication.objects.get(id=application_id)
+    if request.user.company != job.company:
+        # Redirect to error page or show error message
+        pass
+    application.status = 'accepted'
+    application.save()
+    # Notify the freelancer that their application was accepted
+    # Redirect to the job details page
+    return redirect('view_job', job_id=job_id)
+
+@user_passes_test(is_company)
+@login_required
+def view_freelancer(request, freelancer_id):
+    freelancer = Freelancer.objects.get(id=freelancer_id)
+    return render(request, 'jobs/view_freelancer.html', {'freelancer': freelancer})
+
+
 @login_required
 def view_jobs(request):
-    jobs = Job.objects.filter(is_active=True)
+    jobs = Job.objects.filter(is_active=True).annotate(num_applications=Count('jobapplication'))
     companies = Company.objects.all()
     categories = Category.objects.all()
     company_id = request.GET.get('company')
     category_id = request.GET.get('category')
     sort_by_salary = request.GET.get('sort_by_salary')
+    search_query = request.GET.get('search')
+
+    if search_query:
+        jobs = jobs.filter(Q(title__icontains=search_query) | Q(category__name__icontains=search_query))
 
     if company_id:
         jobs = jobs.filter(company__id=company_id)
@@ -121,4 +182,21 @@ def view_jobs(request):
         elif sort_by_salary == 'desc':
             jobs = jobs.order_by('-salary')
 
-    return render(request, 'jobs/view_jobs.html', {'jobs': jobs, 'companies': companies, 'categories': categories})
+    if hasattr(request.user, 'freelancer'):
+        return render(request, 'jobs/view_jobs_freelancer.html', {'jobs': jobs, 'companies': companies, 'categories': categories})
+    else:
+        return render(request, 'jobs/view_jobs.html', {'jobs': jobs, 'companies': companies, 'categories': categories})
+
+
+@login_required
+def view_job_freelancer(request, job_id):
+    job = Job.objects.get(id=job_id)
+    form = JobApplicationForm(request.POST or None)
+    if form.is_valid():
+        application = form.save(commit=False)
+        application.job = job
+        application.freelancer = request.user.freelancer
+        application.save()
+        messages.success(request, 'Your application has been submitted.')
+        return redirect('view_job_freelancer', job_id=job_id)
+    return render(request, 'jobs/view_job_freelancer.html', {'job': job, 'form': form})
