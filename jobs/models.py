@@ -42,20 +42,30 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.first_name
 
 
+# class Company(models.Model):
+#     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+#     name = models.CharField(max_length=255)
+#     description = models.TextField(blank=True,)
+#     logo = models.ImageField(upload_to='company_logos/', blank=True)
+
 class Company(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    description = models.TextField(blank=True,)
-    logo = models.ImageField(upload_to='company_logos/', blank=True)
+    description = models.TextField(blank=True)
+    logo = models.ImageField(default='default_picture.png', upload_to='company_profile_images', blank=True)
+
 
 class Skill(models.Model):
     name = models.CharField(max_length=255)
 
 class Freelancer(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE) 
+    first_name = models.CharField(default='', max_length=20)
+    last_name = models.CharField(default='', max_length=20)
+    occupation = models.CharField(default='', max_length=20)
     bio = models.TextField()
-    photo = models.ImageField(upload_to='photos')
-    skills = models.ManyToManyField('Skill')
+    photo = models.ImageField(default='default_picture.png', upload_to='freelancer_profile_images', blank=True)
+    # skills = models.TextField()
     education = models.TextField()
     experience = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

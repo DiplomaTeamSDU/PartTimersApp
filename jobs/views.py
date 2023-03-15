@@ -51,14 +51,15 @@ def profile(request):
     if hasattr(user, 'company'): 
         profile = user.company 
         role = 'company' 
+        jobs = Job.objects.filter(company=profile)
     else: 
         profile = user.freelancer 
         print(profile)  # Check the value of profile
-        print(profile.skills.all())  #
+        # print(profile.skills.all())  #
         role = 'freelancer' 
-    return render(request, 'registration/profile.html', {'profile': profile, 'role': role}) 
- 
- 
+        jobs = None
+    return render(request, 'registration/profile.html', {'profile': profile, 'role': role, 'jobs': jobs}) 
+
 @login_required 
 def edit_profile(request, role): 
     user = request.user 
@@ -95,7 +96,7 @@ def post_job(request):
             job.company = request.user.company
             job.save()
             messages.success(request, 'Job posted successfully.')
-            return redirect('company_dashboard')
+            return redirect('profile')
     else:
         form = JobForm()
     return render(request, 'jobs/post_job.html', {'form': form})

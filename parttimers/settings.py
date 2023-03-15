@@ -14,7 +14,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-OGIN_URL = '/login/'
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/profile/'
 
 INSTALLED_APPS = [
@@ -66,7 +66,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'parttimers',
         'USER': 'postgres',
-        'PASSWORD': 'admin',
+        'PASSWORD': '147963',
         'HOST': 'localhost',
         'PORT': '5433',
     }
@@ -142,9 +142,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'jobs/static')
 ]
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, '/media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

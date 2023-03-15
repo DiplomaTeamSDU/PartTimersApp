@@ -1,5 +1,103 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
+<section class="jobs-background">
+    <div class="container">
+        <div class="container7">
+            <div class="container7-1">
+                {% if user.freelancer %}
+                    <h1>Hey, {{ user.freelancer.first_name }}!</h1> 
+                {% elif user.company %}
+                    <h1>Hey, {{ user.company.name }}!</h1> 
+                {% endif %}
+                <h2 style="color: #FFFFFF;">Ready for your next big opportunity?</h2> 
+            </div>
+            <div class="container7-2"></div>
+        </div>
+        <div class="container6">
+            <h4>Featured Jobs</h4>
+            <h2>You will find popular <span>featured</span> work</h2>
+            <p id="con6p">Fully nobis id expedita dolores officiis layered dolor sit amet laboriosam.</p>
+            <div id="vacancygenres">
+                <ul>
+                    <li><a href="">All Recent</a></li>
+                    <li><a href="">Finance</a></li>
+                    <li><a href="">Development</a></li>
+                    <li><a href="">Marketing</a></li>
+                    <li><a href="">Specialist</a></li>
+                </ul>
+            </div>
+            <div class="vacancycontainer">
+                <div class="vacancybox">
+                    <h3>UI Designer</h3>
+                    <p>Almaty, Kazakhstan</p>
+                    <p><span><i class="fa-sharp fa-solid fa-money-bill-1-wave"></i></span> $450 - $500</p>
+                    <a href="" class="applybtn">Apply Now</a>
+                </div>
+                <div class="vacancybox">
+                    <h3>UI Designer</h3>
+                    <p>Almaty, Kazakhstan</p>
+                    <p><span><i class="fa-sharp fa-solid fa-money-bill-1-wave"></i></span> $450 - $500</p>
+                    <a href="" class="applybtn">Apply Now</a>
+                </div>
+                <div class="vacancybox">
+                    <h3>UI Designer</h3>
+                    <p>Almaty, Kazakhstan</p>
+                    <p><span><i class="fa-sharp fa-solid fa-money-bill-1-wave"></i></span> $450 - $500</p>
+                    <a href="" class="applybtn">Apply Now</a>
+                </div>
+                <div class="vacancybox">
+                    <h3>UI Designer</h3>
+                    <p>Almaty, Kazakhstan</p>
+                    <p><span><i class="fa-sharp fa-solid fa-money-bill-1-wave"></i></span> $450 - $500</p>
+                    <a href="" class="applybtn">Apply Now</a>
+                </div>
+            </div>
+            <a href="" id="seeallbtn">See All Jobs <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="container8">
+            <h4 style="text-align: center; margin: 0; color: #4C56CC; font-weight: 500;">Search project</h4>
+            <h2 style="text-align: center; margin: 0; ">What service are you looking for today?</h2>
+            <div class="job-search">
+                <form method="GET" action="{% url 'view_jobs' %}"> 
+                    <div class="job-search-1">
+                        <div>
+                            <label for="seacrh"><i class="fa-solid fa-magnifying-glass"></i></label>
+                            <input type="text" name="search" placeholder="Job title or keyword" class="job-search-input">
+                        </div>
+                        <div class="job-search-1-1">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <p>Location</p>
+                        </div>
+                        <button type="submit" class="">Search</button> 
+                    </div>                    
+                </form> 
+            </div>
+        </div>
+        <div class="container9">
+            {% if jobs %}
+                {% for job in jobs %}
+                <div class="profile-c-job">
+                    <img src="{% static 'images/job_image.png' %}" alt="job_image">
+                    <div class="profile-c-job-1" style="padding: 0 20px; ">
+                        <h3 class="truncate" style="margin: 0; font-size: 16px; font-weight: 600; color: #4C56CC;">{{ job.title }}</h3>
+                        <p class="multiline-ellipsis">{{ job.description }}</p>
+                        <div class="profile-c-job-2">
+                            <p style="color: #FFD700; font-weight: 600; margin-right: 18px;"><i class="fa-solid fa-star"></i> 4.9</p>
+                            <p style="color: #4C56CC; font-weight: 600; margin-right: 55px;"> &#36;{{ job.salary }}</p>
+                            <div class="profile-c-job-3">Python</div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No jobs posted yet.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</section>
+
 <form method="get">
     <label for="company">Filter by company:</label>
     <select name="company" id="company">
@@ -22,7 +120,9 @@
 <a href="?sort_by_salary=asc">Ascending</a>
 <a href="?sort_by_salary=desc">Descending</a>
 
-{% for job in jobs %}
+
+
+<!-- {% for job in jobs %}
     <div>
         <h2>{{ job.title }}</h2>
         <p>{{ job.description }}</p>
@@ -32,4 +132,4 @@
         <p>Timeline: {{ job.timeline }}</p>
     </div>
 {% endfor %}
-{% endblock %}
+{% endblock %} -->
