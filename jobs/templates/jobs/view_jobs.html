@@ -61,16 +61,38 @@
             <div class="job-search">
                 <form method="GET" action="{% url 'view_jobs' %}"> 
                     <div class="job-search-1">
-                        <div>
-                            <label for="seacrh"><i class="fa-solid fa-magnifying-glass"></i></label>
-                            <input type="text" name="search" placeholder="Job title or keyword" class="job-search-input">
+                        <div class="job-search-1-2">
+                            <label for="seacrh" style="color:#4C56CC;"><i class="fa-solid fa-magnifying-glass"></i></label>
+                            <input type="text" name="search" placeholder="Job title or keyword" class="job-search-input" value="{{ search_query }}">
                         </div>
                         <div class="job-search-1-1">
-                            <i class="fa-solid fa-location-dot"></i>
+                            <i class="fa-solid fa-location-dot" style="color:#4C56CC; margin-right: 22px;"></i>
                             <p>Location</p>
                         </div>
-                        <button type="submit" class="">Search</button> 
-                    </div>                    
+                        <button type="submit" class="job-search-button" >Search</button> 
+                    </div>     
+                    <!-- <div class="job-search-2">
+                        <label for="company">Filter by Company:</label>
+                        <select name="company" id="company">
+                            <option value="">All</option>
+                            {% for company in companies %}
+                                <option value="{{ company.id }}" {% if company.id|stringformat:"s" == company_id %}selected{% endif %}>{{ company.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="category">Filter by Category:</label>
+                        <select name="category" id="category">
+                            <option value="">All</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}" {% if category.id|stringformat:"s" == category_id %}selected{% endif %}>{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="sort_by_salary">Sort by Salary:</label>
+                        <select name="sort_by_salary" id="sort_by_salary">
+                            <option value="">None</option>
+                            <option value="asc" {% if sort_by_salary == 'asc' %}selected{% endif %}>Ascending</option>
+                            <option value="desc" {% if sort_by_salary == 'desc' %}selected{% endif %}>Descending</option>
+                    </div>     -->
+                    <!-- <button type="submit" class="">Search</button>             -->
                 </form> 
             </div>
         </div>
@@ -80,7 +102,7 @@
                 <div class="profile-c-job">
                     <img src="{% static 'images/job_image.png' %}" alt="job_image">
                     <div class="profile-c-job-1" style="padding: 0 20px; ">
-                        <h3 class="truncate" style="margin: 0; font-size: 16px; font-weight: 600; color: #4C56CC;">{{ job.title }}</h3>
+                        <h3 class="truncate" style="margin: 0; font-size: 16px; font-weight: 600; color: #4C56CC;"><a href="{% url 'view_job' job.id %}">{{ job.title }}</a></h3>
                         <p class="multiline-ellipsis">{{ job.description }}</p>
                         <div class="profile-c-job-2">
                             <p style="color: #FFD700; font-weight: 600; margin-right: 18px;"><i class="fa-solid fa-star"></i> 4.9</p>
@@ -94,11 +116,10 @@
                 <p>No jobs posted yet.</p>
             {% endif %}
         </div>
-
     </div>
 </section>
 
-<form method="get">
+<!-- <form method="get">
     <label for="company">Filter by company:</label>
     <select name="company" id="company">
         <option value="">All companies</option>
@@ -118,7 +139,7 @@
 
 <p>Sort by salary:</p>
 <a href="?sort_by_salary=asc">Ascending</a>
-<a href="?sort_by_salary=desc">Descending</a>
+<a href="?sort_by_salary=desc">Descending</a> -->
 
 
 

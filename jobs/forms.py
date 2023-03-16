@@ -2,13 +2,12 @@ import random
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Category, Freelancer, Company,CustomUser, Job, Skill, TimeField, TimeInput
+from .models import Category, Freelancer, Company,CustomUser, Job, TimeField, TimeInput, JobApplication
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True, help_text='Enter a valid email address')
 
-    
     CHOICES = (
         ('freelancer', 'I am a freelancer'),
         ('company', 'I am a company'),
@@ -98,3 +97,11 @@ class JobForm(forms.ModelForm):
     class Meta:
         model = Job
         fields = ['title', 'description', 'category', 'salary', 'timeline']
+
+class JobApplicationForm(forms.ModelForm):
+     
+    cover_letter = forms.CharField(widget=forms.Textarea)
+
+    class Meta:
+        model = JobApplication
+        fields = ['cover_letter']

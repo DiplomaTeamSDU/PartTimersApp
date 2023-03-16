@@ -54,10 +54,6 @@ class Company(models.Model):
     description = models.TextField(blank=True)
     logo = models.ImageField(default='default_picture.png', upload_to='company_profile_images', blank=True)
 
-
-class Skill(models.Model):
-    name = models.CharField(max_length=255)
-
 class Freelancer(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE) 
     first_name = models.CharField(default='', max_length=20)
@@ -124,3 +120,7 @@ class Job(models.Model):
         minutes, seconds = divmod(remainder, 60)
         return f"{hours:02d}:{minutes:02d}:{seconds:02d}"
 
+class JobApplication(models.Model):
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    freelancer = models.ForeignKey(Freelancer, on_delete=models.CASCADE)
+    cover_letter = models.TextField()

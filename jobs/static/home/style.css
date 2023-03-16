@@ -778,6 +778,10 @@ form button[type="submit"]:hover {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.truncate a {
+    text-decoration: none;
+    color: #4C56CC;
+}
 
 .multiline-ellipsis {
     font-size: 12px;
@@ -981,11 +985,22 @@ form button[type="submit"]:hover {
     justify-content: center;
 }
 
+.job-search-button {
+    padding: 10px 30px;
+    background: #4C56CC;
+    border-radius: 35px;
+    cursor: pointer;
+    outline: none;
+    color: #FFFFFF;
+    border: none;
+}
+
 .job-search-1 {
     margin-top: 58px;
+    margin-bottom: 50px;
     width: 800px;
     box-sizing: border-box;
-    background: #FFFFFF;
+    background: transparent;
     border: 2px solid #4C56CC;  
     border-radius: 32px;
     display: flex;
@@ -997,6 +1012,18 @@ form button[type="submit"]:hover {
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.job-search-1-2 input {
+    border-style: none;
+    font-size: 15px;
+    font-weight: 300;
+    color: #828282;
+    font-style: normal;
+    line-height: 140%;
+    padding-left: 12.49px;
+    background: transparent;
+    outline: none;
 }
 
 .jobs-background {
