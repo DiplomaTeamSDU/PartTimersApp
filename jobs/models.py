@@ -42,17 +42,29 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.first_name
 
 
+# class Company(models.Model):
+#     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+#     name = models.CharField(max_length=255)
+#     description = models.TextField(blank=True,)
+#     logo = models.ImageField(upload_to='company_logos/', blank=True)
+
 class Company(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    description = models.TextField(blank=True,)
-    logo = models.ImageField(upload_to='company_logos/', blank=True)
+    description = models.TextField(blank=True)
+    logo = models.ImageField(default='default_picture.png', upload_to='company_profile_images', blank=True)
+
+class Skill(models.Model): 
+    name = models.CharField(max_length=50) 
 
 class Freelancer(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE) 
+    first_name = models.CharField(default='', max_length=20)
+    last_name = models.CharField(default='', max_length=20)
+    occupation = models.CharField(default='', max_length=20)
     bio = models.TextField()
-    photo = models.ImageField(upload_to='photos')
-    skills = models.TextField()
+    photo = models.ImageField(default='default_picture.png', upload_to='freelancer_profile_images', blank=True)
+    skills = models.ManyToManyField(Skill) 
     education = models.TextField()
     experience = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -64,6 +76,36 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
+class TimeInput(forms.TextInput):
+
+    def get_context(self, name, value, attrs):
+        if value:
+            # Convert time from seconds to HH:MM:SS format
+            hours, remainder = divmod(int(value), 3600)
+            minutes, seconds = divmod(remainder, 60)
+            value = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+        return super().get_context(name, value, attrs)
+
+
+class TimeField(forms.CharField):
+    # Check that the value matches the format HH:MM:SS
+    def validate(self, value):
+        super().validate(value)
+        if value is not None and isinstance(value, (str, bytes)) and not re.match(r"^\d{1,2}:\d{2}:\d{2}$", value):
+            raise ValidationError("Invalid time format. Use HH:MM:SS.")
+
+    def to_python(self, value):
+        if value:
+            try:
+                hours, minutes, seconds = map(int, value.split(":"))
+                if not (0 <= hours <= 72 and 0 <= minutes <= 59 and 0 <= seconds <= 59):
+                    raise ValidationError("Invalid time range.")
+                return hours * 3600 + minutes * 60 + seconds
+            except ValueError:
+                pass
+        return value
+
 class Job(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
@@ -72,8 +114,14 @@ class Job(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
     salary = models.PositiveIntegerField(null=True, blank=True)
-    timeline = models.TextField()
+    timeline = models.PositiveIntegerField(default=0)
 
+
+    def get_timeline_display(self):
+        # Convert timeline from seconds to HH:MM:SS format
+        hours, remainder = divmod(int(self.timeline), 3600)
+        minutes, seconds = divmod(remainder, 60)
+        return f"{hours:02d}:{minutes:02d}:{seconds:02d}"
 
 class JobApplication(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)

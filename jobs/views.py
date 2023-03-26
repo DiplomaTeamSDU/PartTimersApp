@@ -1,8 +1,9 @@
 from django.http import JsonResponse 
-from django.shortcuts import render, redirect 
+from django.shortcuts import get_object_or_404, render, redirect 
 from django.contrib.auth import authenticate, login, logout 
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Count,Q
+from django.core.paginator import Paginator
 from rest_framework_simplejwt.tokens import AccessToken 
 from rest_framework.decorators import api_view, permission_classes 
 from rest_framework.permissions import IsAuthenticated 
@@ -14,7 +15,6 @@ from .models import Category, Company, CustomUser, Freelancer, Job, JobApplicati
  
 def home(request): 
     return render(request, 'homepage.html') 
-
 
 def is_company(user):
     return hasattr(user, 'company')
@@ -56,14 +56,16 @@ def profile(request):
     if hasattr(user, 'company'): 
         profile = user.company 
         role = 'company' 
-        company_dashboard(request)
-        post_job(request)
+        job_list = Job.objects.filter(company=profile)
+        paginator = Paginator(job_list, 4) # Show 4 jobs per page
+        page = request.GET.get('page')
+        jobs = paginator.get_page(page)
     else: 
         profile = user.freelancer 
         role = 'freelancer' 
-    return render(request, 'registration/profile.html', {'profile': profile, 'role': role}) 
- 
- 
+        jobs = None
+    return render(request, 'registration/profile.html', {'profile': profile, 'role': role, 'jobs': jobs}) 
+
 @login_required 
 def edit_profile(request, role): 
     user = request.user 
@@ -76,7 +78,8 @@ def edit_profile(request, role):
     if request.method == 'POST': 
         form = form_class(request.POST, request.FILES, instance=profile) 
         if form.is_valid(): 
-            form.save()     
+            form.save() 
+            form.save_m2m() 
             return redirect('profile') 
     else: 
         form = form_class(instance=profile) 
@@ -100,11 +103,51 @@ def post_job(request):
             job.company = request.user.company
             job.save()
             messages.success(request, 'Job posted successfully.')
-            return redirect('company_dashboard')
+            return redirect('profile')
     else:
         form = JobForm()
     return render(request, 'jobs/post_job.html', {'form': form})
 
+@user_passes_test(is_company)
+@login_required
+def edit_job(request, job_id):
+    job = get_object_or_404(Job, id=job_id, company=request.user.company)
+    if request.method == 'POST':
+        form = JobForm(request.POST, instance=job)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Job updated successfully.')
+            return redirect('profile')
+    else:
+        form = JobForm(instance=job)
+    return render(request, 'jobs/edit_job.html', {'form': form})
+
+@login_required
+def view_jobs(request):
+    jobs = Job.objects.filter(is_active=True).annotate(num_applications=Count('jobapplication'))
+    companies = Company.objects.all()
+    categories = Category.objects.all()
+    search_query = request.GET.get('search')
+    company_id = request.GET.get('company')
+    category_id = request.GET.get('category')
+    sort_by_salary = request.GET.get('sort_by_salary')
+
+    if search_query:
+        jobs = jobs.filter(Q(title__icontains=search_query) | Q(category__name__icontains=search_query))
+
+    if company_id:
+        jobs = jobs.filter(company__id=company_id)
+
+    if category_id:
+        jobs = jobs.filter(category__id=category_id)
+
+    if sort_by_salary:
+        if sort_by_salary == 'asc':
+            jobs = jobs.order_by('salary')
+        elif sort_by_salary == 'desc':
+            jobs = jobs.order_by('-salary')
+
+    return render(request, 'jobs/view_jobs.html', {'jobs': jobs, 'companies': companies, 'categories': categories})
 
 @login_required
 def apply_to_job(request, job_id):
@@ -154,31 +197,3 @@ def select_freelancer(request, job_id, application_id):
 def view_freelancer(request, freelancer_id):
     freelancer = Freelancer.objects.get(id=freelancer_id)
     return render(request, 'jobs/view_freelancer.html', {'freelancer': freelancer})
-
-
-@login_required
-def view_jobs(request):
-    jobs = Job.objects.filter(is_active=True).annotate(num_applications=Count('jobapplication'))
-    companies = Company.objects.all()
-    categories = Category.objects.all()
-    company_id = request.GET.get('company')
-    category_id = request.GET.get('category')
-    sort_by_salary = request.GET.get('sort_by_salary')
-    search_query = request.GET.get('search')
-
-    if search_query:
-        jobs = jobs.filter(Q(title__icontains=search_query) | Q(category__name__icontains=search_query))
-
-    if company_id:
-        jobs = jobs.filter(company__id=company_id)
-
-    if category_id:
-        jobs = jobs.filter(category__id=category_id)
-
-    if sort_by_salary:
-        if sort_by_salary == 'asc':
-            jobs = jobs.order_by('salary')
-        elif sort_by_salary == 'desc':
-            jobs = jobs.order_by('-salary')
-
-    return render(request, 'jobs/view_jobs.html', {'jobs': jobs, 'companies': companies, 'categories': categories})

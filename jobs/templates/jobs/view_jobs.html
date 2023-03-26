@@ -1,43 +1,156 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-  <h2>View Jobs</h2>
-  <form method="GET">
-    <label for="company">Filter by Company:</label>
+<section class="jobs-background">
+    <div class="container">
+        <div class="container7">
+            <div class="container7-1">
+                {% if user.freelancer %}
+                    <h1>Hey, {{ user.freelancer.first_name }}!</h1> 
+                {% elif user.company %}
+                    <h1>Hey, {{ user.company.name }}!</h1> 
+                {% endif %}
+                <h2 style="color: #FFFFFF;">Ready for your next big opportunity?</h2> 
+            </div>
+            <div class="container7-2"></div>
+        </div>
+        <div class="container6">
+            <h4>Featured Jobs</h4>
+            <h2>You will find popular <span>featured</span> work</h2>
+            <p id="con6p">Fully nobis id expedita dolores officiis layered dolor sit amet laboriosam.</p>
+            <div id="vacancygenres">
+                <ul>
+                    <li><a href="">All Recent</a></li>
+                    <li><a href="">Finance</a></li>
+                    <li><a href="">Development</a></li>
+                    <li><a href="">Marketing</a></li>
+                    <li><a href="">Specialist</a></li>
+                </ul>
+            </div>
+            <div class="vacancycontainer">
+                <div class="vacancybox">
+                    <h3>UI Designer</h3>
+                    <p>Almaty, Kazakhstan</p>
+                    <p><span><i class="fa-sharp fa-solid fa-money-bill-1-wave"></i></span> $450 - $500</p>
+                    <a href="" class="applybtn">Apply Now</a>
+                </div>
+                <div class="vacancybox">
+                    <h3>UI Designer</h3>
+                    <p>Almaty, Kazakhstan</p>
+                    <p><span><i class="fa-sharp fa-solid fa-money-bill-1-wave"></i></span> $450 - $500</p>
+                    <a href="" class="applybtn">Apply Now</a>
+                </div>
+                <div class="vacancybox">
+                    <h3>UI Designer</h3>
+                    <p>Almaty, Kazakhstan</p>
+                    <p><span><i class="fa-sharp fa-solid fa-money-bill-1-wave"></i></span> $450 - $500</p>
+                    <a href="" class="applybtn">Apply Now</a>
+                </div>
+                <div class="vacancybox">
+                    <h3>UI Designer</h3>
+                    <p>Almaty, Kazakhstan</p>
+                    <p><span><i class="fa-sharp fa-solid fa-money-bill-1-wave"></i></span> $450 - $500</p>
+                    <a href="" class="applybtn">Apply Now</a>
+                </div>
+            </div>
+            <a href="" id="seeallbtn">See All Jobs <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="container8">
+            <h4 style="text-align: center; margin: 0; color: #4C56CC; font-weight: 500;">Search project</h4>
+            <h2 style="text-align: center; margin: 0; ">What service are you looking for today?</h2>
+            <div class="job-search">
+                <form method="GET" action="{% url 'view_jobs' %}"> 
+                    <div class="job-search-1">
+                        <div class="job-search-1-2">
+                            <label for="seacrh" style="color:#4C56CC;"><i class="fa-solid fa-magnifying-glass"></i></label>
+                            <input type="text" name="search" placeholder="Job title or keyword" class="job-search-input" value="{{ search_query }}">
+                        </div>
+                        <div class="job-search-1-1">
+                            <i class="fa-solid fa-location-dot" style="color:#4C56CC; margin-right: 22px;"></i>
+                            <p>Location</p>
+                        </div>
+                        <button type="submit" class="job-search-button" >Search</button> 
+                    </div>     
+                    <!-- <div class="job-search-2">
+                        <label for="company">Filter by Company:</label>
+                        <select name="company" id="company">
+                            <option value="">All</option>
+                            {% for company in companies %}
+                                <option value="{{ company.id }}" {% if company.id|stringformat:"s" == company_id %}selected{% endif %}>{{ company.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="category">Filter by Category:</label>
+                        <select name="category" id="category">
+                            <option value="">All</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}" {% if category.id|stringformat:"s" == category_id %}selected{% endif %}>{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="sort_by_salary">Sort by Salary:</label>
+                        <select name="sort_by_salary" id="sort_by_salary">
+                            <option value="">None</option>
+                            <option value="asc" {% if sort_by_salary == 'asc' %}selected{% endif %}>Ascending</option>
+                            <option value="desc" {% if sort_by_salary == 'desc' %}selected{% endif %}>Descending</option>
+                    </div>     -->
+                    <!-- <button type="submit" class="">Search</button>             -->
+                </form> 
+            </div>
+        </div>
+        <div class="container9">
+            {% if jobs %}
+                {% for job in jobs %}
+                <div class="profile-c-job">
+                    <img src="{% static 'images/job_image.png' %}" alt="job_image">
+                    <div class="profile-c-job-1" style="padding: 0 20px; ">
+                        <h3 class="truncate" style="margin: 0; font-size: 16px; font-weight: 600; color: #4C56CC;"><a href="{% url 'view_job' job.id %}">{{ job.title }}</a></h3>
+                        <p class="multiline-ellipsis">{{ job.description }}</p>
+                        <div class="profile-c-job-2">
+                            <p style="color: #FFD700; font-weight: 600; margin-right: 18px;"><i class="fa-solid fa-star"></i> 4.9</p>
+                            <p style="color: #4C56CC; font-weight: 600; margin-right: 55px;"> &#36;{{ job.salary }}</p>
+                            <div class="profile-c-job-3">Python</div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No jobs posted yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- <form method="get">
+    <label for="company">Filter by company:</label>
     <select name="company" id="company">
-      <option value="">All</option>
-      {% for company in companies %}
-        <option value="{{ company.id }}" {% if company.id|stringformat:"s" == company_id %}selected{% endif %}>{{ company.name }}</option>
-      {% endfor %}
+        <option value="">All companies</option>
+        {% for company in companies %}
+            <option value="{{ company.id }}" {% if company.id == company_id %}selected{% endif %}>{{ company.name }}</option>
+        {% endfor %}
     </select>
-    <label for="category">Filter by Category:</label>
+    <label for="category">Filter by category:</label>
     <select name="category" id="category">
-      <option value="">All</option>
-      {% for category in categories %}
-        <option value="{{ category.id }}" {% if category.id|stringformat:"s" == category_id %}selected{% endif %}>{{ category.name }}</option>
-      {% endfor %}
+        <option value="">All categories</option>
+        {% for category in categories %}
+            <option value="{{ category.id }}" {% if category.id == category_id %}selected{% endif %}>{{ category.name }}</option>
+        {% endfor %}
     </select>
-    <label for="sort_by_salary">Sort by Salary:</label>
-    <select name="sort_by_salary" id="sort_by_salary">
-      <option value="">None</option>
-      <option value="asc" {% if sort_by_salary == 'asc' %}selected{% endif %}>Ascending</option>
-      <option value="desc" {% if sort_by_salary == 'desc' %}selected{% endif %}>Descending</option>
-      <label for="search">Search:</label>
-      <input type="text" name="search" id="search" value="{{ search_query }}">
-      <button type="submit">Filter/Sort/Search</button>
-  </form>
-  <ul>
-    {% for job in jobs %}
-      <li>
-        <a href="{% url 'view_job' job.id %}">{{ job.title }}</a>
-        {% if job.salary %}
-          - Salary: {{ job.salary }}
-        {% endif %}
-        - Company: {{ job.company.name }}
-        - Category: {{ job.category }}
-      </li>
-    {% empty %}
-      <li>No jobs found.</li>
-    {% endfor %}
-  </ul>
-{% endblock %}
+    <button type="submit">Filter</button>
+</form>
+
+<p>Sort by salary:</p>
+<a href="?sort_by_salary=asc">Ascending</a>
+<a href="?sort_by_salary=desc">Descending</a> -->
+
+
+
+<!-- {% for job in jobs %}
+    <div>
+        <h2>{{ job.title }}</h2>
+        <p>{{ job.description }}</p>
+        <p>Company: {{ job.company.name }}</p>
+        <p>Category: {{ job.category.name }}</p>
+        <p>Salary: {{ job.salary }}</p>
+        <p>Timeline: {{ job.timeline }}</p>
+    </div>
+{% endfor %}
+{% endblock %} -->

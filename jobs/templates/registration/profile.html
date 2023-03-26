@@ -2,60 +2,170 @@
 {% load static %}
 {% block title %}Profile{% endblock %}
 {% block content %}
-<div class="container">
-    <h1 style="font-weight: 700; font-size: 40px; color: #4C56CC; text-align: center;">My Profile</h1>
-    <div class="profile">
-        <div class="profilemain">
-            {% if profile.photo %}
-            <div class="profileimage">
-                <!-- <img src="{{ profile.photo.url }}" alt="Photo"> -->
-                <img src="{% static 'images/profile.png' %}" alt="Photo">
+<section class="profile-background">
+    <div class="container">
+        <h1
+            style="font-weight: 700; font-size: 40px; color: #4C56CC; text-align: center; margin-top: 71px; margin-bottom: 71px;">
+            My Profile</h1>
+        {% if role == 'company' %}
+        <div class="profile-c-1">
+            <div class="profile-c-2">
+                <div class="profile-c-2-1">
+                    <img src="{{ profile.logo.url }}" alt="logo" class="profile-c-img">
+                    <div class="profile-c-2-2">
+                        <span>
+                            <h3 style="margin: 0; color:#4C56CC; font-size: 30px; font-weight: 600;">{{ profile.name }}
+                            </h3>
+                            <h4 style="margin: 0; color:#737272; font-size: 22px; font-weight: 500;">Programming School
+                            </h4>
+                        </span>
+                        <a href="{% url 'edit_profile' role=role %}" class="editbtn" style="padding: 7px 40px;"><i
+                                class="fa-solid fa-pen-to-square"></i> Edit</a>
+                    </div>
+                </div>
+                <hr>
+                <div class="profile-c-2-3">
+                    <div>
+                        <h3 style="color:#4C56CC; font-size: 25px; font-weight: 600;">Bio</h3>
+                        <p>Lorem ipsum dolor sit amet. Sed dolore nemo aut ratione eligendi aut animi reprehenderit id
+                            omnis impedit. </p>
+                    </div>
+                    <div>
+                        <h3 style="color:#4C56CC; font-size: 25px; font-weight: 600;">Your Interest</h3>
+                        <div style="display: flex;">
+                            <div class="profile-c-2-4">Figma</div>
+                            <div class="profile-c-2-4">Adobe Illustrator</div>
+                            <div class="profile-c-2-4">Team Work</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color:#4C56CC; font-size: 25px; font-weight: 600;">Linked Accounts</h3>
+                        <ul class="profile-c-2-5" style="list-style: none; padding: 0;">
+                            <li><a href=""><i class="fa-solid fa-plus"></i> Instagram</a></li>
+                            <li><a href=""><i class="fa-solid fa-plus"></i> LinkedIn</a></li>
+                            <li><a href=""><i class="fa-solid fa-plus"></i> Facebook</a></li>
+                            <li><a href=""><i class="fa-solid fa-plus"></i> Website</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-c-3">
+                <div style="display: flex; align-items: center;">
+                    <h2 style="margin: 0; color:#4C56CC; font-size: 32px; font-weight: 600;">My Jobs</h2>
+                    <a href="{% url 'post_job' %}" class="addbtn" style="padding: 6px 21px; margin-left: 28px;"><i
+                            class="fa-solid fa-plus"></i> Add</a>
+                </div>
+                <div class="profile-c-3-1">
+                    {% if jobs %}
+                    {% for job in jobs %}
+                    <div class="profile-c-job">
+                        <img src="{% static 'images/job_image.png' %}" alt="job_image">
+                        <div class="profile-c-job-1" style="padding: 0 20px; ">
+                            <h3 class="truncate" style="margin: 0; font-size: 16px; font-weight: 600; color: #4C56CC;">
+                                {{ job.title }}</h3>
+                            <p class="multiline-ellipsis">{{ job.description }}</p>
+                            <div class="profile-c-job-2">
+                                <p style="color: #FFD700; font-weight: 600; margin-right: 18px;"><i
+                                        class="fa-solid fa-star"></i> 4.9</p>
+                                <p style="color: #4C56CC; font-weight: 600; margin-right: 55px;"> &#36;{{ job.salary }}
+                                </p>
+                                <div class="profile-c-job-3">Python</div>
+                            </div>
+                        </div>
+                        <div>
+                            <a href="{% url 'edit_job' job_id=job.id %}" class="editbtn"><i class="fa-solid fa-edit"></i> Edit</a>
+                        </div>
+                    </div>
+                    
+                    {% endfor %}
+                    {% else %}
+                    <p>No jobs posted yet.</p>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </div>
+        {% elif role == 'freelancer' %}
+        <div class="profile">
+            <div class="profilemain">
+                {% if profile.photo %}
+                <div class="profileimage">
+                    {% if user.company %}
+                    <img src="{{ user.company.logo.url }}" alt="PIC">
+                    {% elif user.freelancer %}
+                    <img src="{{ user.freelancer.photo.url }}" alt="PIC">
+                    {% endif %}
+                </div>
+                {% endif %}
+                <div style="margin-left: 144px;">
+                    {% if profile %}
+                    <h2>{{ profile.user }}</h2>
+                    <p>Software Engineer</p>
+                    <p>Senior</p>
+                    <a href="{% url 'edit_profile' role=role %}">Edit</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="profilebio">
+                <h3 style="color: #4C56CC; font-size: 25px;">Bio</h3>
+                <p>{{ profile.bio }}</p>
+            </div>
+            <div class="profileskills">
+                <h3 style="color: #4C56CC; font-size: 25px;">Skills</h3>
+                <ul>
+                    {% for skill in profile.skills.all %}
+                    <li>{{ skill.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="profileeducation">
+                <h3 style="color: #4C56CC; font-size: 25px;">Education</h3>
+                <div style="display: flex;">
+                    <p><strong>Date of education</strong></p>
+                    <p>{{ profile.education }}</p>
+                </div>
+            </div>
+            <div class="profileexperience">
+                <h3 style="color: #4C56CC; font-size: 25px;">Experience</h3>
+                <div style="display: flex;">
+                    <p><strong>Date of experience</strong></p>
+                    <p>{{ profile.experience }}</p>
+                </div>
+            </div>
+            <div class="profileportfolio">
+                <h3 style="color: #4C56CC; font-size: 25px;">Portfolio</h3>
+                <div>
+                    <img src="{% static 'images/portfolio1.png' %}" alt="">
+                    <img src="{% static 'images/portfolio2.png' %}" alt="">
+                </div>
             </div>
             {% endif %}
-            <div style="margin-left: 144px;">
-                {% if profile %}
-                <h2>{{ profile.user }}</h2>
-                <p>Software Engineer</p>
-                <p>Senior</p>
-                <a href="{% url 'edit_profile' role=role %}">Edit</a>
-                {% endif %}
-            </div>
         </div>
-        <div class="profilebio">
-            <h3 style="color: #4C56CC; font-size: 25px;">Bio</h3>
-            <p>{{ profile.bio }}</p>
-        </div>
-        <div class="profileskills">
-            <h3 style="color: #4C56CC; font-size: 25px;">Skills</h3>
-            <ul>
-                {% for skill in profile.skills.all %}
-                <li>{{ skill.name }}</li>
-                {{ skill.name|safe }} 
-                {% endfor %}
-              </ul>
-        </div>
-        <div class="profileeducation">
-            <h3 style="color: #4C56CC; font-size: 25px;">Education</h3>
-            <div style="display: flex;">
-                <p><strong>Date of education</strong></p>
-                <p>{{ profile.education }}</p>
-            </div>
-        </div>
-        <div class="profileexperience">
-            <h3 style="color: #4C56CC; font-size: 25px;">Experience</h3>
-            <div style="display: flex;">
-                <p><strong>Date of experience</strong></p>
-                <p>{{ profile.experience }}</p>
-            </div>
 
-        </div>
-        <div class="profileportfolio">
-            <h3 style="color: #4C56CC; font-size: 25px;">Portfolio</h3>
-            <div>
-                <img src="{% static 'images/portfolio1.png' %}" alt="">
-                <img src="{% static 'images/portfolio2.png' %}" alt="">
-            </div>
-        </div>
+        <!-- <h1>{{ role|title }} Profile</h1> -->
+        <!-- {% if profile %}
+        <ul>
+            {% if role == 'company' %}
+                <li><strong>Name:</strong> {{ profile.name }}</li>
+                <li><strong>Description:</strong> {{ profile.description }}</li>
+                {% if profile.photo %}
+                    <li><strong>Logo:</strong> <img src="{{ profile.logo.url }}" alt="{{ profile.name }} logo"></li>
+                {% endif %}
+            {% else %}
+            <li><strong>Bio:</strong> {{ profile.bio }}</li>
+            <li><strong>Skills:</strong> {{ profile.skills }}</li>
+            <li><strong>Education:</strong> {{ profile.education }}</li>
+            <li><strong>Experience:</strong> {{ profile.experience }}</li>
+            <li><strong>Portfolio Link:</strong> <a href="{{ profile.portfolio_link }}">{{ profile.portfolio_link }}</a></li>
+            {% if profile.photo %}
+                <li><strong>Photo:</strong> <img src="{{ profile.photo.url }}" alt="{{ profile.bio }} photo"></li>
+            {% endif %}
+            {% endif %}
+        </ul>
+        <a href="{% url 'edit_profile' role=role %}">Edit Profile</a>
+    {% else %}
+        <p>No profile found for {{ request.user.email }}</p>
+    {% endif %} -->
     </div>
-    
-{% endblock %} 
+</section>
+{% endblock %}
