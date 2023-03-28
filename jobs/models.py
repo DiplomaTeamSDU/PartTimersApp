@@ -1,9 +1,13 @@
+from audioop import avg
+import datetime
 import re
 from django import forms
+from django.forms.widgets import DateInput
 from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+from django.shortcuts import get_object_or_404, render
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -40,22 +44,35 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name
+    
+    def get_rating(self):
+        return self.ratings.aggregate(avg('rating'))['rating__avg']
 
-
-# class Company(models.Model):
-#     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-#     name = models.CharField(max_length=255)
-#     description = models.TextField(blank=True,)
-#     logo = models.ImageField(upload_to='company_logos/', blank=True)
+class Rating(models.Model):
+    RATING_CHOICES = (
+        (1, '1 star'),
+        (2, '2 stars'),
+        (3, '3 stars'),
+        (4, '4 stars'),
+        (5, '5 stars'),
+    )
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='ratings')
+    rating = models.IntegerField(choices=RATING_CHOICES)
+    comment = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class Company(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     logo = models.ImageField(default='default_picture.png', upload_to='company_profile_images', blank=True)
+    def get_rating(self):
+        return self.user.get_rating()
 
 class Skill(models.Model): 
     name = models.CharField(max_length=50) 
+    def __str__(self):
+        return self.name
 
 class Freelancer(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE) 
@@ -69,6 +86,8 @@ class Freelancer(models.Model):
     experience = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     portfolio_link = models.URLField(blank=True)
+    def get_rating(self):
+        return self.user.get_rating()
 
 class Category(models.Model):
     name = models.CharField(max_length=255) 
@@ -76,35 +95,15 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+class DateField(forms.DateField):
+    input_formats = ['%d.%m.%Y']
+    widget = forms.DateInput(format='%d.%m.%Y')
 
-class TimeInput(forms.TextInput):
-
-    def get_context(self, name, value, attrs):
-        if value:
-            # Convert time from seconds to HH:MM:SS format
-            hours, remainder = divmod(int(value), 3600)
-            minutes, seconds = divmod(remainder, 60)
-            value = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
-        return super().get_context(name, value, attrs)
-
-
-class TimeField(forms.CharField):
-    # Check that the value matches the format HH:MM:SS
     def validate(self, value):
         super().validate(value)
-        if value is not None and isinstance(value, (str, bytes)) and not re.match(r"^\d{1,2}:\d{2}:\d{2}$", value):
-            raise ValidationError("Invalid time format. Use HH:MM:SS.")
+        if value is not None and isinstance(value, (str, bytes)) and not re.match(r"^\d{1,2}\.\d{2}\.\d{4}$", value):
+            raise ValidationError("Invalid date format. Use dd.mm.yyyy.")
 
-    def to_python(self, value):
-        if value:
-            try:
-                hours, minutes, seconds = map(int, value.split(":"))
-                if not (0 <= hours <= 72 and 0 <= minutes <= 59 and 0 <= seconds <= 59):
-                    raise ValidationError("Invalid time range.")
-                return hours * 3600 + minutes * 60 + seconds
-            except ValueError:
-                pass
-        return value
 
 class Job(models.Model):
     title = models.CharField(max_length=255)
@@ -114,16 +113,15 @@ class Job(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
     salary = models.PositiveIntegerField(null=True, blank=True)
-    timeline = models.PositiveIntegerField(default=0)
-
+    timeline = models.DateField()
 
     def get_timeline_display(self):
-        # Convert timeline from seconds to HH:MM:SS format
-        hours, remainder = divmod(int(self.timeline), 3600)
-        minutes, seconds = divmod(remainder, 60)
-        return f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+        return self.timeline.strftime("%d.%m.%Y")
+    
+
 
 class JobApplication(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     freelancer = models.ForeignKey(Freelancer, on_delete=models.CASCADE)
     cover_letter = models.TextField()
+  

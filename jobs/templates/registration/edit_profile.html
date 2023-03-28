@@ -1,12 +1,109 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block title %}Edit Profile{% endblock %}
 {% block content %}
-  <h1>Edit {{ role|title }} Profile</h1>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <!-- {{ form.skills }} -->
-
-    <button type="submit">Save Changes</button>
-  </form>
+<section>
+    <div class="container">
+        <h1 style="font-weight: 700; font-size: 40px; color: #4C56CC; text-align: center; margin-top: 71px; margin-bottom: 71px;">My Profile</h1> 
+        {% if role == 'freelancer' %}
+            <div class="profile">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div style="display: flex;">
+                        <div class="profileimage">
+                            {% if profile.photo %}
+                                <img src="{{ profile.photo.url }}" alt="PIC"> 
+                            {% endif %}
+                        </div> 
+                        <div class="editprofile-1">
+                            <label for="first_name">Full Name</label>
+                            <div>
+                                {{ form.first_name }}
+                                {{ form.last_name }}
+                            </div>
+                            <label for="occupation">Your position</label>
+                            <div>
+                                {{ form.occupation }}
+                            </div>
+                            <label for="level">Level</label>
+                            <div>
+                                {{ form.level }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="editprofile-2">
+                        <div class="editprofile-bio">
+                            <h2>Bio</h2>
+                            {{ form.bio }}
+                        </div>
+                        <div class="editprofile-skills">
+                            <h2>Skills</h>
+                              {{ form.skills }}
+                        </div>
+                        <div class="editprofile-education">
+                            <h2>Education</h2>
+                            <div class="editprofile-education-grid">
+                                <label for="education_university">University</label>
+                                <div>
+                                   {{ form.education_university }} 
+                                </div>
+                                <label for="education_specialization">Specialization</label>
+                                <div>
+                                    {{ form.education_specialization }}
+                                </div>
+                                <label for="education_year_of_study">Year of study</label>
+                                <div>
+                                    {{ form.education_year_of_study }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="editprofile-experience">
+                            <h2>Experience</h2>
+                            <div class="editprofile-experience-grid">
+                                <label for="experience_position">Position</label>
+                                <div>
+                                    {{ form.experience_position }}
+                                </div>
+                                <label for="experience_company_name">Company name</label>
+                                <div>
+                                    {{ form.experience_company_name }}
+                                </div>
+                                <label for="experience_work_duration">Work duration</label>
+                                <div>
+                                    {{ form.experience_work_duration }}
+                                </div>
+                                <label for="experience_description">Description</label>
+                                <div>
+                                    {{ form.experience_description }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="editprofile-portdolio">
+                            <h2>Portfolio</h2>
+                            {{ form.portfolio_link }}
+                        </div>
+                        <div>
+                            <h2>Profile Photo</h2>
+                            {{ form.photo }}
+                        </div>
+                    </div>                        
+                        <!-- {{ form.skills }} -->
+                        <button type="submit">Save Changes</button>
+                    </form>
+                <!-- <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Save Changes</button>
+                </form> -->
+            </div>
+        {% elif role == 'company' %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <!-- {{ form.skills }} -->
+                <button type="submit">Save Changes</button>
+            </form>  
+        {% endif %}
+    </div>
+</section>
 {% endblock %}

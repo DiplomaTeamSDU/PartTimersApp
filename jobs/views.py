@@ -1,17 +1,13 @@
 from django.http import JsonResponse 
 from django.shortcuts import get_object_or_404, render, redirect 
-from django.contrib.auth import authenticate, login, logout 
+from django.contrib.auth import authenticate, login  
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Count,Q
 from django.core.paginator import Paginator
-from rest_framework_simplejwt.tokens import AccessToken 
-from rest_framework.decorators import api_view, permission_classes 
-from rest_framework.permissions import IsAuthenticated 
 from django.contrib import messages, auth 
-from django.urls import reverse_lazy 
 from .forms import CompanyForm, FreelancerForm, JobApplicationForm, JobForm 
 from jobs.forms import RegistrationForm 
-from .models import Category, Company, CustomUser, Freelancer, Job, JobApplication 
+from .models import Category, Company, Freelancer, Job, JobApplication 
  
 def home(request): 
     return render(request, 'homepage.html') 
@@ -83,7 +79,7 @@ def edit_profile(request, role):
             return redirect('profile') 
     else: 
         form = form_class(instance=profile) 
-    return render(request, 'registration/edit_profile.html', {'form': form})
+    return render(request, 'registration/edit_profile.html', {'form': form, 'profile' : profile ,'role' : role})
 
 @user_passes_test(is_company)
 @login_required
@@ -124,6 +120,8 @@ def edit_job(request, job_id):
 
 @login_required
 def view_jobs(request):
+
+    
     jobs = Job.objects.filter(is_active=True).annotate(num_applications=Count('jobapplication'))
     companies = Company.objects.all()
     categories = Category.objects.all()
@@ -131,6 +129,7 @@ def view_jobs(request):
     company_id = request.GET.get('company')
     category_id = request.GET.get('category')
     sort_by_salary = request.GET.get('sort_by_salary')
+   
 
     if search_query:
         jobs = jobs.filter(Q(title__icontains=search_query) | Q(category__name__icontains=search_query))
@@ -162,7 +161,6 @@ def apply_to_job(request, job_id):
         return redirect('view_job', job_id=job_id)
     return render(request, 'jobs/apply_to_job.html', {'job': job, 'form': form})
 
-
 @login_required
 def view_job(request, job_id):
     job = Job.objects.get(id=job_id)
@@ -170,14 +168,16 @@ def view_job(request, job_id):
     if request.method == 'POST' and hasattr(request.user, 'company'):
         form = FreelancerForm(request.POST)
         if form.is_valid():
-            freelancers = form.cleaned_data['freelancer']
-            selected_freelancers = list(freelancers.all())
+            freelancer = form.save(commit=False)
+            freelancer.save()  # Save the instance before setting the many-to-many relationship
+            selected_freelancers = list(form.cleaned_data['freelancer'].all())
             job.freelancer.set(selected_freelancers)
             messages.success(request, 'Freelancer chosen for job.')
             return redirect('view_job', job_id=job_id)
     else:
         form = FreelancerForm()
     return render(request, 'jobs/view_job.html', {'job': job, 'applications': applications, 'form': form})
+
 
 @user_passes_test(is_company)
 @login_required

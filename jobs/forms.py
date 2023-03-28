@@ -1,8 +1,8 @@
 import random
 from django import forms
-from django.contrib.auth.models import User
+from django.forms.widgets import DateInput
 from django.contrib.auth.forms import UserCreationForm
-from .models import Category, Freelancer, Company,CustomUser, Job, Skill, TimeField, TimeInput, JobApplication
+from .models import Category, DateField, Freelancer, Company,CustomUser, Job, Skill, JobApplication
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class RegistrationForm(UserCreationForm):
@@ -50,35 +50,23 @@ class CompanyForm(forms.ModelForm):
 
 
 class FreelancerForm(forms.ModelForm):
-    skills = forms.ModelMultipleChoiceField( 
-        queryset=Skill.objects.all(), 
-        widget=forms.CheckboxSelectMultiple 
-    ) 
+    skills = forms.ModelMultipleChoiceField(
+        queryset=Skill.objects.all(),
+        widget=forms.SelectMultiple
+    )
 
     class Meta:
         model = Freelancer
         fields = ['first_name', 'last_name', 'occupation', 'bio', 'photo', 'education', 'experience', 'portfolio_link','skills']
 
-    # def clean_skills(self):
-    #     skills = self.cleaned_data.get('skills')
-    #     if skills:
-    #         try:
-    #             return [int(skill_id) for skill_id in skills.split(',')]
-    #         except ValueError:
-    #             return Skill.objects.filter(name__in=[skill.strip() for skill in skills.split(',')])
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['skills'].initial = self.instance.skills.all()
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     if self.instance:
-    #         self.fields['skills'].initial = self.instance.skills.all()
 
     def save(self, commit=True):
         instance = super().save(commit=False)
-        # if commit:
-        #     instance.save()
-        #     selected_skills = self.cleaned_data['skills']
-        #     instance.skills.clear()
-        #     instance.skills.add(*selected_skills)
         if commit:
             instance.save()
             self.save_m2m()
@@ -87,7 +75,6 @@ class FreelancerForm(forms.ModelForm):
     
 
 class JobForm(forms.ModelForm):
-    timeline = TimeField(widget=TimeInput)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -96,6 +83,12 @@ class JobForm(forms.ModelForm):
     class Meta:
         model = Job
         fields = ['title', 'description', 'category', 'salary', 'timeline']
+        widgets = {
+            'timeline': forms.DateInput(format='%d.%m.%Y')
+        }
+        field_classes = {
+            'timeline': DateField
+        }
 
 class JobApplicationForm(forms.ModelForm):
      
