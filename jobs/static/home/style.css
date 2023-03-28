@@ -71,7 +71,7 @@ nav > .container {
 }
 
 .profile-nav a {
-    color: #4C56CC;
+    color: #333333;
     font-size: 25px;
 }
 
@@ -629,12 +629,21 @@ form button[type="submit"]:hover {
     border: 2px solid #4C56CC;
     border-radius: 34px;
     padding: 99px 110px;
+    background: #FFFFFF;
 }
 
 .profilemain {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
 } 
+
+.profilemain1 {
+    margin-left: 144px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
 
 .profilemain h2 {
     font-weight: 600;
@@ -664,11 +673,12 @@ form button[type="submit"]:hover {
     width: 185px;
     height: 185px;
     border-radius: 50%;
+    border: 0.5px solid #747474;
 }
 
 .profile-c-1 {
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
 }
 
 .profile-c-2 {
@@ -688,7 +698,7 @@ form button[type="submit"]:hover {
     max-width: 164px;
     max-height: 164px;
     border-radius: 50%;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border: 0.5px solid #747474;
 }
 
 .profile-c-2-1 {
@@ -793,6 +803,30 @@ form button[type="submit"]:hover {
     white-space: pre-wrap; /* let the text wrap preserving spaces */
 }
 
+.skillbox {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.skill {
+    box-sizing: border-box;
+    background: #E2DDFF;
+    border-radius: 50px;
+    padding: 10px 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.skill p {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    color: #4C56CC;
+}
 
 #loginbtn {
     background: #4C56CC;
@@ -882,7 +916,7 @@ form button[type="submit"]:hover {
 
 .sub-menu-3 i {
     font-size: 25px;
-    color: #4C56CC;
+    color: #333333;
 }
 
 .sub-menu-3 a {
@@ -1041,4 +1075,163 @@ form button[type="submit"]:hover {
     justify-content: center;
     gap: 49px;
 
+}
+
+.editprofile-1 {
+    margin-left: 147px;
+    display: grid;
+    grid-template-columns: auto auto;
+    /* grid-auto-rows: auto; */
+    /* row-gap: ; */
+    column-gap: 15px; 
+    align-items: center;
+    /* height: 100%; */
+    /* flex-direction: column; */
+    /* justify-content: space-between; */
+}
+
+.editprofile-1 label, .editprofile-2 label {
+    font-weight: 600;
+    font-size: 16px;
+    color: #4C56CC;
+}
+
+#id_first_name, #id_last_name {
+    width: 175px;
+    box-sizing: border-box;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    border-radius: 10px;
+    padding: 10px 15px;
+    /* outline: 1px solid; */
+}
+
+#id_first_name {
+    margin-right: 8px;
+}
+
+#id_first_name::placeholder::before {
+    content: 'First Name';
+}
+
+#id_first_name:focus, #id_last_name:focus, #id_occupation:focus, #id_level:focus {
+    outline: 0.1px solid #747474;
+}
+
+.profileh2, .editprofile-2 h2 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 25px; 
+    color: #4C56CC;
+}
+
+#id_occupation, #id_level {
+    box-sizing: border-box;
+    width: 360px;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    border-radius: 10px;
+    /* padding-left: 10px; */
+    padding: 10px 15px;
+}
+
+.editprofile-bio textarea {
+    box-sizing: border-box;
+    width: 990px;
+    height: 120px;
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 18px;
+    resize: none;
+}
+
+.editprofile-bio textarea:focus, .editprofile-experience-grid textarea:focus, 
+.editprofile-skills select:focus, .editprofile-education-grid input:focus,
+.editprofile-experience-grid input:focus, .editprofile-portfolio input:focus {
+    outline: 0.1px solid #747474;
+}
+
+.editprofile-education-grid, .editprofile-experience-grid, .profile-education-grid {
+    display: grid;
+    grid-template-columns: 200px auto;
+    align-items: center;
+    row-gap: 18px;
+}
+
+.editprofile-education-grid input, .editprofile-experience-grid input, .editprofile-portfolio input {
+    width: 310px;
+    box-sizing: border-box;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    border-radius: 10px;
+    padding: 10px 15px;
+}
+
+.editprofile-experience-grid textarea {
+    box-sizing: border-box;
+    width: 778px;   
+    height: 110px;
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 17px;
+    resize: none;
+}
+
+/* .editprofile-save-btn {
+
+} */
+
+.editprofile-skills select {
+    display: block;
+    box-sizing: border-box;
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    border-radius: 10px;
+    width: 310px;
+    padding: 10px;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.editprofile-skills select option {
+    border-radius: 10px;
+    padding-left: 10px;
+    margin-bottom: 3px;
+}
+
+.editprofile-photo input[name='photo-clear'], .editprofile-photo label {
+    display: none;
+}
+
+.margin0 {
+    margin: 0;
+}
+
+.marginbtm
+
+.experiencebox {
+    margin-top: 1rem;
+}
+
+.experiencebox h4, .profileh3, .profilep {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 140%;
+    color: #000000;
+}
+
+.experiencebox p {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 140%;  
+    width: 70%;
 }

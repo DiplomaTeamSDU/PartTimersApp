@@ -4,21 +4,24 @@
 {% block content %}
 <section class="profile-background">
     <div class="container">
-        <h1
-            style="font-weight: 700; font-size: 40px; color: #4C56CC; text-align: center; margin-top: 71px; margin-bottom: 71px;">
-            My Profile</h1>
+        <h1 style="font-weight: 700; font-size: 40px; color: #4C56CC; text-align: center; margin-top: 71px; margin-bottom: 71px;">My Profile</h1>
         {% if role == 'company' %}
         <div class="profile-c-1">
             <div class="profile-c-2">
                 <div class="profile-c-2-1">
                     <img src="{{ profile.logo.url }}" alt="logo" class="profile-c-img">
                     <div class="profile-c-2-2">
-                        <span>
-                            <h3 style="margin: 0; color:#4C56CC; font-size: 30px; font-weight: 600;">{{ profile.name }}
-                            </h3>
-                            <h4 style="margin: 0; color:#737272; font-size: 22px; font-weight: 500;">Programming School
-                            </h4>
-                        </span>
+                        {% if profile.name == '' %}
+                            <span>
+                                <h3 style="margin: 0; color:#4C56CC; font-size: 30px; font-weight: 600;">No Name</h3>
+                                <h4 style="margin: 0; color:#737272; font-size: 22px; font-weight: 500;"></h4>
+                            </span>
+                        {% else %}
+                            <span>
+                                <h3 style="margin: 0; color:#4C56CC; font-size: 30px; font-weight: 600;">{{ profile.name }}</h3>
+                                <h4 style="margin: 0; color:#737272; font-size: 22px; font-weight: 500;">{{ profile.field }}</h4>
+                            </span>
+                        {% endif %}
                         <a href="{% url 'edit_profile' role=role %}" class="editbtn" style="padding: 7px 40px;"><i
                                 class="fa-solid fa-pen-to-square"></i> Edit</a>
                     </div>
@@ -26,12 +29,11 @@
                 <hr>
                 <div class="profile-c-2-3">
                     <div>
-                        <h3 style="color:#4C56CC; font-size: 25px; font-weight: 600;">Bio</h3>
-                        <p>Lorem ipsum dolor sit amet. Sed dolore nemo aut ratione eligendi aut animi reprehenderit id
-                            omnis impedit. </p>
+                        <h2 class="profileh2">Bio</h2>
+                        <p>{{ profile.description }}</p>
                     </div>
                     <div>
-                        <h3 style="color:#4C56CC; font-size: 25px; font-weight: 600;">Your Interest</h3>
+                        <h2 class="profileh2">Your Interest</h2>
                         <div style="display: flex;">
                             <div class="profile-c-2-4">Figma</div>
                             <div class="profile-c-2-4">Adobe Illustrator</div>
@@ -39,7 +41,7 @@
                         </div>
                     </div>
                     <div>
-                        <h3 style="color:#4C56CC; font-size: 25px; font-weight: 600;">Linked Accounts</h3>
+                        <h2 class="profileh2">Linked Accounts</h2>
                         <ul class="profile-c-2-5" style="list-style: none; padding: 0;">
                             <li><a href=""><i class="fa-solid fa-plus"></i> Instagram</a></li>
                             <li><a href=""><i class="fa-solid fa-plus"></i> LinkedIn</a></li>
@@ -97,43 +99,65 @@
                     {% endif %}
                 </div>
                 {% endif %}
-                <div style="margin-left: 144px;">
-                    {% if profile %}
-                    <h2>{{ profile.user }}</h2>
-                    <p>Software Engineer</p>
-                    <p>Senior</p>
-                    <a href="{% url 'edit_profile' role=role %}">Edit</a>
+                <div class="profilemain1">
+                    {% if profile.first_name == '' and profile.last_name == '' and profile.occupation == '' and profile.level == '' %}
+                        <h2 class="margin0">No Name</h2>
+                        <div>
+                            <p>No position specified</p>
+                            <p>No level specified</p>
+                        </div>
+                        <a href="{% url 'edit_profile' role=role %}">Edit</a>
+                    {% else %}
+                        <h2 class="margin0">{{ profile.first_name }} {{ profile.last_name }}</h2>
+                        <div>
+                            <p>{{ profile.occupation }}</p>
+                            <p>{{ profile.level }}</p>
+                        </div>
+                        <a href="{% url 'edit_profile' role=role %}">Edit</a>
                     {% endif %}
                 </div>
             </div>
             <div class="profilebio">
-                <h3 style="color: #4C56CC; font-size: 25px;">Bio</h3>
+                <h2 class="profileh2">Bio</h2>
                 <p>{{ profile.bio }}</p>
             </div>
             <div class="profileskills">
-                <h3 style="color: #4C56CC; font-size: 25px;">Skills</h3>
-                <ul>
+                <h2 class="profileh2">Skills</h2>
+                <div class="skillbox">
                     {% for skill in profile.skills.all %}
-                    <li>{{ skill.name }}</li>
+                        <div class="skill">
+                            <p style="margin: 0;">{{ skill.name }}</p>
+                        </div>
                     {% endfor %}
-                </ul>
+                </div>
             </div>
             <div class="profileeducation">
-                <h3 style="color: #4C56CC; font-size: 25px;">Education</h3>
-                <div style="display: flex;">
-                    <p><strong>Date of education</strong></p>
-                    <p>{{ profile.education }}</p>
+                <h2 class="profileh2">Education</h2>
+                <div class="profile-education-grid">
+                    <p class="profilep">{{ profile.education_year_of_study }}</p>
+                    <div>
+                        <h3 class="margin0 profileh3">{{ profile.education_university }}</h3>
+                        <div class="experiencebox">
+                            <p class="margin0">{{ profile.education_specialization }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="profileexperience">
-                <h3 style="color: #4C56CC; font-size: 25px;">Experience</h3>
-                <div style="display: flex;">
-                    <p><strong>Date of experience</strong></p>
-                    <p>{{ profile.experience }}</p>
+                <h2 class="profileh2">Experience</h2>
+                <div class="profile-education-grid">
+                    <p class="profilep">{{ profile.experience_work_duration }}</p>
+                    <div>
+                        <h3 class="margin0 profileh3">{{ profile.experience_company_name }}</h3>
+                        <div class="experiencebox">
+                            <h4 class="margin0">{{ profile.experience_position }}</h4>
+                            <p class="margin0">{{ profile.experience_description }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="profileportfolio">
-                <h3 style="color: #4C56CC; font-size: 25px;">Portfolio</h3>
+                <h2 class="profileh2">Portfolio</h2>
                 <div>
                     <img src="{% static 'images/portfolio1.png' %}" alt="">
                     <img src="{% static 'images/portfolio2.png' %}" alt="">
@@ -141,31 +165,6 @@
             </div>
             {% endif %}
         </div>
-
-        <!-- <h1>{{ role|title }} Profile</h1> -->
-        <!-- {% if profile %}
-        <ul>
-            {% if role == 'company' %}
-                <li><strong>Name:</strong> {{ profile.name }}</li>
-                <li><strong>Description:</strong> {{ profile.description }}</li>
-                {% if profile.photo %}
-                    <li><strong>Logo:</strong> <img src="{{ profile.logo.url }}" alt="{{ profile.name }} logo"></li>
-                {% endif %}
-            {% else %}
-            <li><strong>Bio:</strong> {{ profile.bio }}</li>
-            <li><strong>Skills:</strong> {{ profile.skills }}</li>
-            <li><strong>Education:</strong> {{ profile.education }}</li>
-            <li><strong>Experience:</strong> {{ profile.experience }}</li>
-            <li><strong>Portfolio Link:</strong> <a href="{{ profile.portfolio_link }}">{{ profile.portfolio_link }}</a></li>
-            {% if profile.photo %}
-                <li><strong>Photo:</strong> <img src="{{ profile.photo.url }}" alt="{{ profile.bio }} photo"></li>
-            {% endif %}
-            {% endif %}
-        </ul>
-        <a href="{% url 'edit_profile' role=role %}">Edit Profile</a>
-    {% else %}
-        <p>No profile found for {{ request.user.email }}</p>
-    {% endif %} -->
     </div>
 </section>
 {% endblock %}

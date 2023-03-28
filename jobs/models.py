@@ -51,22 +51,33 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 class Company(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
+    field = models.CharField(max_length=30, blank=True)
     description = models.TextField(blank=True)
     logo = models.ImageField(default='default_picture.png', upload_to='company_profile_images', blank=True)
 
 class Skill(models.Model): 
     name = models.CharField(max_length=50) 
+    def __str__(self):
+        return self.name
 
 class Freelancer(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE) 
     first_name = models.CharField(default='', max_length=20)
     last_name = models.CharField(default='', max_length=20)
     occupation = models.CharField(default='', max_length=20)
+    level = models.CharField(default='', max_length=15)
     bio = models.TextField()
     photo = models.ImageField(default='default_picture.png', upload_to='freelancer_profile_images', blank=True)
     skills = models.ManyToManyField(Skill) 
-    education = models.TextField()
-    experience = models.TextField()
+    # education = models.TextField()
+    education_university = models.CharField(default='', max_length=30)
+    education_specialization = models.CharField(default='', max_length=30)
+    education_year_of_study = models.CharField(default='', max_length=20)
+    # experience = models.TextField()
+    experience_position = models.CharField(default='', max_length=30)
+    experience_company_name = models.CharField(default='', max_length=30)
+    experience_work_duration = models.CharField(default='', max_length=20)
+    experience_description = models.TextField(default='')
     created_at = models.DateTimeField(auto_now_add=True)
     portfolio_link = models.URLField(blank=True)
 
