@@ -9,7 +9,7 @@
             <div class="profile">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div style="display: flex;">
+                    <div style="display: flex; margin-bottom: 60px;">
                         <div class="profileimage">
                             {% if profile.photo %}
                                 <img src="{{ profile.photo.url }}" alt="PIC"> 
@@ -32,15 +32,15 @@
                         </div>
                     </div>
                     <div class="editprofile-2">
-                        <div class="editprofile-bio">
+                        <div class="editprofile-bio" style="margin-bottom: 60px;">
                             <h2>Bio</h2>
                             {{ form.bio }}
                         </div>
-                        <div class="editprofile-skills">
+                        <div class="editprofile-skills" style="margin-bottom: 60px;">
                             <h2>Skills</h>
-                              {{ form.skills }}
+                            {{ form.skills }}
                         </div>
-                        <div class="editprofile-education">
+                        <div class="editprofile-education" style="margin-bottom: 60px;">
                             <h2>Education</h2>
                             <div class="editprofile-education-grid">
                                 <label for="education_university">University</label>
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="editprofile-experience">
+                        <div class="editprofile-experience" style="margin-bottom: 60px;">
                             <h2>Experience</h2>
                             <div class="editprofile-experience-grid">
                                 <label for="experience_position">Position</label>
@@ -78,17 +78,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="editprofile-portdolio">
+                        <div class="editprofile-portfolio" style="margin-bottom: 60px;">
                             <h2>Portfolio</h2>
                             {{ form.portfolio_link }}
                         </div>
-                        <div>
+                        <div class="editprofile-photo">
                             <h2>Profile Photo</h2>
                             {{ form.photo }}
                         </div>
                     </div>                        
-                        <!-- {{ form.skills }} -->
-                        <button type="submit">Save Changes</button>
+                        <button type="submit" class="editprofile-save-btn">Save Changes</button>
                     </form>
                 <!-- <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}

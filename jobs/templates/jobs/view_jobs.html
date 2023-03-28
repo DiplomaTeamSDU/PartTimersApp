@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block title %}Find Work{% endblock %}
 {% block content %}
 <section class="jobs-background">
     <div class="container">
@@ -152,5 +153,6 @@
         <p>Salary: {{ job.salary }}</p>
         <p>Timeline: {{ job.timeline }}</p>
     </div>
-{% endfor %}
-{% endblock %} -->
+{% endfor %} -->
+{% endblock %}
+

@@ -79,7 +79,7 @@ def edit_profile(request, role):
             return redirect('profile') 
     else: 
         form = form_class(instance=profile) 
-    return render(request, 'registration/edit_profile.html', {'form': form, 'profile' : profile ,'role' : role})
+    return render(request, 'registration/edit_profile.html', {'form': form, 'role': role, 'profile': profile})
 
 @user_passes_test(is_company)
 @login_required

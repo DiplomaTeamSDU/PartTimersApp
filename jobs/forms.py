@@ -39,7 +39,7 @@ class RegistrationForm(UserCreationForm):
 class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
-        fields = ['name', 'description', 'logo']
+        fields = ['name', 'field', 'description', 'logo']
 
     def save(self, commit=True):
         instance = super().save(commit=False)
@@ -50,21 +50,25 @@ class CompanyForm(forms.ModelForm):
 
 
 class FreelancerForm(forms.ModelForm):
-    skills = forms.ModelMultipleChoiceField(
-        queryset=Skill.objects.all(),
-        widget=forms.SelectMultiple
-    )
+    skills = forms.ModelMultipleChoiceField( 
+        queryset=Skill.objects.all(), 
+        widget=forms.SelectMultiple 
+    ) 
 
     class Meta:
         model = Freelancer
-        fields = ['first_name', 'last_name', 'occupation', 'bio', 'photo', 'education', 'experience', 'portfolio_link','skills']
+        fields = ['first_name', 'last_name', 'occupation', 'level', 'bio', 
+                  'photo', 'education_university', 
+                  'education_specialization', 'education_year_of_study', 
+                  'experience_position', 'experience_company_name',
+                  'experience_work_duration', 'experience_description',
+                  'portfolio_link','skills']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.instance and self.instance.pk:
+        if self.instance:
             self.fields['skills'].initial = self.instance.skills.all()
-
-
+        
     def save(self, commit=True):
         instance = super().save(commit=False)
         if commit:
