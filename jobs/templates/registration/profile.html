@@ -22,8 +22,7 @@
                                 <h4 style="margin: 0; color:#737272; font-size: 22px; font-weight: 500;">{{ profile.field }}</h4>
                             </span>
                         {% endif %}
-                        <a href="{% url 'edit_profile' role=role %}" class="editbtn" style="padding: 7px 40px;"><i
-                                class="fa-solid fa-pen-to-square"></i> Edit</a>
+                        <a href="{% url 'edit_profile' role=role %}" class="editbtn" style="padding: 7px 40px;"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
                     </div>
                 </div>
                 <hr>
@@ -59,31 +58,40 @@
                 </div>
                 <div class="profile-c-3-1">
                     {% if jobs %}
-                    {% for job in jobs %}
-                    <div class="profile-c-job">
-                        <img src="{% static 'images/job_image.png' %}" alt="job_image">
-                        <div class="profile-c-job-1" style="padding: 0 20px; ">
-                            <h3 class="truncate" style="margin: 0; font-size: 16px; font-weight: 600; color: #4C56CC;">
-                                {{ job.title }}</h3>
-                            <p class="multiline-ellipsis">{{ job.description }}</p>
-                            <div class="profile-c-job-2">
-                                <p style="color: #FFD700; font-weight: 600; margin-right: 18px;"><i
-                                        class="fa-solid fa-star"></i> 4.9</p>
-                                <p style="color: #4C56CC; font-weight: 600; margin-right: 55px;"> &#36;{{ job.salary }}
-                                </p>
-                                <div class="profile-c-job-3">Python</div>
+                        {% for job in jobs %}
+
+                        <div class="profile-company-job-box">
+                            <h3 class="truncate job-box-title"><a href="{% url 'view_job' job.id %}">{{ job.title }}</a></h3>
+                            <p class="truncate job-box-freelancer">{{ job.category }}</p>
+                            <hr>
+                            <h5 class="job-box-info" >Timeline: <span class="job-box-timeline">{{ job.timeline }}</span></h5>
+                            <h5 class="job-box-info">Budget: <span class="job-box-budget">&#36;{{ job.salary }}</span></h5>        
+                            <div class="job-box-skills-container">
+                                <div class="job-box-skill">Python</div>
+                                <div class="job-box-skill">Adobe Illustrator</div>
                             </div>
-                        </div>
-                        <div>
-                            <a href="{% url 'edit_job' job_id=job.id %}" class="editbtn"><i class="fa-solid fa-edit"></i> Edit</a>
-                        </div>
-                    </div>
-                    
-                    {% endfor %}
+                        </div>          
+                        {% endfor %}
                     {% else %}
-                    <p>No jobs posted yet.</p>
+                        <p>No jobs posted yet.</p>
                     {% endif %}
-                    
+                </div>
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if jobs.has_previous %}
+                            <!-- <a href="?page=1">&laquo; first</a> -->
+                            <a href="?page={{ jobs.previous_page_number }}"><i class="fa-solid fa-angle-left"></i></a>
+                        {% endif %}
+                
+                        <span class="current-page">
+                             {{ jobs.number }}&#47;{{ jobs.paginator.num_pages }} 
+                        </span>
+                
+                        {% if jobs.has_next %}
+                            <a href="?page={{ jobs.next_page_number }}"><i class="fa-solid fa-angle-right"></i></a>
+                            <!-- <a href="?page={{ jobs.paginator.num_pages }}">last &raquo;</a> -->
+                        {% endif %}
+                    </span>
                 </div>
             </div>
         </div>
@@ -117,11 +125,11 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="profilebio">
+            <div class="profilebio marginbtm40">
                 <h2 class="profileh2">Bio</h2>
                 <p>{{ profile.bio }}</p>
             </div>
-            <div class="profileskills">
+            <div class="profileskills marginbtm40">
                 <h2 class="profileh2">Skills</h2>
                 <div class="skillbox">
                     {% for skill in profile.skills.all %}
@@ -131,7 +139,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="profileeducation">
+            <div class="profileeducation marginbtm40">
                 <h2 class="profileh2">Education</h2>
                 <div class="profile-education-grid">
                     <p class="profilep">{{ profile.education_year_of_study }}</p>
@@ -143,7 +151,7 @@
                     </div>
                 </div>
             </div>
-            <div class="profileexperience">
+            <div class="profileexperience marginbtm40">
                 <h2 class="profileh2">Experience</h2>
                 <div class="profile-education-grid">
                     <p class="profilep">{{ profile.experience_work_duration }}</p>

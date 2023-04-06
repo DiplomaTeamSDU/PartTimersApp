@@ -1,23 +1,176 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-  <div class="row">
-    <div class="col-md-4">
-      <img src="{{ freelancer.photo.url }}" alt="{{ freelancer.user.username }} photo">
-      <h2>{{ freelancer.user.username }}</h2>
-      <p>{{ freelancer.bio }}</p>
-    </div>
-    <div class="col-md-8">
-      <h3>Skills:</h3>
-      <p>{{ freelancer.skills }}</p>
-      <h3>Education:</h3>
-      <p>{{ freelancer.education }}</p>
-      <h3>Experience:</h3>
-      <p>{{ freelancer.experience }}</p>
-      {% if freelancer.portfolio_link %}
-        <h3>Portfolio:</h3>
-        <p><a href="{{ freelancer.portfolio_link }}">{{ freelancer.portfolio_link }}</a></p>
-      {% endif %}
-    </div>
-  </div>
+<section class="applytojobbackground">
+    <div class="container">
+        <div class="view-profile-1">
+            <div class="view-profile-head">
+                {% if freelancer.photo %}
+                    <img src="{{ freelancer.photo.url }}" alt="PIC">
+                {% endif %}
+                <div class="view-profile-head-1">
+                    {% if freelancer.first_name == '' and freelancer.last_name == '' and profile.occupation == '' and profile.level == '' %}
+                        <h2 class="margin0">No Name</h2>
+                        <div>
+                            <p>No position specified</p>
+                        </div>
+                    {% else %}
+                        <h2 class="margin0">{{ freelancer.first_name }} {{ freelancer.last_name }}</h2>
+                        <div class="view-profile-head-2">
+                            <p><i class="fa-solid fa-location-dot"></i> France</p>
+                            <p>|</p>
+                            <p>{{ freelancer.occupation }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="view-profile-main">
+            <div class="view-profile-main-1">
+                <div class="view-profile-rating">
+                    <h2 class="profileh2" style="margin-right: 20px;">Rating </h2>
+                    <i class="fa-solid fa-star"></i>
+                    <h2 style="margin-left: 10px; color: #FFD700;">{{ freelancer.get_rating }}</h2>
+                </div>
+                <div class="rating-box-grid">
+                    <div class="rating-stars">
+                        <div>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <p>(17)</p>
+                    </div>
+                </div>
+                <div class="portfolio-box">
+                    <h2 class="profileh2">Portfolio</h2>
+                    <div class="portfolio-box-grid">
+                        <img src="{% static 'images/portfolio1.png' %}" alt="">
+                        <img src="{% static 'images/portfolio2.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="chat-box">
+                    <h2 class="profileh2">Chat</h2>
+                    <p>Discuss project details with freelancer via chat</p>
+                    <a class="apply-job-btn" href="{% url 'chat' recipient_id=freelancer.id %}">Start chat</a>
+                    <!-- <button class="btn btn-primary" onclick="window.location.href='{% url 'chat' recipient_id=freelancer.id %}'">Chat with {{ freelancer.user.username }}</button> -->
+                </div>
+            </div>
+            <div class="vertical"></div>
+            <div class="view-profile-main-2">
+                <div class="profilebio marginbtm40">
+                    <h2 class="profileh2">Bio</h2>
+                    <p>{{ freelancer.bio }}</p>
+                </div>
+                <div class="profileskills marginbtm40">
+                    <h2 class="profileh2">Skills and Expertise</h2>
+                    <div class="skillbox">
+                        {% for skill in freelancer.skills.all %}
+                            <div class="skill">
+                                <p style="margin: 0;">{{ skill.name }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="profileeducation marginbtm40">
+                    <h2 class="profileh2">Education</h2>
+                    <div class="profile-education-grid">
+                        <p class="profilep">{{ freelancer.education_year_of_study }}</p>
+                        <div>
+                            <h3 class="margin0 profileh3">{{ freelancer.education_university }}</h3>
+                            <div class="experiencebox">
+                                <p class="margin0">{{ freelancer.education_specialization }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profileexperience marginbtm40">
+                    <h2 class="profileh2">Experience</h2>
+                    <div class="profile-education-grid">
+                        <p class="profilep">{{ freelancer.experience_work_duration }}</p>
+                        <div>
+                            <h3 class="margin0 profileh3">{{ freelancer.experience_company_name }}</h3>
+                            <div class="experiencebox">
+                                <h4 class="margin0">{{ freelancer.experience_position }}</h4>
+                                <p class="margin0">{{ freelancer.experience_description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        <button class="apply-job-btn">Hire Freelancer</button>
+        <div class="reviews">
+            <h2 class="profileh2">Reviews</h2>
+            <hr>
+            <div class="review">
+                <div class="review-info">
+                    <div>
+                        <h4>Inolab Programming School</h4>
+                        <p>12.12.2022</p>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                </div>
+                <div class="review-comment">
+                    <p>
+                        <span>Comment: </span>
+                        Lorem ipsum dolor sit amet. Sed dolore nemo aut ratione eligendi aut animi reprehenderit id omnis impedit.
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <div class="review">
+                <div class="review-info">
+                    <div>
+                        <h4>Inolab Programming School</h4>
+                        <p>12.12.2022</p>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                </div>
+                <div class="review-comment">
+                    <p>
+                        <span>Comment: </span>
+                        Lorem ipsum dolor sit amet. Sed dolore nemo aut ratione eligendi aut animi reprehenderit id omnis impedit.
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <div class="review">
+                <div class="review-info">
+                    <div>
+                        <h4>Inolab Programming School</h4>
+                        <p>12.12.2022</p>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+                <div class="review-comment">
+                    <p>
+                        <span>Comment: </span>
+                        Lorem ipsum dolor sit amet. Sed dolore nemo aut ratione eligendi aut animi reprehenderit id omnis impedit.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div> 
+</section>
 {% endblock %}

@@ -1,60 +1,124 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block title %}{{ job.title }}{% endblock %}
 {% block content %}
-  <h2>{{ job.title }}</h2>
-  <p>{{ job.description }}</p>
-  {% if job.salary %}
-          <hr>
-          <h4>Salary</h4>
-          <p>${{ job.salary }}</p>
-  <p>Category: {{ job.category }}</p>
-  {% if job.created_at %}
-  <hr>
-  <h4>Created at</h4>
-  <p>{{ job.created_at }}</p>
-  {% endif %}
-  <h4>Last Active</h4>
-  <p>{{ job.timeline }}</p>
-  {% endif %}
-  <h4>Company Rating</h4>
-  <p>{{ job.company.rating }}</p>
-  
-  {% if request.user.company %}
-    <h3>Applications:</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Applicant</th>
-          <th>Resume</th>
-          <th>Cover Letter</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for application in applications %}
-          <tr>
-            <td>{{ application.freelancer.user.username }}</td>
-            <td><a href="{{ application.resume.url }}">{{ application.resume.name }}</a></td>
-            <td>{{ application.cover_letter }}</td>
-            <td>
-              <form method="POST" action="{% url 'select_freelancer' job_id=job.id application_id=application.id %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Select</button>
-              </form>
-            </td>
-            <td>
-              <a href="{% url 'view_freelancer' freelancer_id=application.freelancer.id %}">View Profile</a>
-            </td>
-          </tr>
-        {% empty %}
-          <tr>
-            <td colspan="4">No applications yet.</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <a href="{% url 'apply_to_job' job.id %}">Apply to Job</a>
-  {% endif %}
+<section class="applytojobbackground">
+    <div class="container">
+        <div class="job-head">
+            <h2 class="job-title">{{ job.title }}</h2>
+            {% if job.created_at %}
+                <p>Posted on {{ job.created_at }}</p>
+            {% endif %}
+        </div>
+        <hr>
+        <div>
+            <p class="job-description">{{ job.description|safe }}</p>
+        </div>
+        <hr>
+        <div class="apply-job-info">
+            <div class="apply-job-info-1">
+                <span class="margin27"><i class="fa-regular fa-location-dot"></i></span>
+                <p>Remote Job</p>
+            </div>
+            <div class="apply-job-info-2">
+                <div class="apply-job-info-2-1">
+                    <span class="margin27"><i class="fa-regular fa-money-bills"></i></span>
+                    <div>
+                        <p class="margin20">Salary</p>
+                        <p>from {{ job.salary }}$</p>
+                    </div>
+                </div>
+                <div class="apply-job-info-2-1">
+                    <span class="margin27"><i class="fa-solid fa-clock"></i></span>
+                    <div>
+                        <p class="margin20">Deadline</p>
+                        <p>{{ job.timeline }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div style="margin: 60px 0;">
+            <h3 class="profileh2">Skills and Expertise</h3>
+            <div class="apply-skill-box">
+                <div class="apply-skill"><p>Graphic Design</p></div>
+                <div class="apply-skill"><p>UI/UX Design</p></div>
+                <div class="apply-skill"><p>Social Media</p></div>
+                <div class="apply-skill"><p>Adobe Illustrator</p></div>
+                <div class="apply-skill"><p>Layout Design</p></div>
+                <div class="apply-skill"><p>Adobe Photoshop</p></div>
+            </div>
+        </div>
+        <hr>
+        <div class="apply-job-activity">
+            <div class="apply-job-activity-1">
+                <h3 class="profileh2">Activity on this project</h3>
+                <div>
+                    <h3 class="profileh2" style="margin: 0; text-align:center;">{{num_applications}}</h3>
+                    <p style="padding-top: 10px;">Applied</p>
+                </div>
+            </div>
+            <div class="apply-job-activity-1">
+                <h3 class="profileh2">Download files</h3>
+                <div><p>To get more information about the project download the file</p></div>
+                <div class="apply-download-btn"><i class="fa-solid fa-download"></i><p>File1.pdf</p></div>
+            </div>
+        </div>
+        <hr>
+        <div class="apply-client">
+            <h3 class="profileh2">About the client</h3>
+            <div class="apply-client-info">
+                <div class="apply-client-info-1">
+                    <img src="{% static 'images/profile.png' %}" alt="">
+                    <div>
+                        <h4>{{ job.company.name }}</h4>
+                        <p>{{ job.company.field }}</p>
+                    </div>
+                </div>
+                <div class="apply-client-info-2">
+                    <p>Jobs posted: 7</p>
+                    <p>Member since: 2022</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        {% if job.status == 'progress' and request.user.freelancer == job.freelancer and show_submit_button %}
+           <form method="POST" action="{% url 'submit_work' job_id=job.id %}">
+               {% csrf_token %}
+               <button type="submit" class="btn btn-primary">Submit Work</button>
+            </form>
+        {% endif %}
+        {% if job.status == 'completed' and show_rating_button %}
+            {% if request.user.company %}
+                <a href="{% url 'rate' job_id=job.id recipient_id=job.freelancer.user_id %}">Rate Freelancer</a>
+            {% else %}
+                <a href="{% url 'rate' job_id=job.id recipient_id=job.company.user_id %}">Rate Company</a>
+            {% endif %}
+        {% endif %}
+        <div class="applications">
+            {% if request.user.company %}
+            <h3 class="profileh2">Applications</h3>
+                {% for application in applications %}
+                    <div class="appilcant-box">
+                        <div>
+                            <a href="{% url 'view_freelancer' freelancer_id=application.freelancer.id %}">{{ application.freelancer.first_name }} {{ application.freelancer.last_name }}</a>
+                            <p class="applicant-box-message">Message: </p>
+                            <p>{{ application.cover_letter }}</p>
+                        </div>
+                        <div>
+                            <form method="POST" action="{% url 'select_freelancer' job_id=job.id application_id=application.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Select</button>
+                            </form>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No applications yet.</p>
+                {% endfor %}
+            {% else %}
+                <a href="{% url 'apply_to_job' job.id %}" class="apply-job-btn-a">Apply to Job</a>
+            {% endif %}       
+        </div>
+</section>
 {% endblock %}
 

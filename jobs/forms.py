@@ -2,7 +2,7 @@ import random
 from django import forms
 from django.forms.widgets import DateInput
 from django.contrib.auth.forms import UserCreationForm
-from .models import Category, DateField, Freelancer, Company,CustomUser, Job, Skill, JobApplication
+from .models import Category, DateField, Freelancer, Company, CustomUser, Job, Skill, JobApplication, Rating
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class RegistrationForm(UserCreationForm):
@@ -12,6 +12,7 @@ class RegistrationForm(UserCreationForm):
         ('freelancer', 'I am a freelancer'),
         ('company', 'I am a company'),
     )
+
     choice = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
 
     class Meta:
@@ -35,6 +36,7 @@ class RegistrationForm(UserCreationForm):
         else:
             Company.objects.create(user=user)
         return user
+
 
 class CompanyForm(forms.ModelForm):
     class Meta:
@@ -64,9 +66,9 @@ class FreelancerForm(forms.ModelForm):
                   'experience_work_duration', 'experience_description',
                   'portfolio_link','skills']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if self.instance:
+    def init(self, args, **kwargs):
+        super().init(args, **kwargs)
+        if self.instance and self.instance.pk:
             self.fields['skills'].initial = self.instance.skills.all()
         
     def save(self, commit=True):
@@ -79,20 +81,34 @@ class FreelancerForm(forms.ModelForm):
     
 
 class JobForm(forms.ModelForm):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['category'].queryset = Category.objects.all()
 
     class Meta:
         model = Job
-        fields = ['title', 'description', 'category', 'salary', 'timeline']
+        fields = ['title', 'description', 'file', 'category', 'salary', 'timeline']
         widgets = {
             'timeline': forms.DateInput(format='%d.%m.%Y')
         }
         field_classes = {
             'timeline': DateField
         }
+
+
+class RatingForm(forms.ModelForm):
+    class Meta:
+        model = Rating
+        fields = ['rating', 'comment']
+        labels = {
+            'rating': 'Rating (out of 5 stars)',
+            'comment': 'Comment (optional)',
+        }
+        widgets = {
+            'rating': forms.RadioSelect(choices=Rating.RATING_CHOICES),
+            'comment': forms.Textarea(attrs={'rows': 3}),
+        }
+
 
 class JobApplicationForm(forms.ModelForm):
      

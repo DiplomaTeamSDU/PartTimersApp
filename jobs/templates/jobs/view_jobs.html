@@ -71,45 +71,44 @@
                             <p>Location</p>
                         </div>
                         <button type="submit" class="job-search-button" >Search</button> 
-                    </div>     
-                    <!-- <div class="job-search-2">
-                        <label for="company">Filter by Company:</label>
-                        <select name="company" id="company">
-                            <option value="">All</option>
-                            {% for company in companies %}
-                                <option value="{{ company.id }}" {% if company.id|stringformat:"s" == company_id %}selected{% endif %}>{{ company.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <label for="category">Filter by Category:</label>
+                    </div>  
+                    <div class="related-results"><span>Related results</span> <a href="">Website design and development, </a><a href="">Web design, </a><a href="">Web designer wordpress</a></div>
+                </form>
+            </div>
+            <div class="job-filter">
+                <h2>Results for "Website design"</h2>
+                <form method="get">
+                    <div class="select-category">
                         <select name="category" id="category">
-                            <option value="">All</option>
-                            {% for category in categories %}
-                            <option value="{{ category.id }}" {% if category.id|stringformat:"s" == category_id %}selected{% endif %}>{{ category.name }}</option>
+                        <option value="">Category</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if category.id == category_id %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+                    <div class="select-category">
+                        <select name="company" id="company">
+                            <option value="">Company</option>
+                            {% for company in companies %}
+                                <option value="{{ company.id }}" {% if company.id == company_id %}selected{% endif %}>{{ company.name }}</option>
                             {% endfor %}
                         </select>
-                        <label for="sort_by_salary">Sort by Salary:</label>
-                        <select name="sort_by_salary" id="sort_by_salary">
-                            <option value="">None</option>
-                            <option value="asc" {% if sort_by_salary == 'asc' %}selected{% endif %}>Ascending</option>
-                            <option value="desc" {% if sort_by_salary == 'desc' %}selected{% endif %}>Descending</option>
-                    </div>     -->
-                    <!-- <button type="submit" class="">Search</button>             -->
-                </form> 
+                    </div>
+                    <div class="select-category">
+                        <button type="submit" class="filter-btn">Filter</button>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="container9">
             {% if jobs %}
                 {% for job in jobs %}
-                <div class="profile-c-job">
-                    <img src="{% static 'images/job_image.png' %}" alt="job_image">
-                    <div class="profile-c-job-1" style="padding: 0 20px; ">
-                        <h3 class="truncate" style="margin: 0; font-size: 16px; font-weight: 600; color: #4C56CC;"><a href="{% url 'view_job' job.id %}">{{ job.title }}</a></h3>
-                        <p class="multiline-ellipsis">{{ job.description }}</p>
-                        <div class="profile-c-job-2">
-                            <p style="color: #FFD700; font-weight: 600; margin-right: 18px;"><i class="fa-solid fa-star"></i> 4.9</p>
-                            <p style="color: #4C56CC; font-weight: 600; margin-right: 55px;"> &#36;{{ job.salary }}</p>
-                            <div class="profile-c-job-3">Python</div>
-                        </div>
+                <div class="vacancy-box">
+                    <h3 class="truncate">{{ job.title }}</h3>
+                    <div class="vacancy-info">
+                        <p class="truncate vacancy-author">{{ job.company.name }}</p>
+                        <p class="vacancy-salary"><span><i class="fa-sharp fa-solid fa-money-bill-1-wave"></i></span> ${{ job.salary }}</p>
+                        <a href="{% url 'view_job' job.id %}" class="applybtn">Apply Now</a>
                     </div>
                 </div>
                 {% endfor %}
@@ -117,42 +116,27 @@
                 <p>No jobs posted yet.</p>
             {% endif %}
         </div>
+        <div class="pagination">
+            <span class="step-links">
+                {% if jobs.has_previous %}
+                    <!-- <a href="?page=1">&laquo; first</a> -->
+                    <a href="?page={{ jobs.previous_page_number }}"><i class="fa-solid fa-angle-left"></i></a>
+                {% endif %}
+        
+                <span class="current-page">
+                     {{ jobs.number }}&#47;{{ jobs.paginator.num_pages }} 
+                </span>
+        
+                {% if jobs.has_next %}
+                    <a href="?page={{ jobs.next_page_number }}"><i class="fa-solid fa-angle-right"></i></a>
+                    <!-- <a href="?page={{ jobs.paginator.num_pages }}">last &raquo;</a> -->
+                {% endif %}
+            </span>
+        </div>
     </div>
 </section>
-
-<!-- <form method="get">
-    <label for="company">Filter by company:</label>
-    <select name="company" id="company">
-        <option value="">All companies</option>
-        {% for company in companies %}
-            <option value="{{ company.id }}" {% if company.id == company_id %}selected{% endif %}>{{ company.name }}</option>
-        {% endfor %}
-    </select>
-    <label for="category">Filter by category:</label>
-    <select name="category" id="category">
-        <option value="">All categories</option>
-        {% for category in categories %}
-            <option value="{{ category.id }}" {% if category.id == category_id %}selected{% endif %}>{{ category.name }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit">Filter</button>
-</form>
-
-<p>Sort by salary:</p>
+<!-- <p>Sort by salary:</p>
 <a href="?sort_by_salary=asc">Ascending</a>
 <a href="?sort_by_salary=desc">Descending</a> -->
-
-
-
-<!-- {% for job in jobs %}
-    <div>
-        <h2>{{ job.title }}</h2>
-        <p>{{ job.description }}</p>
-        <p>Company: {{ job.company.name }}</p>
-        <p>Category: {{ job.category.name }}</p>
-        <p>Salary: {{ job.salary }}</p>
-        <p>Timeline: {{ job.timeline }}</p>
-    </div>
-{% endfor %} -->
 {% endblock %}
 

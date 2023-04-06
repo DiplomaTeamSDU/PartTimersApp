@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'rest_framework', 
     'rest_framework_simplejwt.token_blacklist',
     'jobs',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -66,9 +67,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'parttimers',
         'USER': 'postgres',
-        'PASSWORD': '147963',
-        'HOST': 'localhost',
-        'PORT': '5433',
+        'PASSWORD': '123456',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 # AUTHENTICATION_BACKENDS = [
@@ -148,6 +149,43 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'jobs.CustomUser'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbarGroups': [{
+          "name": "basicstyles",
+          "groups": ["basicstyles"]
+        },
+        {
+          "name": "links",
+          "groups": ["links"]
+        },
+        {
+          "name": "paragraph",
+          "groups": ["list", "blocks"]
+        },
+        {
+          "name": "document",
+          "groups": ["mode"]
+        },
+        {
+          "name": "insert",
+          "groups": ["insert"]
+        },
+        {
+          "name": "styles",
+          "groups": ["styles"]
+        },
+        {
+          "name": "about",
+          "groups": ["about"]
+        }
+      ],
+        # 'toolbar': 'full',
+        'height': 400,
+        'width': '100%',
+    },
+}
 
 # # Use email address as the username field
 # AUTHENTICATION_BACKENDS = ['parttimers.backends.EmailBackend']
