@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Poppins';
+    font-style: normal;
+}
+
+.container {  
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 0.5fr 1.5fr;
+    grid-template-rows: 0.1fr 1.1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "chat-1 chat-2"
+      "chat-3 chat-4";
+  }
+  
+.chat-1 { grid-area: chat-1; }
+.chat-2 { grid-area: chat-2; }
+.chat-3 { grid-area: chat-3; }
+.chat-4 { grid-area: chat-4; }
+  
+.chat-1 {
+    border-bottom: 2px solid #0000002f;
+    border-right: 2px solid #0000002f;
+}
+
+.chat-1 h1, .chat-2-1-2 h3 {
+    font-weight: 600;
+    line-height: 140%;
+    color: #4C56CC;
+}
+
+.chat-1 h1 {
+    padding-left: 2.375rem;
+    font-size: 22px;
+}
+
+.chat-2 {
+    border-bottom: 2px solid #0000002f;
+    padding: 1rem 4.563rem 1rem 3.875rem;
+}
+
+.chat-1, .chat-2, .chat-2-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-2-1-1 {
+    font-size: larger;
+    color: #1EAD11;
+}
+
+.chat-2-1-2 {
+    margin-left: 2.625rem;
+}
+
+.chat-2-1-2 h3 {
+    font-size: 20px;
+}
+
+.chat-2-1-2 p {
+    font-weight: 600;
+    font-size: 20px;
+    color: #737272;
+}
+
+.chat-2-2 {
+    font-size: 1.875rem;
+}
+
+.chat-3 {
+    border-right: 2px solid #0000002f;
+}
+
+.chat-3-conversation {
+    border-bottom: 2px solid #0000002f;
+}
+
+.chat-4 {
+    position: relative;
+}
+
+.chat {
+    position: absolute;
+    /* background-color: #1EAD11; */
+    /* width: 50rem; */
+    bottom: 25px;
+    left: 91px;
+    border-radius: 50px;
+}
+
+.chat-box {
+    padding: 40px 91px;
+    overflow: scroll;
+    height: 750px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}

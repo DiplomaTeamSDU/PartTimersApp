@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'home/chat.css' %}">
+    <link href="{% static 'fontawesome-free-6.3.0-web/css/fontawesome.css' %}" rel="stylesheet">
+    <link href="{% static 'fontawesome-free-6.3.0-web/css/solid.css' %}" rel="stylesheet">
+    <title>Chats</title>
+</head>
+<body>
+    <div class="container">
+        <div class="chat-1">
+            <h1>All converstaions</h1>
+        </div>
+        <div class="chat-2">
+            <div class="chat-2-1">
+                <div class="chat-2-1-1"><i class="fa-solid fa-circle"></i></div>
+                <div class="chat-2-1-2">
+                    {% if request.user.freelancer == sender %}
+                        <h3>{{ receiver.name }}</h3>
+                    {% else %}
+                        <h3>{{ receiver.first_name }} {{ receiver.last_name }}</h3>
+                    {% endif %}
+                    <p>Online</p>
+                </div>
+            </div>
+            <div class="chat-2-2"><i class="fa-solid fa-bars"></i></div>
+        </div>
+        <div class="chat-3">
+            <div class="chat-3-conversation">
+                <div>
+                    image
+                </div>
+                <div>
+                    <p>Sender</p>
+                    <p>Last message</p>
+                </div>
+                <div></div>
+            </div>
+        </div>
+        <div class="chat-4">
+            {% include "jobs/chat.html" %}
+        </div>
+    </div>
+</body>
+</html>

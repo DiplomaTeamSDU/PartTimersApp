@@ -154,6 +154,7 @@
                             {% if jobs %}
                                 {% for job in jobs %}       
                                 <div class="profile-company-job-box">
+                                    <div class="profile-company-job-edit"><a href="{% url 'edit_job' job.id %}"><i class="fa-solid fa-pen-to-square"></i></a></div>
                                     <h3 class="truncate job-box-title"><a href="{% url 'view_job' job.id %}">{{ job.title }}</a></h3>
                                     <p class="truncate job-box-freelancer">{{ job.category }}</p>
                                     <hr>

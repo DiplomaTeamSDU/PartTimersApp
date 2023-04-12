@@ -31,9 +31,9 @@
                     <form method="post">
                         {% csrf_token %}
                         <div class="login-fields">
-                            {{ form.email }}
-                            {{ form.password1 }}
-                            {{ form.password2 }}
+                            <input type="email" name="email" autofocus required id="id_email" placeholder="Email Address">
+                            <input type="password" name="password1" autocomplete="new-password" required id="id_password1" placeholder="Password">
+                            <input type="password" name="password2" autocomplete="new-password" required id="id_password2" placeholder="Confirm Password">
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <button type="submit" class="login-btn">Sign Up</button> 

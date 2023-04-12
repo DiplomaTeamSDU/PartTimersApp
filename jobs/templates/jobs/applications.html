@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My Applications{% endblock %}
+{% block content %}
+<div class="container">
+    {% if request.user.company %} 
+        <h1>Applications for your jobs</h1> 
+        {% for job in jobs %} 
+            <h2>{{ job.title }}</h2> 
+            <a href="{% url 'view_job' job.id %}">Visit Job</a>
+        <ul> 
+        {% for application in job.jobapplication_set.all %}  
+            {% if application.status == 'accepted' %}
+                <li>{{ application.freelancer.first_name }} {{ application.freelancer.last_name }} - Already Hired</li>
+            {% else %}
+                <form method="POST" action="{% url 'select_freelancer' job_id=job.id application_id=application.id %}">
+                    {% csrf_token %}
+                    <li>{{ application.freelancer.first_name }} {{ application.freelancer.last_name }} - {{ application.status }}</li>
+                    <a href="{% url 'view_freelancer' freelancer_id=application.freelancer.id %}">Visit Profile</a>
+                    <button type="submit" class="btn btn-primary">
+                        {% if application.status != 'accepted' %}
+                            {{ 'Hire' }}
+                        {% else %}
+                            {{ 'Hired' }}
+                        {% endif %}
+                    </button>
+                </form>
+            {% endif %}
+        {% empty %} 
+            <li>No applications found.</li> 
+        {% endfor %} 
+            </ul> 
+            {% empty %} 
+            <p>You haven't posted any jobs yet.</p> 
+            {% endfor %} 
+    {% else %} 
+            <h1>Jobs that you have applied to</h1> 
+            {% if applications %} 
+            <ul> 
+                {% for application in applications %} 
+                <li>{{ application.job.title }} - {{ application.job.company.name }} - {{ application.status }}</li> 
+                <a href="{% url 'view_job' job_id=application.job.id %}">View Job</a>
+                {% endfor %} 
+            </ul> 
+            {% else %} 
+            <p>You have not applied to any jobs yet.</p> 
+            {% endif %} 
+            {% endif %} 
+            </div>
+{% endblock %}

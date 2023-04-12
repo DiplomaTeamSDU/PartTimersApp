@@ -47,15 +47,52 @@
                 <div class="portfolio-box">
                     <h2 class="profileh2">Portfolio</h2>
                     <div class="portfolio-box-grid">
-                        <img src="{% static 'images/portfolio1.png' %}" alt="">
-                        <img src="{% static 'images/portfolio2.png' %}" alt="">
+                        <div class="portfolio-item">
+                            <h3 class="truncate">Bakery website design</h3>
+                            <p class="">Lorem ipsum dolor sit amet. Sed doloredh</p>
+                            <div style="margin-top: 1.188rem;">
+                                <p class="portfolio-link">Click the link</p>
+                                <div class="portfolio-box-skills-container">
+                                    <div class="job-box-skill"><a href="{{ profile.portfolio }}">Figma</a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-item">
+                            <h3 class="truncate">Bakery website design</h3>
+                            <p class="">Lorem ipsum dolor sit amet. Sed doloredh</p>
+                            <div style="margin-top: 1.188rem;">
+                                <p class="portfolio-link">Click the link</p>
+                                <div class="portfolio-box-skills-container">
+                                    <div class="job-box-skill"><a href="{{ profile.portfolio }}">Figma</a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-item">
+                            <h3 class="truncate">Bakery website design</h3>
+                            <p class="">Lorem ipsum dolor sit amet. Sed doloredh</p>
+                            <div style="margin-top: 1.188rem;">
+                                <p class="portfolio-link">Click the link</p>
+                                <div class="portfolio-box-skills-container">
+                                    <div class="job-box-skill"><a href="{{ profile.portfolio }}">Figma</a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-item">
+                            <h3 class="truncate">Bakery website design</h3>
+                            <p class="">Lorem ipsum dolor sit amet. Sed doloredh</p>
+                            <div style="margin-top: 1.188rem;">
+                                <p class="portfolio-link">Click the link</p>
+                                <div class="portfolio-box-skills-container">
+                                    <div class="job-box-skill"><a href="{{ profile.portfolio }}">Figma</a></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="chat-box">
                     <h2 class="profileh2">Chat</h2>
                     <p>Discuss project details with freelancer via chat</p>
-                    <a class="apply-job-btn" href="{% url 'chat' recipient_id=freelancer.id %}">Start chat</a>
-                    <!-- <button class="btn btn-primary" onclick="window.location.href='{% url 'chat' recipient_id=freelancer.id %}'">Chat with {{ freelancer.user.username }}</button> -->
+                    <a class="apply-job-btn" href="{% url 'chat' receiver_id=freelancer.id %}">Start chat</a>
                 </div>
             </div>
             <div class="vertical"></div>

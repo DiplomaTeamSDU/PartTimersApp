@@ -41,7 +41,7 @@ class RegistrationForm(UserCreationForm):
 class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
-        fields = ['name', 'field', 'description', 'logo']
+        fields = ['name', 'field', 'description', 'logo', 'skills']
 
     def save(self, commit=True):
         instance = super().save(commit=False)

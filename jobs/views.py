@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.urls import reverse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -24,7 +25,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            return redirect('home')
+            return redirect('profile')
     else:
         form = RegistrationForm()
     return render(request, 'registerpage.html', {'form': form})
@@ -197,7 +198,7 @@ def apply_to_job(request, job_id):
     else:
         messages.error(request, 'You must be a freelancer to apply to this job.')
 
-    return redirect('view_job', job_id=job_id)
+    return redirect('applications')
 
 
 @login_required
@@ -260,6 +261,21 @@ def view_job(request, job_id):
         'show_rating_button': show_rating_button,
     })
 
+@login_required
+def see_applications(request):
+    if hasattr(request.user, 'company'): 
+        company = request.user.company   
+        jobs = Job.objects.filter(company=company, jobapplication__isnull=False).distinct()
+        applications = {}   
+        for job in jobs: 
+            applications[job.id] = job.jobapplication_set.all() 
+        return render(request, 'jobs/applications.html', {'jobs': jobs, 'applications': applications}) 
+ 
+    elif hasattr(request.user, 'freelancer'): 
+        applications = JobApplication.objects.filter(freelancer=request.user.freelancer) 
+
+    return render(request, 'jobs/applications.html', {'applications': applications})
+
 
 @user_passes_test(is_company)
 @login_required
@@ -287,6 +303,18 @@ def select_freelancer(request, job_id, application_id):
 def view_freelancer(request, freelancer_id):
     freelancer = Freelancer.objects.get(id=freelancer_id)
     return render(request, 'jobs/view_freelancer.html', {'freelancer': freelancer})
+
+@user_passes_test(is_company)
+@login_required
+def find_freelancer(request):
+    freelancers_list = Freelancer.objects.all()
+    search_query = request.GET.get('search')
+
+    if search_query:
+        freelancers_list = freelancers_list.filter(Q(first_name__icontains=search_query) | Q(last_name__icontains=search_query) |
+                                                    Q(occupation__icontains=search_query) | Q(bio__icontains=search_query))
+
+    return render(request, 'jobs/find_freelancer_page.html', {'freelancers': freelancers_list})
 
 
 @login_required
@@ -326,28 +354,32 @@ def view_freelancer(request, freelancer_id):
     freelancer = Freelancer.objects.get(id=freelancer_id)
     return render(request, 'jobs/view_freelancer.html', {'freelancer': freelancer})
 
+@login_required
+def chats(request):
+    return render(request, 'jobs/chats.html')
+
 
 @login_required
-def chat(request, recipient_id):
+def chat(request, receiver_id):
     if hasattr(request.user, 'freelancer'):
         sender = request.user.freelancer
-        recipient = Company.objects.get(id=recipient_id)
+        receiver = Company.objects.get(id=receiver_id)
     elif hasattr(request.user, 'company'):
         sender = request.user.company
-        recipient = Freelancer.objects.get(id=recipient_id)
+        receiver = Freelancer.objects.get(id=receiver_id)
 
     if request.method == 'POST':
         message = request.POST.get('message')
-        Chat.objects.create(sender=sender.user, receiver=recipient.user,
+        Chat.objects.create(sender=sender.user, receiver=receiver.user,
                             message=message, timestamp=timezone.now())
 
-    chat_messages = Chat.objects.filter(Q(sender=sender.user, receiver=recipient.user) | Q(
-        sender=recipient.user, receiver=sender.user)).order_by('timestamp')
+    chat_messages = Chat.objects.filter(Q(sender=sender.user, receiver=receiver.user) | Q(
+        sender=receiver.user, receiver=sender.user)).order_by('timestamp')
 
     context = {
         'sender': sender,
-        'recipient': recipient,
+        'receiver': receiver,
         'chat_messages': chat_messages,
     }
 
-    return render(request, 'jobs/chat.html', context)
+    return render(request, 'jobs/chats.html', context)

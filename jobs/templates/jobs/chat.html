@@ -1,75 +1,77 @@
-{% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <h3>Chat with {% if request.user.freelancer == sender %}{{ recipient.name }}{% else %}{{ sender.first_name }} {{ sender.last_name }}{% endif %}</h3>
+    <div class="chat-box">
+        <div class="row">
             <div id="chat">
                 {% for message in chat_messages %}
-                  <p>{{ message.sender.name }} {{ message.sender.last_name }} ({{ message.timestamp|date:"DATETIME_FORMAT" }}): {{ message.message }}</p>
+                    {% if request.user.freelancer == receiver %}
+                        {{ sender.first_name }}
+                        <!-- <p>({{ message.timestamp|date:"DATETIME_FORMAT" }}): {{ message.message }}</p> -->
+                        <p>{{ message.message }}</p>
+                    {% else %}
+                        {{ sender.first_name }} {{ sender.last_name }}
+                        <p>({{ message.timestamp|date:"DATETIME_FORMAT" }}): {{ message.message }}</p>
+                    {% endif %}
+                    <!-- <p>{{ message.sender.name }} {{ message.sender.last_name }} ({{ message.timestamp|date:"DATETIME_FORMAT" }}): {{ message.message }}</p> -->
+    
                 {% endfor %}
             </div>
-            <form id="message-form" method="POST">
-                {% csrf_token %}
-                <div class="form-group">
-                    <input type="text" name="message" class="form-control" placeholder="Type your message here...">
-                </div>
-                <button type="submit" class="btn btn-primary">Send</button>
-            </form>
         </div>
     </div>
-{% endblock %}
-
-
-
-{% block scripts %}
+    <div class="chat-container">
+        <form id="message-form" method="POST">
+            {% csrf_token %}
+            <div class="chat">
+                <input type="text" name="message" class="form-control" placeholder="Type your message here...">
+                <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+        </form>
+    </div>
     <script src="{% static 'channels/js/jquery.min.js' %}"></script>
     <script src="{% static 'channels/js/socket.js' %}"></script>
     <script>
-      var roomName = "{{ sender.user.id }}-{{ recipient.user.id }}";
-      var chatSocket = new WebSocket(
-          'ws://' + window.location.host +
-          '/ws/chat/' + roomName + '/');
-  
-      chatSocket.onmessage = function(event) {
-          var data = JSON.parse(event.data);
-          var message = data['message'];
-          var sender = data['sender'];
-  
-          // Create a new message element
-          var messageElement = $("<p></p>").text(sender + ": " + message);
-          
-          // Append the new message to the chat box
-          $("#chat").append(messageElement);
-          
-          // Scroll the chat box to the bottom to show the new message
-          var chatBox = document.getElementById("chat");
-          chatBox.scrollTop = chatBox.scrollHeight;
-      };
-  
-      $("#message-form").submit(function(event) {
-          event.preventDefault();
-          var messageInput = $("#message-form input[name='message']");
-          var message = messageInput.val();
-          chatSocket.send(JSON.stringify({
-              'message': message,
-              'sender': "{{ sender.name }}",
-          }));
-          messageInput.val('');
-      });
-      $('#message-input').keypress(function(event) {
-            if (event.keyCode == 13) { // Enter key pressed
-                event.preventDefault();
-                var messageInput = $(this);
-                var message = messageInput.val();
-                chatSocket.send(JSON.stringify({
-                    'message': message,
-                    'sender': "{{ sender.name }}",
-                }));
-                messageInput.val('');
-            }
+        var roomName = "{{ sender.user.id }}-{{ receiver.user.id }}";
+        var chatSocket = new WebSocket(
+            '.ws//' + window.location.host +
+            '/ws/chat/' + roomName + '/');
+    
+        chatSocket.onmessage = function(event) {
+            var data = JSON.parse(event.data);
+            var message = data['message'];
+            var sender = data['sender'];
+    
+            // Create a new message element
+            var messageElement = $("<p></p>").text(sender + ": " + message);
+            
+            // Append the new message to the chat box
+            $("#chat").append(messageElement);
+            
+            // Scroll the chat box to the bottom to show the new message
+            var chatBox = document.getElementById("chat");
+            chatBox.scrollTop = chatBox.scrollHeight;
+        };
+    
+        $("#message-form").submit(function(event) {
+            event.preventDefault();
+            var messageInput = $("#message-form input[name='message']");
+            var message = messageInput.val();
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'sender': "{{ sender.name }}",
+            }));
+            messageInput.val('');
         });
-  </script>
-  
-  
+        $('#message-input').keypress(function(event) {
+              if (event.keyCode == 13) { // Enter key pressed
+                  event.preventDefault();
+                  var messageInput = $(this);
+                  var message = messageInput.val();
+                  chatSocket.send(JSON.stringify({
+                      'message': message,
+                      'sender': "{{ sender.name }}",
+                  }));
+                  messageInput.val('');
+              }
+          });
+    </script>
 {% endblock %}

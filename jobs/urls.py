@@ -10,7 +10,8 @@ from .views import (
     company_dashboard,
     apply_to_job,
     view_job,
-    view_jobs
+    view_jobs,
+    see_applications,
 )
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 from django.conf import settings
@@ -26,6 +27,7 @@ urlpatterns = [
     path('post_job/', post_job, name='post_job'),
     path('edit_job/<int:job_id>/', views.edit_job, name='edit_job'),
     path('company_dashboard/',company_dashboard,name='company_dashboard'),
+    path('find_freelancer/', views.find_freelancer, name='find_freelancer'),
     path('jobs/', views.view_jobs, name='view_jobs'),
     path('job/<int:job_id>/', view_job, name='view_job'),
     path('job/<int:job_id>/apply/', views.apply_to_job, name='apply_to_job'),
@@ -33,8 +35,10 @@ urlpatterns = [
     path('job/<int:job_id>/select_freelancer/<int:application_id>/', views.select_freelancer, name='select_freelancer'),
     path('freelancer/<int:freelancer_id>/', views.view_freelancer, name='view_freelancer'),
     path('apply_to_job/<int:job_id>/', apply_to_job, name='apply_to_job'),
+    path('applications/', see_applications, name='applications'),
     path('job_search/', views.home, name='job_search'),
-    path('chat/<int:recipient_id>/', views.chat, name='chat'),
+    # path('chats/chat/<int:receiver_id>', chats, name='chats'),
+    path('chat/<int:receiver_id>/', views.chat, name='chat'),
     path('rate/<int:job_id>/<int:recipient_id>/', views.rate, name='rate'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

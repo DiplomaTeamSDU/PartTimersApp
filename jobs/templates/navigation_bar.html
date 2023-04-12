@@ -1,0 +1,97 @@
+<nav>
+    <div class="container">
+        <ul class="navul">
+            <li><img src="{% static 'images/logo.svg' %}" alt="Logo"></li>
+            <li><a class="navlinks" href="{% url 'home' %}">Home</a></li>
+            <li><a class="navlinks" href="{% url 'find_freelancer' %}">Find Talant</a></li>
+            <li><a class="navlinks" href="{% url 'view_jobs' %}">Find Work</a></li>
+        </ul>
+        <div id="navbuttons">
+            {% if user.is_authenticated %}
+                <div class="profile-nav">
+                    <a href="" style="margin-right: 39px;"><i class="fa-solid fa-envelope"></i></a>
+                    <a href="{% url 'applications' %}" style="margin-right: 39px;"><i class="fa-solid fa-bell"></i></a>
+                    {% if user.company %}
+                        <img src="{{ user.company.logo.url }}" alt="PIC" style="border-radius: 50%; cursor: pointer;" width="60px" height="60px" onclick="toggleMenu()">
+                    {% elif user.freelancer %}
+                        <img src="{{ user.freelancer.photo.url }}" alt="PIC" style="border-radius: 50%; cursor: pointer;" width="60px" height="60px" onclick="toggleMenu()">
+                    {% endif %}   
+                </div>                       
+                <div class="sub-menu-wrap" id="subMenu">
+                    <div class="sub-menu">
+                        <div class="user-info">
+                            {% if user.company %}
+                                <div class="sub-menu-1">
+                                    <img src="{{ user.company.logo.url }}" alt="USER_PHOTO" style="border-radius: 50%;">
+                                    <div class="sub-menu-2"> 
+                                        <h4>{{ user.company.name }}</h4>
+                                        <!-- <h5>Company Detail</h5> -->
+                                    </div>
+                                </div>
+                                <div class="sub-menu-3">
+                                    <table>
+                                        <tr>
+                                            <td><i class="fa-solid fa-user"></i></td>
+                                            <td style="font-weight: 500; font-size: 20px;"><a href="{% url 'profile' %}">Profile</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa-solid fa-envelope"></i></td>
+                                            <td style="font-weight: 500; font-size: 20px;"><a href="{% url 'applications' %}">Messages</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa-solid fa-heart"></i></td>
+                                            <td style="font-weight: 500; font-size: 20px;"><a href="{% url 'profile' %}">Favorites</a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div></div>
+                            {% elif user.freelancer %}
+                                <div class="sub-menu-1">
+                                    <img src="{{ user.freelancer.photo.url }}" alt="USER_PHOTO" style="border-radius: 50%;">
+                                    <div class="sub-menu-2">
+                                        <h4>{{ user.freelancer.first_name }} {{ user.freelancer.last_name }}</h4>
+                                        <h5>{{ user.freelancer.occupation }}</h5>
+                                    </div>
+                                </div>
+                                <!-- <div class="sub-menu-3">
+                                    <table>
+                                        <tr>
+                                            <td>Phone: </td>
+                                            <td style="font-weight: 500;">+7 700 777 77 77</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email: </td>
+                                            <td style="font-weight: 500;">{{ user.freelancer.user }}</td>
+                                        </tr>
+                                    </table>
+                                </div> -->
+                                <div class="sub-menu-3">
+                                    <table>
+                                        <tr>
+                                            <td><i class="fa-solid fa-user"></i></td>
+                                            <td style="font-weight: 500; font-size: 20px;"><a href="{% url 'profile' %}">Profile</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa-solid fa-envelope"></i></td>
+                                            <td style="font-weight: 500; font-size: 20px;"><a href="{% url 'applications' %}">Messages</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa-solid fa-heart"></i></td>
+                                            <td style="font-weight: 500; font-size: 20px;"><a href="{% url 'profile' %}">Favorites</a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            {% endif %} 
+                        </div>
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a class="navlinks" href="{% url 'logout' %}" style="color: #FB4040;">Log Out</a>
+                        </div>
+                    </div>
+                </div>                        
+            {% else %}
+                <a class="navlinks" href="{% url 'login' %}">Login</a>
+                <a class="navlinks" id="signupbtn" href="{% url 'register' %}">Sign Up</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>

@@ -61,6 +61,7 @@ class Company(models.Model):
     field = models.CharField(max_length=30, blank=True)
     description = models.TextField(blank=True)
     logo = models.ImageField(default='default_picture.png', upload_to='company_profile_images', blank=True)
+    skills = ArrayField(models.CharField(null=True, blank=True, max_length=30), null=True, blank=True)
 
     def get_rating(self):
         return self.user.get_rating()
@@ -129,10 +130,14 @@ class Job(models.Model):
     def get_timeline_display(self):
         return self.timeline.strftime("%d.%m.%Y")
     
+    def freelancer_has_applied(self, freelancer):
+        return JobApplication.objects.filter(job=self, freelancer=freelancer).exists()
+    
 
-class JobApplication(models.Model):
-    job = models.ForeignKey(Job, on_delete=models.CASCADE)
-    freelancer = models.ForeignKey(Freelancer, on_delete=models.CASCADE)
+class JobApplication(models.Model): 
+    job = models.ForeignKey(Job, on_delete=models.CASCADE) 
+    freelancer = models.ForeignKey(Freelancer, on_delete=models.CASCADE) 
+    status=models.CharField(max_length=20,default='pending')
 
 
 class Rating(models.Model): 
