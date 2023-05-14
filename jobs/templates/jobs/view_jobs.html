@@ -2,139 +2,138 @@
 {% load static %}
 {% block title %}Find Work{% endblock %}
 {% block content %}
-<section class="jobs-background">
-    <div class="container">
-        <div class="container7">
-            <div class="container7-1">
-                {% if user.freelancer %}
-                    <h1>Hey, {{ user.freelancer.first_name }}!</h1> 
-                {% elif user.company %}
-                    <h1>Hey, {{ user.company.name }}!</h1> 
-                {% endif %}
-                <h2 style="color: #FFFFFF;">Ready for your next big opportunity?</h2> 
-            </div>
-            <div class="container7-2"></div>
-        </div>
-        <div class="container6">
-            <h4>Featured Jobs</h4>
-            <h2>You will find popular <span>featured</span> work</h2>
-            <p id="con6p">Fully nobis id expedita dolores officiis layered dolor sit amet laboriosam.</p>
-            <div id="vacancygenres">
-                <ul>
-                    <li><a href="">All Recent</a></li>
-                    <li><a href="">Finance</a></li>
-                    <li><a href="">Development</a></li>
-                    <li><a href="">Marketing</a></li>
-                    <li><a href="">Specialist</a></li>
-                </ul>
-            </div>
-            <div class="vacancycontainer">
-                <div class="vacancybox">
-                    <h3>UI Designer</h3>
-                    <p>Almaty, Kazakhstan</p>
-                    <p><span><i class="fa-sharp fa-solid fa-money-bill-1-wave"></i></span> $450 - $500</p>
-                    <a href="" class="applybtn">Apply Now</a>
+<div class="backgrdound">
+    <div class="wrapper">
+        {% include 'elements/navbar.html' %}
+        <main>
+            <section class="job-welcome display-sb-c">
+                <div class="job-welcome-l">
+                    {% if user.freelancer %}
+                        <h1 class="font-style-normal font-weight-600 font-size-40 font-color-white">Hey, {{ user.freelancer.first_name }}!</h1> 
+                    {% elif user.company %}
+                        <h1 class="font-style-normal font-weight-600 font-size-40 font-color-white">Hey, {{ user.company.name }}!</h1> 
+                    {% endif %}
+                    <h2 class="font-style-normal font-weight-600 font-size-25 font-color-white">Ready for your next big opportunity?</h2>
                 </div>
-                <div class="vacancybox">
-                    <h3>UI Designer</h3>
-                    <p>Almaty, Kazakhstan</p>
-                    <p><span><i class="fa-sharp fa-solid fa-money-bill-1-wave"></i></span> $450 - $500</p>
-                    <a href="" class="applybtn">Apply Now</a>
-                </div>
-                <div class="vacancybox">
-                    <h3>UI Designer</h3>
-                    <p>Almaty, Kazakhstan</p>
-                    <p><span><i class="fa-sharp fa-solid fa-money-bill-1-wave"></i></span> $450 - $500</p>
-                    <a href="" class="applybtn">Apply Now</a>
-                </div>
-                <div class="vacancybox">
-                    <h3>UI Designer</h3>
-                    <p>Almaty, Kazakhstan</p>
-                    <p><span><i class="fa-sharp fa-solid fa-money-bill-1-wave"></i></span> $450 - $500</p>
-                    <a href="" class="applybtn">Apply Now</a>
-                </div>
-            </div>
-            <a href="" id="seeallbtn">See All Jobs <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-        <div class="container8">
-            <h4 style="text-align: center; margin: 0; color: #4C56CC; font-weight: 500;">Search project</h4>
-            <h2 style="text-align: center; margin: 0; ">What service are you looking for today?</h2>
-            <div class="job-search">
-                <form method="GET" action="{% url 'view_jobs' %}"> 
-                    <div class="job-search-1">
-                        <div class="job-search-1-2">
-                            <label for="seacrh" style="color:#4C56CC;"><i class="fa-solid fa-magnifying-glass"></i></label>
-                            <input type="text" name="search" placeholder="Job title or keyword" class="job-search-input" value="{{ search_query }}">
-                        </div>
-                        <div class="job-search-1-1">
-                            <i class="fa-solid fa-location-dot" style="color:#4C56CC; margin-right: 22px;"></i>
-                            <p>Location</p>
-                        </div>
-                        <button type="submit" class="job-search-button" >Search</button> 
-                    </div>  
-                    <div class="related-results"><span>Related results</span> <a href="">Website design and development, </a><a href="">Web design, </a><a href="">Web designer wordpress</a></div>
-                </form>
-            </div>
-            <div class="job-filter">
-                <h2>Results for "Website design"</h2>
-                <form method="get">
-                    <div class="select-category">
-                        <select name="category" id="category">
-                        <option value="">Category</option>
-                        {% for category in categories %}
-                            <option value="{{ category.id }}" {% if category.id == category_id %}selected{% endif %}>{{ category.name }}</option>
+                <div class="container7-2"></div>
+            </section>
+            <section class="home-popular-jobs">
+                <h4 class="font-style-normal font-weight-500 font-size-16 font-color-main-color text-align-center">Featured Jobs</h4>
+                <h1 class="font-style-normal font-weight-600 font-size-32 font-color-042552 text-align-center">You will find popular <span class="font-color-ffb922">featured</span> work</h1>
+                <h3 class="font-style-normal font-weight-400 font-size-16 font-color-042552 text-align-center">Fully nobis id expedita dolores officiis layered dolor sit amet laboriosam.</h3>
+                <div class="vacancy-container">
+                    {% if jobs_popular %}
+                        {% for job in jobs_popular %}
+                            <div class="vacancy-box">
+                                <h3 class="vacancy-title truncate text-align-center font-style-normal font-weight-600 font-size-18 font-color-042552 truncate">{{ job.title }}</h3>
+                                <div class="display-flex align-items-center flex-direction-column">
+                                    <p class="truncate vacancy-author font-weight-500 font-size-16 font-color-042552">{{ job.company.name }}</p>
+                                    <p class="vacancy-salary font-weight-500 font-size-16 font-color-042552"><i class="fa-sharp fa-solid fa-money-bill-1-wave font-color-43ba7f"></i> ${{ job.salary }}</p>
+                                    {% if user.freelancer %}
+                                        <a href="{% url 'view_job' job.id %}" class="vacancy-apply-btn text-decoration-no font-weight-600 font-color-main-color">Apply Now</a>
+                                    {% else %}
+                                        <a href="{% url 'view_job' job.id %}" class="vacancy-apply-btn text-decoration-no font-weight-600 font-color-main-color">View Job</a>
+                                    {% endif %}
+                                </div>
+                            </div>
                         {% endfor %}
-                    </select>
-                    </div>
-                    <div class="select-category">
-                        <select name="company" id="company">
-                            <option value="">Company</option>
-                            {% for company in companies %}
-                                <option value="{{ company.id }}" {% if company.id == company_id %}selected{% endif %}>{{ company.name }}</option>
+                    {% else %}
+                        <p>No jobs posted yet.</p>
+                    {% endif %}
+                </div>
+                <a href="{% url 'view_jobs' %}" class="display-flex justify-content-center align-items-center font-style-normal font-weight-500 font-size-16 text-decoration-no font-color-main-color link-main-color-hover" id="seeallbtn ">See All Jobs <i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem;"></i></a>
+            </section>
+            <section class="search-job">
+                <h4 class="font-style-normal font-weight-500 font-size-16 font-color-main-color text-align-center">Search project</h4>
+                <h2 class="font-style-normal font-weight-600 font-size-32 font-color-black text-align-center">What service are you looking for today?</h2>
+                <div class="job-search">
+                    <form method="GET" action="{% url 'view_jobs' %}" class="flex-direction-column display-f-c-c"> 
+                        <div class="job-search-1 display-sb-c">
+                            <div class="job-search-1-2 ">
+                                <label for="seacrh"><i class="fa-solid fa-magnifying-glass font-color-main-color font-size-20"></i></label>
+                                <input type="text" name="search" placeholder="Job title or keyword" class="job-search-input" value="{{ search_query }}">
+                            </div>
+                        
+                            <button type="submit" class="job-search-button" >Search</button> 
+                        </div>  
+                        <div class="related-results"><span>Related results</span> <a href="">Website design and development, </a><a href="">Web design, </a><a href="">Web designer wordpress</a></div>
+                    </form>
+                </div>
+            </section>
+            <section>
+                <div class="job-filter">
+                    {% if request.GET.search %}
+                        <h2 class="font-style-normal font-weight-500 font-size-30 font-clor-5a5a5a text-align-center">Results for "{{ request.GET.search }}"</h2>
+                    {% endif %}
+                    <form method="get">
+                        <div class="select-category">
+                            <select name="category" id="category">
+                            <option value="">Category</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}" {% if category.id == category_id %}selected{% endif %}>{{ category.name }}</option>
                             {% endfor %}
                         </select>
-                    </div>
-                    <div class="select-category-btn">
-                        <button type="submit" class="filter-btn">Filter</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="container9">
-            {% if jobs %}
-                {% for job in jobs %}
-                <div class="vacancy-box">
-                    <h3 class="truncate">{{ job.title }}</h3>
-                    <div class="vacancy-info">
-                        <p class="truncate vacancy-author">{{ job.company.name }}</p>
-                        <p class="vacancy-salary"><span><i class="fa-sharp fa-solid fa-money-bill-1-wave"></i></span> ${{ job.salary }}</p>
-                        <a href="{% url 'view_job' job.id %}" class="applybtn">Apply Now</a>
-                    </div>
+                        </div>
+                        <div class="select-category"> 
+                            <select name="salary_range" id="salary_range"> 
+                                <option value="">Price</option> 
+                                <option value="0-500">0 - 500 &#36;</option> 
+                                <option value="500-1000">500 &#36; - 1,000 &#36;</option> 
+                                <option value="1000-5000">1,000 &#36; - 5,000 &#36;</option> 
+                                <option value="5000-10000">5,000 &#36; - 10,000 &#36;</option> 
+                                <option value="10000+">10,000+ &#36;</option> 
+                            </select> 
+                        </div>
+                        <div class="select-category-btn">
+                            <button type="submit" class="filter-btn">Filter</button>
+                        </div>
+                    </form>
                 </div>
-                {% endfor %}
-            {% else %}
-                <p>No jobs posted yet.</p>
-            {% endif %}
-        </div>
-        <div class="pagination">
-            <span class="step-links">
-                {% if jobs.has_previous %}
-                    <!-- <a href="?page=1">&laquo; first</a> -->
-                    <a href="?page={{ jobs.previous_page_number }}"><i class="fa-solid fa-angle-left"></i></a>
+            </section>
+            <section class="vacancy-container">
+                {% if jobs %}
+                    {% for job in jobs %}
+                    <div class="vacancy-box">
+                        <h3 class="vacancy-title truncate text-align-center font-style-normal font-weight-600 font-size-18 font-color-042552 truncate">{{ job.title }}</h3>
+                        <div class="display-flex align-items-center flex-direction-column">
+                            <p class="truncate vacancy-author font-weight-500 font-size-16 font-color-042552">{{ job.company.name }}</p>
+                            <p class="vacancy-salary font-weight-500 font-size-16 font-color-042552"><i class="fa-sharp fa-solid fa-money-bill-1-wave font-color-43ba7f"></i> ${{ job.salary }}</p>
+                            {% if user.freelancer %}
+                                <a href="{% url 'view_job' job.id %}" class="vacancy-apply-btn text-decoration-no font-weight-600 font-color-main-color">Apply Now</a>
+                            {% else %}
+                                <a href="{% url 'view_job' job.id %}" class="vacancy-apply-btn text-decoration-no font-weight-600 font-color-main-color">View Job</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No jobs posted yet</p>
                 {% endif %}
-        
-                <span class="current-page">
-                     {{ jobs.number }}&#47;{{ jobs.paginator.num_pages }} 
+            </section>
+            {% if jobs %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if jobs.has_previous %}
+                        <!-- <a href="?page=1">&laquo; first</a> -->
+                        <a href="?page={{ jobs.previous_page_number }}"><i class="fa-solid fa-angle-left"></i></a>
+                    {% endif %}
+            
+                    <span class="current-page">
+                        {{ jobs.number }}&#47;{{ jobs.paginator.num_pages }} 
+                    </span>
+            
+                    {% if jobs.has_next %}
+                        <a href="?page={{ jobs.next_page_number }}"><i class="fa-solid fa-angle-right"></i></a>
+                        <!-- <a href="?page={{ jobs.paginator.num_pages }}">last &raquo;</a> -->
+                    {% endif %}
                 </span>
-        
-                {% if jobs.has_next %}
-                    <a href="?page={{ jobs.next_page_number }}"><i class="fa-solid fa-angle-right"></i></a>
-                    <!-- <a href="?page={{ jobs.paginator.num_pages }}">last &raquo;</a> -->
-                {% endif %}
-            </span>
-        </div>
+            </div>
+            {% endif %}
+        </main>
+        <!-- {% include 'elements/footer.html' %} -->
     </div>
-</section>
+    {% include 'elements/footer.html' %}
+</div>
 <!-- <p>Sort by salary:</p>
 <a href="?sort_by_salary=asc">Ascending</a>
 <a href="?sort_by_salary=desc">Descending</a> -->

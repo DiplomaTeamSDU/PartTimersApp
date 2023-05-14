@@ -3,13 +3,14 @@
 {% block title %}Edit Job{% endblock %}
 {% block content %}
 <section class="profile-background">
-    <div class="container">
+    <div class="wrapper">
+        {% include 'elements/navbar.html' %}
         <div class="post-job-container">
             <form method="post">
                 {% csrf_token %}
                 <div class="post-job-1">
                     <h2 style="margin: 0; font-weight: 600; font-size: 26px; color: #4C56CC;">Edit  project</h2>
-                    <input type="submit" value="Apply" class="applybtn1" style="padding: 8px 28px; font-size: 16px !important;" >
+                    <input type="submit" value="Apply" class="btn btn-btn font-style-normal font-weight-500 font-size-16 font-color-white" style="padding: 0.2rem 1rem;">
                 </div>
                 <div class="post-job-2">
                     <label for="title" class="header-25-colored">Title:</label>
@@ -44,6 +45,45 @@
                     <label for="category" class="header-25-colored">Which category suits to your project?</label>
                     {{ form.category }}
                 </div>
+                <div class="post-job-4"> 
+                    <label for="category" class="header-25-colored">Which position suits to your project?</label> 
+                    {{ form.position }} 
+                </div>
+                <!-- <div class="form-group"> 
+                    <label for="{{ form.skills.id_for_label }}">Skills:</label> 
+                    <select name="{{ form.skills.html_name }}" id="{{ form.skills.id_for_label }}" multiple> 
+                        {% for skill in form.skills.field.queryset %} 
+                            <option value="{{ skill.pk }}" {% if skill.pk in form.skills.value %}selected{% endif %}>{{ skill }}</option> 
+                        {% endfor %} 
+                    </select> 
+                    {% if form.skills.errors %} 
+                        <div class="errors"> 
+                            {% for error in form.skills.errors %} 
+                                <p>{{ error }}</p> 
+                            {% endfor %} 
+                        </div> 
+                    {% endif %} 
+                </div>
+                <script>
+                    $(document).ready(function() { 
+                        $('select[multiple]').mousedown(function(e) { 
+                        e.preventDefault(); 
+                        
+                        var select = this; 
+                        var scroll = select.scrollTop; 
+                        
+                        e.target.selected = !e.target.selected; 
+                        
+                        setTimeout(function() { 
+                            select.scrollTop = scroll; 
+                        }, 0); 
+                        
+                        $(select).focus(); 
+                        }).mousemove(function(e) { 
+                        e.preventDefault(); 
+                        }); 
+                    }); 
+                </script> -->
                 <div class="post-job-5">
                     <div style="margin-right: 1.5rem;">
                         <label for="salary" class="header-25-colored">Budget for project</label>
@@ -64,6 +104,7 @@
             </form>
         </div>
     </div>
+    {% include 'elements/footer.html' %}
 </section>
 <script src="{% static 'js/post-job.js' %}"></script>
 {% endblock %}

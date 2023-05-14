@@ -2,101 +2,104 @@
 {% block title %}Apply to Job{% endblock %}
 {% load static %}
 {% block content %}
-<section class="applytojobbackground">
-    <div class="container">
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="job-head">
-                <div>
-                    <h2 class="job-title">{{ job.title }}</h2>
-                    <button type="submit" class="apply-job-btn margintop10">Apply</button>
-                </div>
-                {% if job.created_at %}
-                    <p>Posted {{ job.created_at }}</p>
-                {% endif %}
-            </div>
-            <hr>
-            <div>
-                <p class="job-description">{{ job.description }}</p>
-            </div>
-            <hr>
-            <div class="apply-job-info">
-                <div class="apply-job-info-1">
-                    <span class="margin27"><i class="fa-regular fa-location-dot"></i></span>
-                    <p>Offline Job</p>
-                </div>
-                <div class="apply-job-info-2">
-                    <div class="apply-job-info-2-1">
-                        <span class="margin27"><i class="fa-regular fa-money-bills"></i></span>
-                        <div>
-                            <p class="margin20">Salary</p>
-                            <p>from {{ job.salary }}$</p>
-                        </div>
-                    </div>
-                    <div class="apply-job-info-2-1">
-                        <span class="margin27"><i class="fa-solid fa-clock"></i></span>
-                        <div>
-                            <p class="margin20">Deadline</p>
-                            <p>{{ job.timeline }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div style="margin: 60px 0;">
-                <h3 class="profileh2">Skills and Expertise</h3>
-                <div class="apply-skill-box">
-                    <div class="apply-skill"><p>Graphic Design</p></div>
-                    <div class="apply-skill"><p>UI/UX Design</p></div>
-                    <div class="apply-skill"><p>Social Media</p></div>
-                    <div class="apply-skill"><p>Adobe Illustrator</p></div>
-                    <div class="apply-skill"><p>Layout Design</p></div>
-                    <div class="apply-skill"><p>Adobe Photoshop</p></div>
-                </div>
-            </div>
-            <hr>
-            <div class="apply-job-activity">
-                <div class="apply-job-activity-1">
-                    <h3 class="profileh2">Activity on this project</h3>
+<div class="backgrdound">
+    <div class="wrapper">
+        {% include 'elements/navbar.html' %}
+        <main>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="job-head">
                     <div>
-                        <h3 class="profileh2" style="margin: 0; text-align:center;">0</h3>
-                        <p style="padding-top: 10px;">Applied</p>
+                        <h2 class="job-title">{{ job.title }}</h2>
+                        <button type="submit" class="apply-job-btn margintop10">Apply</button>
                     </div>
+                    {% if job.created_at %}
+                        <p>Posted {{ job.created_at }}</p>
+                    {% endif %}
                 </div>
-                <div class="apply-job-activity-1">
-                    <h3 class="profileh2">Download files</h3>
-                    <div><p>To get more information about the project download the file</p></div>
-                    <div class="apply-download-btn"><i class="fa-solid fa-download"></i><p>File1.pdf</p></div>
+                <hr>
+                <div>
+                    <p class="job-description">{{ job.description }}</p>
                 </div>
-            </div>
-            <hr>
-            <div class="apply-client">
-                <h3 class="profileh2">About the client</h3>
-                <div class="apply-client-info">
-                    <div class="apply-client-info-1">
-                        <img src="{% static 'images/profile.png' %}" alt="">
-                        <div>
-                            <h4>InoLab</h4>
-                            <p>Programming School</p>
+                <hr>
+                <div class="apply-job-info">
+                    <div class="apply-job-info-1">
+                        <span class="margin27"><i class="fa-regular fa-location-dot"></i></span>
+                        <p>Offline Job</p>
+                    </div>
+                    <div class="apply-job-info-2">
+                        <div class="apply-job-info-2-1">
+                            <span class="margin27"><i class="fa-regular fa-money-bills"></i></span>
+                            <div>
+                                <p class="margin20">Salary</p>
+                                <p>from {{ job.salary }}$</p>
+                            </div>
+                        </div>
+                        <div class="apply-job-info-2-1">
+                            <span class="margin27"><i class="fa-solid fa-clock"></i></span>
+                            <div>
+                                <p class="margin20">Deadline</p>
+                                <p>{{ job.timeline }}</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="apply-client-info-2">
-                        <p>Jobs posted: 5</p>
-                        <p>Member since: 2022</p>
+                </div>
+                <hr>
+                <div style="margin: 60px 0;">
+                    <h3 class="profileh2">Skills and Expertise</h3>
+                    <div class="apply-skill-box">
+                        <div class="apply-skill"><p>Graphic Design</p></div>
+                        <div class="apply-skill"><p>UI/UX Design</p></div>
+                        <div class="apply-skill"><p>Social Media</p></div>
+                        <div class="apply-skill"><p>Adobe Illustrator</p></div>
+                        <div class="apply-skill"><p>Layout Design</p></div>
+                        <div class="apply-skill"><p>Adobe Photoshop</p></div>
                     </div>
                 </div>
-            </div>
-            <hr>
-            <div class="apply-job-form">
-                <!-- {{ form.as_p }} -->
-                <h3 class="profileh2">Send application</h3>
-                <textarea name="cover_letter" cols="46" rows="10" required="" id="id_cover_letter"></textarea>
-                <div>
-                    <button type="submit" class="apply-job-btn">Apply to the project</button>
+                <hr>
+                <div class="apply-job-activity">
+                    <div class="apply-job-activity-1">
+                        <h3 class="profileh2">Activity on this project</h3>
+                        <div>
+                            <h3 class="profileh2" style="margin: 0; text-align:center;">0</h3>
+                            <p style="padding-top: 10px;">Applied</p>
+                        </div>
+                    </div>
+                    <div class="apply-job-activity-1">
+                        <h3 class="profileh2">Download files</h3>
+                        <div><p>To get more information about the project download the file</p></div>
+                        <div class="apply-download-btn"><i class="fa-solid fa-download"></i><p>File1.pdf</p></div>
+                    </div>
                 </div>
-            </div>
-            <hr>
-        </form>
+                <hr>
+                <div class="apply-client">
+                    <h3 class="profileh2">About the client</h3>
+                    <div class="apply-client-info">
+                        <div class="apply-client-info-1">
+                            <img src="{% static 'images/profile.png' %}" alt="">
+                            <div>
+                                <h4>InoLab</h4>
+                                <p>Programming School</p>
+                            </div>
+                        </div>
+                        <div class="apply-client-info-2">
+                            <p>Jobs posted: 5</p>
+                            <p>Member since: 2022</p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="apply-job-form">
+                    <!-- {{ form.as_p }} -->
+                    <h3 class="profileh2">Send application</h3>
+                    <textarea name="cover_letter" cols="46" rows="10" required="" id="id_cover_letter"></textarea>
+                    <div>
+                        <button type="submit" class="apply-job-btn">Apply to the project</button>
+                    </div>
+                </div>
+                <hr>
+            </form>
+        </main>
     </div>
-</section>
+</div>
 {% endblock %}

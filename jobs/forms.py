@@ -1,23 +1,24 @@
 import random
 from django import forms
-from django.forms.widgets import DateInput
 from django.contrib.auth.forms import UserCreationForm
-from .models import Category, DateField, Freelancer, Company, CustomUser, Job, Skill, JobApplication, Rating
+from .models import Category, DateField, Freelancer, Company, CustomUser, Job, JobApplication, Rating, Education, Experience, Project, Skill, Submission
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.forms import inlineformset_factory
+
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True, help_text='Enter a valid email address')
 
     CHOICES = (
         ('freelancer', 'I am a freelancer'),
-        ('company', 'I am a company'),
+        ('company', 'I am an employer (company)'),
     )
 
     choice = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'password1', 'password2', 'choice']
+        fields = ['first_name','last_name','email', 'password1', 'password2', 'choice']
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -41,7 +42,7 @@ class RegistrationForm(UserCreationForm):
 class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
-        fields = ['name', 'field', 'description', 'logo', 'skills']
+        fields = ['name', 'field', 'description', 'logo', 'skills', 'instagram_link', 'linkedin_link', 'facebook_link', 'website_link']
 
     def save(self, commit=True):
         instance = super().save(commit=False)
@@ -51,25 +52,44 @@ class CompanyForm(forms.ModelForm):
         return instance
 
 
-class FreelancerForm(forms.ModelForm):
-    skills = forms.ModelMultipleChoiceField( 
-        queryset=Skill.objects.all(), 
-        widget=forms.SelectMultiple 
-    ) 
+class EducationForm(forms.ModelForm):
+    class Meta:
+        model = Education
+        fields = ['university', 'specialization', 'year_of_study']
 
+
+class ExperienceForm(forms.ModelForm):
+    class Meta:
+        model = Experience
+        fields = ['position', 'company_name', 'work_duration', 'description']
+
+
+class SkillForm(forms.Form):
+    name = forms.CharField(max_length=50, label="Add Skill", required=False)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get("name")
+
+        if not name:
+            raise forms.ValidationError("You must add a skill.")
+
+        return cleaned_data
+
+EducationFormSet = inlineformset_factory(Freelancer, Education, form=EducationForm, extra=1, can_delete=True)
+ExperienceFormSet = inlineformset_factory(Freelancer, Experience, form=ExperienceForm, extra=1, can_delete=True)
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['title', 'description', 'link', 'platform']
+
+
+class FreelancerForm(forms.ModelForm):
     class Meta:
         model = Freelancer
         fields = ['first_name', 'last_name', 'occupation', 'level', 'bio', 
-                  'photo', 'education_university', 
-                  'education_specialization', 'education_year_of_study', 
-                  'experience_position', 'experience_company_name',
-                  'experience_work_duration', 'experience_description',
-                  'portfolio_link','skills']
-
-    def init(self, args, **kwargs):
-        super().init(args, **kwargs)
-        if self.instance and self.instance.pk:
-            self.fields['skills'].initial = self.instance.skills.all()
+                  'photo', 'portfolio_link']
         
     def save(self, commit=True):
         instance = super().save(commit=False)
@@ -77,24 +97,32 @@ class FreelancerForm(forms.ModelForm):
             instance.save()
             self.save_m2m()
         return instance
-
     
 
-class JobForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['category'].queryset = Category.objects.all()
-
-    class Meta:
-        model = Job
-        fields = ['title', 'description', 'file', 'category', 'salary', 'timeline']
-        widgets = {
-            'timeline': forms.DateInput(format='%d.%m.%Y')
+class JobForm(forms.ModelForm): 
+    skills = forms.ModelMultipleChoiceField( 
+        queryset=Skill.objects.all(), 
+        widget=forms.SelectMultiple(attrs={'size': 5}), 
+        required=False, 
+        label='Skills' 
+    ) 
+    def __init__(self, *args, **kwargs): 
+        super().__init__(*args, **kwargs) 
+        self.fields['category'].queryset = Category.objects.all() 
+    def __init__(self, *args, **kwargs): 
+        super().__init__(*args, **kwargs) 
+        if self.instance.pk: 
+            selected_skills = self.instance.skills.values_list('id', flat=True) 
+            self.initial['skills'] = selected_skills 
+    class Meta: 
+        model = Job 
+        fields = ['title', 'description', 'file', 'category', 'position', 'salary', 'timeline'] 
+        widgets = { 
+            'timeline': forms.DateInput(format='%d.%m.%Y') 
+        } 
+        field_classes = { 
+            'timeline': DateField 
         }
-        field_classes = {
-            'timeline': DateField
-        }
-
 
 class RatingForm(forms.ModelForm):
     class Meta:
@@ -117,3 +145,12 @@ class JobApplicationForm(forms.ModelForm):
     class Meta:
         model = JobApplication
         fields = ['cover_letter']
+
+
+class SubmissionForm(forms.ModelForm): 
+    link = forms.URLField(max_length=255, required=False) 
+    file = forms.FileField(required=False)
+
+    class Meta: 
+        model = Submission 
+        fields = ['link', 'file']

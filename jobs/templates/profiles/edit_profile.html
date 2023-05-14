@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
+<div class="background-2">
+    <div class="wrapper">
+        {% include 'elements/navbar.html' %}
+        {% if role == 'freelancer' %}
+            <main>
+            <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+                <section class="company-head display-flex">
+                    <button type="submit" class="btn btn-btn font-style-normal font-weight-500 font-size-20 font-color-white" style="padding: 0.2rem 1.5rem;">Apply</button>    
+                    <div class="display-flex">
+                        <div class="profile-image">
+                            <img src="{{ profile.photo.url }}" class="profile-img object-fit-cover" alt="PIC"> 
+                            <div title="Add Photo" class="circle-f display-f-c-c font-size-27 font-color-white" id="circle-edit-btn"><i class="fa-solid fa-plus"></i></div>
+                        </div>
+                    </div>
+                    <div class="freelancer-head-edit">
+                        <label for="first_name" class="font-style-normal font-weight-600 font-size-16 font-color-main-color">First Name</label>
+                        <span class="field-input">{{ form.first_name }}</span>
+                        <label for="last_name" class="font-style-normal font-weight-600 font-size-16 font-color-main-color">Last Name</label>
+                        <span class="field-input display-flex">{{ form.last_name }}</span>
+                        <label for="occupation" class="font-style-normal font-weight-600 font-size-16 font-color-main-color">Your position</label>
+                        <span class="field-input display-flex">{{ form.occupation }}</span>
+                        <label for="level" class="font-style-normal font-weight-600 font-size-16 font-color-main-color">Level</label>
+                        <span class="field-input display-flex">{{ form.level }}</span>
+                    </div>
+                    <div class="modal-overlay" id="freelancer-photo-modal">
+                        <div class="edit-photo-modal">
+                            <span title="Close" class="close font-color-black font-size-40 font-weight-700">&times;</span>
+                            <h2 class="font-style-normal font-weight-600 font-size-27 font-color-main-color">Change Photo</h2>
+                            <div class="edit-photo-modal-content">
+                                <div>
+                                    <input type="file" name="photo" accept="image/*" id="id_photo" onchange="PreviewImage1();">    
+                                </div>
+                                <div>
+                                    <img src="{{ profile.photo.url }}" alt="logo" class="company-image-edit object-fit-cover" id="freelancer-logo-edit">   
+                                </div>
+                            </div>                   
+                        </div> 
+                    </div>
+                </section>
+                <section class="company-main display-flex">
+                    <section class="company-main-left">
+                        <section class="display-flex align-items-center">
+                            <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color" style="margin-right: 20px;">Rating</h2>
+                            <i class="fa-solid fa-star font-color-ffd700 font-size-23"></i>
+                            {% if profile.get_rating == None %}
+                                <h2 class="font-color-ffd700 font-size-23" style="margin-left: 10px;" id="rating-value">Not rated yet</h2>
+                            {% else %}
+                                <h2 class="font-color-ffd700 font-size-23" style="margin-left: 10px;" id="rating-value">{{ profile.get_rating }}</h2>
+                            {% endif %}
+                        </section>
+                        <section class="rating-box-grid">
+                            <div class="rating-stars display-flex align-items-center">
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <p class="font-style-normal font-weight-500 font-size-16 line-height-120 font-color-737272">({{ profile.get_num_ratings }})</p>
+                            </div>
+                        </section>
+                        <section class="portfolio-box">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Portfolio</h2>
+                            </div>
+                            <div class="portfolio-box-grid">
+                                {% if projects %}
+                                    {% for project in projects %}
+                                        <div class="portfolio-item">
+                                            <p class="display-none">{{ project.id }}</p>
+                                            <h3 class="truncate">{{ project.title }}</h3>
+                                            <p class="">{{ project.description }}</p>
+                                            <div style="margin-top: 1.188rem;">
+                                                <p class="portfolio-link">Click the link</p>
+                                                <div class="portfolio-box-skills-container">
+                                                    <div class="job-box-skill"><a href="{{ project.link }}">{{ project.platform }}</a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% include 'modals/view_portfolio.html' %}
+                                    {% endfor %}
+                                {% else %}
+                                    <p>No projects yet</p>
+                                {% endif %}
+                            </div>
+                            {% if projects %}
+                                <div class="pagination">
+                                    <span class="step-links">
+                                        {% if projects.has_previous %}
+                                            <a href="?page={{ projects.previous_page_number }}"><i class="fa-solid fa-angle-left"></i></a>
+                                        {% endif %}
+                                        <span class="current-page">
+                                            {{ projects.number }}&#47;{{ projects.paginator.num_pages }} 
+                                        </span>       
+                                        {% if projects.has_next %}
+                                            <a href="?page={{ projects.next_page_number }}"><i class="fa-solid fa-angle-right"></i></a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            {% endif %}
+                        </section>
+                        <script src="{% static 'js/view_portfolio.js' %}"></script>
+                    </section>
+                    <div class="vertical"></div>
+                    <section>
+                        <section class="freelancer-bio-edit">
+                            <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color" style="margin-bottom: 1rem;">Bio</h2>
+                            {{ form.media }}
+                            {{ form.bio }}
+                        </section>
+                        <section class="skills-section">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Skills and Expertise</h2>
+                            </div>
+                            <div id="profile-skill-box-id" class="profile-skill-box display-flex flex-wrap align-items-flex-start">
+                                {% for skill in profile.skills.all %}
+                                    <div class="profile-skill">
+                                        <p class="font-style-normal font-weight-500 font-size-16">{{ skill.name }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </section>
+                        <section class="skills-section">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Education</h2>
+                                
+                            </div>
+    
+                            <div class="experiences-grid display-flex flex-direction-column" id="profile-education-grid-id">
+                                {% for education in profile.educations.all %} 
+                                <div class="profile-education-grid">
+                                    <p class="font-style-normal font-weight-500 font-size-20 line-height-140">{{ education.year_of_study }}</p>
+                                    <div>
+                                        <h3 class="font-style-normal font-weight-500 font-size-20 line-height-140">{{ education.university }}</h3>
+                                        <div class="experiencebox" style="margin-top: 0.8rem;">
+                                            <p class="font-style-normal font-weight-400 font-size-16 line-height-140">{{ education.specialization }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <!-- <p>{{ education.university }}</p> 
+                                    <p>{{ education.specialization }}</p> 
+                                    <p>{{ education.year_of_study }}</p>  -->
+                                {% empty %} 
+                                    <p>No education added yet.</p> 
+                                {% endfor %}
+                            </div>
+    
+                        </section>
+                        <section>
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Experience</h2>
+                            </div>
+                            <div class="experiences-grid display-flex flex-direction-column" id="profile-experience-grid-id">
+                                {% for experience in profile.experiences.all %} 
+                                <div class="profile-education-grid">
+                                    <p class="font-style-normal font-weight-500 font-size-20 line-height-140">{{ experience.work_duration }}</p>
+                                    <div>
+                                        <h3 class="font-style-normal font-weight-500 font-size-20 line-height-140" style="margin-bottom: 0.8rem;">{{ experience.company_name }}</h3>
+                                        <div class="experiencebox">
+                                            <h4 class="font-style-normal font-weight-500 font-size-20 line-height-140">{{ experience.position }}</h4>
+                                            <p class="font-style-normal font-weight-400 font-size-16 line-height-140">{{ experience.description }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %} 
+                                    <p>No experience added yet.</p> 
+                                {% endfor %}
+                            </div>
+    
+                        </section>
+                    </section>
+                </section>
+            </form>
+            <script src="{% static 'js/rating.js' %}"></script>
+            </main>
+        {% elif role == 'company' %}
+            <main>
+                <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <section class="company-head display-flex">
+                        <button type="submit" class="btn btn-btn font-style-normal font-weight-500 font-size-20 font-color-white" style="padding: 0.2rem 1.5rem;">Apply</button>
+                        <div class="profile-image">
+                            <img src="{{ profile.logo.url }}" alt="logo" class="company-image object-fit-cover" id="company-logo"> 
+                            <div title="Add Photo" class="circle display-f-c-c font-size-27 font-color-white" id="circle-edit-btn"><i class="fa-solid fa-plus"></i></div>
+                        </div>
+                        <div class="company-head-edit">
+                            <label for="name" class="font-style-normal font-weight-600 font-size-16 font-color-main-color">Company name</label>
+                            <span class="field-input display-flex">{{ form.name }}</span>
+                            <label for="field" class="font-style-normal font-weight-600 font-size-16 font-color-main-color">Company's industry</label>
+                            <span class="field-input">{{ form.field }}</span>
+                        </div>
+                    </section>
+                    <section class="company-main display-flex">
+                        <section class="company-main-left">
+                            <section class="display-flex align-items-center">
+                                <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color" style="margin-right: 20px;">Rating</h2>
+                                <i class="fa-solid fa-star font-color-ffd700 font-size-23"></i>
+                                {% if profile.get_rating == None %}
+                                    <h2 class="font-color-ffd700 font-size-23" style="margin-left: 10px;" id="rating-value">Not rated yet</h2>
+                                {% else %}
+                                    <h2 class="font-color-ffd700 font-size-23" style="margin-left: 10px;" id="rating-value">{{ profile.get_rating }}</h2>
+                                {% endif %}
+                            </section>
+                            <section class="rating-box-grid">
+                                <div class="rating-stars display-flex align-items-center">
+                                    <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                    <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                    <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                    <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                    <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                    <p class="font-style-normal font-weight-500 font-size-16 line-height-120 font-color-737272">({{ profile.get_num_ratings }})</p>
+                                </div>
+                            </section>
+                            <section class="linked-accounts">
+                                <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Linked Accounts</h2>
+                                <div class="linked-accounts-grid">
+                                    <label for="instagram_link" class="fa-brands fa-instagram font-weight-600 font-size-30 font-color-main-color"></label>
+                                    <!-- <input type="url" name="instagram_link" maxlength="200" id="id_instagram_link" placeholder="Instagram"> -->
+                                    {{ form.instagram_link }}
+                                    <label for="linkedin_link" class="fa-brands fa-linkedin font-weight-600 font-size-30 font-color-main-color"></label>
+                                    <!-- <input type="url" name="linkedin_link" maxlength="200" id="id_linkedin_link" placeholder="LinkedIn"> -->
+                                    {{ form.linkedin_link }}
+                                    <label for="facebook_link" class="fa-brands fa-facebook font-weight-600 font-size-30 font-color-main-color"></label>
+                                    <!-- <input type="url" name="facebook_link" maxlength="200" id="id_facebook_link" placeholder="Facebook"> -->
+                                    {{ form.facebook_link }}
+                                    <label for="website_link" class="fa-solid fa-globe font-weight-600 font-size-30 font-color-main-color"></label>
+                                    <!-- <input type="url" name="website_link" maxlength="200" id="id_website_link" placeholder="Website"> -->
+                                    {{ form.website_link }}
+                                </div>
+                            </section>
+                        </section>
+                        <div class="vertical"></div>
+                        <section>
+                            <section class="profile-bio">
+                                <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Bio</h2>
+                                {{ form.media }}
+                                {{ form.description }}
+                            </section>
+                            <section class="profile-company-jobs">
+                                <div style="display: flex; align-items: center;">
+                                    <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">My Jobs</h2>
+                                    <a href="{% url 'post_job' %}" class="btn margin-btn text-decoration-no font-style-normal font-weight-500 font-size-20 font-color-white" style="padding: 0.2rem 1.5rem;"><i class="fa-solid fa-plus"></i> Add</a>
+                                </div>
+                                <div class="profile-c-3-1 display-flex flex-wrap">
+                                    {% if jobs %}
+                                        {% for job in jobs %}
+                                        <div class="profile-company-job-box">
+                                            <div class="profile-company-job-edit"><a href="{% url 'edit_job' job.id %}"><i class="fa-solid fa-pen-to-square"></i></a></div>
+                                            <h3 class="truncate"><a href="{% url 'view_job' job.id %}" class="font-weight-600 font-size-16 font-color-main-color text-decoration-no link-hover">{{ job.title }}</a></h3>
+                                            <p class="truncate font-weight-500 font-size-14 font-color-737272">{{ job.category }}</p>
+                                            <hr>
+                                            <h5 class="font-style-normal font-weight-600 font-size-14 font-color-737272">Timeline: <span class="font-weight-500">{{ job.timeline }}</span></h5>
+                                            <h5 class="font-style-normal font-weight-600 font-size-14 font-color-737272" style="margin-top: 0.4rem;">Budget: <span class="font-color-main-color">&#36;{{ job.salary }}</span></h5>        
+                                            <div class="display-flex align-items-center" style="margin-top: 1.563rem; column-gap: 0.3rem;">
+                                                <div class="skill font-style-normal font-weight-600 font-size-10 font-color-main-color">Python</div>
+                                                <div class="skill font-style-normal font-weight-600 font-size-10 font-color-main-color">Adobe Illustrator</div>
+                                            </div>
+                                        </div>          
+                                        {% endfor %}
+                                    {% else %}
+                                        <p>No jobs posted yet.</p>
+                                    {% endif %}
+                                </div>
+                                {% if jobs %}
+                                <div class="pagination">
+                                    <span class="step-links">
+                                        {% if jobs.has_previous %}
+                                            <a href="?page={{ jobs.previous_page_number }}"><i class="fa-solid fa-angle-left"></i></a>
+                                        {% endif %}
+                                        <span class="current-page">
+                                            {{ jobs.number }}&#47;{{ jobs.paginator.num_pages }} 
+                                        </span>       
+                                        {% if jobs.has_next %}
+                                            <a href="?page={{ jobs.next_page_number }}"><i class="fa-solid fa-angle-right"></i></a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </section>
+                        </section>
+                    </section>
+                    <div class="modal-overlay" id="freelancer-photo-modal">
+                        <div class="edit-photo-modal">
+                            <span title="Close" class="close font-color-black font-size-40 font-weight-700">&times;</span>
+                            <h2 class="font-style-normal font-weight-600 font-size-27 font-color-main-color">Change Photo</h2>
+                            <div class="edit-photo-modal-content">
+                                <div>
+                                    <input type="file" name="logo" accept="image/*" id="id_logo" onchange="PreviewImage();">    
+                                </div>
+                                <div>
+                                    <img src="{{ profile.logo.url }}" alt="logo" class="company-image-edit object-fit-cover" id="company-logo-edit">   
+                                </div>
+                            </div>                   
+                        </div> 
+                    </div>
+
+                </form>
+            </main> 
+            <script src="{% static 'js/edit-company.js' %}"></script>
+        {% endif %}
+        <!-- {% include 'elements/footer.html' %} -->
+    </div>
+    <script src="{% static 'js/edit-freelancer.js' %}"></script>
+    {% include 'elements/footer.html' %}
+</div>
+{% endblock %}

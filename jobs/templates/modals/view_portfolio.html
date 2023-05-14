@@ -1,0 +1,17 @@
+<div class="portfolio-item-modal">
+    <div class="display-flex flex-direction-column" style="row-gap: 1rem;">
+        <h3 class="font-style-normal font-weight-600 font-size-30 font-color-main-color">{{ profile.first_name }}'s portfolio</h3>
+        <div>
+            <h4 class="font-style-normal font-weight-600 font-size-25 font-color-main-color">Title</h4>
+            <p class="font-style-normal font-weight-600 font-size-22 font-color-042552">{{ project.title }}</p>
+        </div>
+        <div>
+            <h4 class="font-style-normal font-weight-600 font-size-25 font-color-main-color">Description</h4>
+            <p class="font-style-normal font-weight-600 font-size-20 font-color-042552">{{ project.description }}</p>
+        </div>
+        <div>
+            <p class="font-style-normal font-weight-600 font-size-16 font-color-042552 opacity-07" style="margin-bottom: 0.7rem;" >Click to the link</p>
+            <a class="text-decoration-no profile-skill font-color-black" href="{{ project.link }}">{{ project.platform }}</a>
+        </div>
+    </div>
+</div>

@@ -5,4 +5,5 @@ from jobs import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('jobs.urls')),
+    path('chat/', include('chat.urls')),
 ] 

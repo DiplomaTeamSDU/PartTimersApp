@@ -1,159 +1,43 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'home/style.css' %}">
-    <link rel="stylesheet" href="{% static 'home/rate.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/index.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/sign.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/home.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/job.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/rate.css' %}">
     <link rel="icon" href="{% static 'images/LOGO_PARTTIMERS.svg' %}">
-    <link href="{% static 'fontawesome-free-6.3.0-web/css/all.css' %}" rel="stylesheet">
-    <link href="{% static 'fontawesome-free-6.3.0-web/css/fontawesome.css' %}" rel="stylesheet">
-    <link href="{% static 'fontawesome-free-6.3.0-web/css/brands.css' %}" rel="stylesheet">
-    <link href="{% static 'fontawesome-free-6.3.0-web/css/solid.css' %}" rel="stylesheet">
-    <link href="{% static 'fontawesome-free-6.3.0-web/css/regular.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'ckeditor/n1theme/editor.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="container">
-                <ul class="navul">
-                    <li><img src="{% static 'images/logo.svg' %}" alt="Logo"></li>
-                    <li><a class="navlinks" href="{% url 'home' %}">Home</a></li>
-                    <li><a class="navlinks" href="{% url 'find_freelancer' %}">Find Talant</a></li>
-                    <li><a class="navlinks" href="{% url 'view_jobs' %}">Find Work</a></li>
-                </ul>
-                <div id="navbuttons">
-                    {% if user.is_authenticated %}
-                        <div class="profile-nav">
-                            <a href="" style="margin-right: 39px;"><i class="fa-solid fa-envelope"></i></a>
-                            <a href="{% url 'applications' %}" style="margin-right: 39px;"><i class="fa-solid fa-bell"></i></a>
-                            {% if user.company %}
-                                <img src="{{ user.company.logo.url }}" alt="PIC" style="border-radius: 50%; cursor: pointer;" width="60px" height="60px" onclick="toggleMenu()">
-                            {% elif user.freelancer %}
-                                <img src="{{ user.freelancer.photo.url }}" alt="PIC" style="border-radius: 50%; cursor: pointer;" width="60px" height="60px" onclick="toggleMenu()">
-                            {% endif %}   
-                        </div>                       
-                        <div class="sub-menu-wrap" id="subMenu">
-                            <div class="sub-menu">
-                                <div class="user-info">
-                                    {% if user.company %}
-                                        <div class="sub-menu-1">
-                                            <img src="{{ user.company.logo.url }}" alt="USER_PHOTO" style="border-radius: 50%;">
-                                            <div class="sub-menu-2"> 
-                                                <h4>{{ user.company.name }}</h4>
-                                                <!-- <h5>Company Detail</h5> -->
-                                            </div>
-                                        </div>
-                                        <div class="sub-menu-3">
-                                            <table>
-                                                <tr>
-                                                    <td><i class="fa-solid fa-user"></i></td>
-                                                    <td style="font-weight: 500; font-size: 20px;"><a href="{% url 'profile' %}">Profile</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="fa-solid fa-envelope"></i></td>
-                                                    <td style="font-weight: 500; font-size: 20px;"><a href="{% url 'applications' %}">Messages</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="fa-solid fa-heart"></i></td>
-                                                    <td style="font-weight: 500; font-size: 20px;"><a href="{% url 'profile' %}">Favorites</a></td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <div></div>
-                                    {% elif user.freelancer %}
-                                        <div class="sub-menu-1">
-                                            <img src="{{ user.freelancer.photo.url }}" alt="USER_PHOTO" style="border-radius: 50%;">
-                                            <div class="sub-menu-2">
-                                                <h4>{{ user.freelancer.first_name }} {{ user.freelancer.last_name }}</h4>
-                                                <h5>{{ user.freelancer.occupation }}</h5>
-                                            </div>
-                                        </div>
-                                        <!-- <div class="sub-menu-3">
-                                            <table>
-                                                <tr>
-                                                    <td>Phone: </td>
-                                                    <td style="font-weight: 500;">+7 700 777 77 77</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Email: </td>
-                                                    <td style="font-weight: 500;">{{ user.freelancer.user }}</td>
-                                                </tr>
-                                            </table>
-                                        </div> -->
-                                        <div class="sub-menu-3">
-                                            <table>
-                                                <tr>
-                                                    <td><i class="fa-solid fa-user"></i></td>
-                                                    <td style="font-weight: 500; font-size: 20px;"><a href="{% url 'profile' %}">Profile</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="fa-solid fa-envelope"></i></td>
-                                                    <td style="font-weight: 500; font-size: 20px;"><a href="{% url 'applications' %}">Messages</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="fa-solid fa-heart"></i></td>
-                                                    <td style="font-weight: 500; font-size: 20px;"><a href="{% url 'profile' %}">Favorites</a></td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    {% endif %} 
-                                </div>
-                                <div style="text-align: center; margin-top: 20px;">
-                                    <a class="navlinks" href="{% url 'logout' %}" style="color: #FB4040;">Log Out</a>
-                                </div>
-                            </div>
-                        </div>                        
-                    {% else %}
-                        <a class="navlinks" href="{% url 'login' %}">Login</a>
-                        <a class="navlinks" id="signupbtn" href="{% url 'register' %}">Sign Up</a>
-                    {% endif %}
-                </div>
-            </div>
-        </nav>
-    </header>
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main> 
-    <footer>
-        <div class="container">
-            <div class="footer">
-                <div class="footer1">
-                    <h1 style="color: #4C56CC;">PartTimers</h1>
-                    <p>Joobs is the largest talent platform in Central Asia for career development and recruitment.</p>
-                </div>
-                <div class="footer2">
-                    <h3>Employer</h3>
-                    <ul>
-                        <li><a href="">About Us</a></li>
-                        <li><a href="">Careers</a></li>
-                        <li><a href="">Blog</a></li>
-                    </ul>
-                </div>
-                <div class="footer2">
-                    <h3>Find Vacancy Based On</h3>
-                    <ul>
-                        <li><a href="">Help Center</a></li>
-                        <li><a href="">Job Location</a></li>
-                        <li><a href="">Company Name</a></li>
-                    </ul>
-                </div>
-                <div class="footer2">   
-                    <h3>Address</h3>
-                    <ul>
-                        <li><a href="mailto:">hello@jobbb.com</a></li>
-                        <li><a href="">Kazakhstan, Almaty, Kaskelen city</a></li>
-                    </ul>
-                </div>
-            </div>
-            <p style="text-align: center; font-weight: 500; margin-top: 100px;">&copy; {{ year }} 2023 PartTimers App. All rights reserved.</p>
+    {% if messages %}
+        <div class="alerts">
+            <ul class="messages list-style-no">
+                {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
         </div>
-    </footer>   
+    {% endif %}
+    {% block content %}
+        
+    {% endblock %} 
     <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/navbar.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('.alerts').fadeOut('slow');
+            }, 2000);
+        });
+    </script>
 </body>
 </html>

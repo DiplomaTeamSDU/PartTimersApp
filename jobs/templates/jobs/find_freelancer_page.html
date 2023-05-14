@@ -2,39 +2,41 @@
 {% load static %}
 {% block title %}Find Talant{% endblock %}
 {% block content %}
-    <div class="container">
-        <div class="container7-copy">
-            <div class="container7-1">
-                <h1>Welcome!</h1>
-                <h2 style="color: #FFFFFF;">Find talants with us!</h2> 
-            </div>
-            <div class="container7-2"></div>
-        </div>
-        <div class="freelancer-search-titles">
-            <p>Search talant</p>
-            <h2>Who are you looking for today?</h2>
-        </div>
-        <div class="job-search">
-            <form method="GET" action="{% url 'find_freelancer' %}"> 
-                <div class="job-search-1">
-                    <div class="job-search-1-2">
-                        <label for="seacrh" style="color:#4C56CC;"><i class="fa-solid fa-magnifying-glass"></i></label>
-                        <input type="text" name="search" placeholder="Job title or keyword" class="job-search-input" value="{{ search_query }}">
-                    </div>
-                    <div class="job-search-1-1">
-                        <i class="fa-solid fa-location-dot" style="color:#4C56CC; margin-right: 22px;"></i>
-                        <p>Location</p>
-                    </div>
-                    <button type="submit" class="job-search-button" >Search</button> 
-                </div>  
-            </form>
-        </div>
-        <div class="freelancer-box-container">
+<div class="backgrdound">
+    <div class="wrapper">
+        {% include 'elements/navbar.html' %}
+        <main>
+            <section class="job-welcome display-sb-c">
+                <div class="job-welcome-l">
+                    {% if user.company %}
+                        <h1 class="font-style-normal font-weight-600 font-size-40 font-color-white">Hey, {{ user.company.name }}!</h1> 
+                    {% endif %}
+                    <h2 class="font-style-normal font-weight-600 font-size-25 font-color-white">Ready for your next big opportunity?</h2>
+                </div>
+                <div class="container7-2"></div>
+            </section>
+            <section>
+                <h4 class="font-style-normal font-weight-500 font-size-16 font-color-main-color text-align-center">Search talent</h4>
+                <h2 class="font-style-normal font-weight-600 font-size-32 font-color-black text-align-center">Who are you looking for today?</h2>
+            </section>
+            <section class="job-search">
+                <form method="GET" action="{% url 'find_freelancer' %}" class="flex-direction-column display-f-c-c"> 
+                    <div class="job-search-1 display-sb-c">
+                        <div class="job-search-1-2">
+                            <label for="seacrh" style="color:#4C56CC;"><i class="fa-solid fa-magnifying-glass"></i></label>
+                            <input type="text" name="search" placeholder="Ex.: Web developer" class="job-search-input" value="{{ search_query }}">
+                        </div>
+                        <button type="submit" class="job-search-button" >Search</button> 
+                    </div>  
+                    <div class="related-results"><span>Related results</span> <a href="">Web designer, </a><a href="">Web design, </a><a href="">UI/UX Designer</a></div>
+                </form>
+            </section>
+            <section class="freelancer-box-container">
             {% if freelancers %}
                 {% for freelancer in freelancers %}
                     <div class="freelancer-box">
                         <div class="fbox-1">
-                            <img src="{{ freelancer.photo.url }}" alt="{{ freelancer.first_name }}'s profile picture">
+                            <img src="{{ freelancer.photo.url }}" class="object-fit-cover" alt="{{ freelancer.first_name }}'s profile picture">
                         </div>
                         <div class="freelancer-box-name fbox-2">
                             <h3>{{ freelancer.first_name }} {{ freelancer.last_name }}</h3>
@@ -60,10 +62,28 @@
                             <a href="{% url 'view_freelancer' freelancer_id=freelancer.id %}">See more</a>
                         </div>
                     </div>
-                {% endfor %}
-            {% else %}
-                <p>There are no freelancers in our platform yet</p>
+                    {% endfor %}
+                {% else %}
+                    <p>There are no freelancers in our platform yet</p>
+                {% endif %}
+            </section>
+            {% if freelancers %}
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if freelancers.has_previous %}
+                            <a href="?page={{ freelancers.previous_page_number }}"><i class="fa-solid fa-angle-left"></i></a>
+                        {% endif %}
+                        <span class="current-page">
+                            {{ freelancers.number }}&#47;{{ freelancers.paginator.num_pages }} 
+                        </span>       
+                        {% if freelancers.has_next %}
+                            <a href="?page={{ freelancers.next_page_number }}"><i class="fa-solid fa-angle-right"></i></a>
+                        {% endif %}
+                    </span>
+                </div>
             {% endif %}
-        </div>
+        </main>
     </div>
+    {% include 'elements/footer.html' %}
+</div>
 {% endblock %}

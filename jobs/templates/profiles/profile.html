@@ -1,0 +1,534 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="background-2">
+    <div class="wrapper">
+        {% include 'elements/navbar.html' %}
+        {% if role == 'company' %}
+            <main class="company-container">
+                <section class="company-head display-flex">
+                    <a href="{% url 'edit_profile' role=role %}" class="btn text-decoration-no font-style-normal font-weight-500 font-size-20 font-color-white" style="padding: 0.2rem 2.5rem;">Edit</a>
+                    <img src="{{ profile.logo.url }}" alt="PIC" class="profile-c-img object-fit-cover">
+                    <div>
+                        {% if profile.name %}
+                            <span>
+                                <h3 class="font-style-normal font-weight-600 font-size-24 font-color-main-color">{{ profile.name }}</h3>
+                                <h4 class="font-style-normal font-weight-500 font-size-20 font-color-737272">{{ profile.field }}</h4>
+                            </span>
+                        {% else %}
+                            <span>
+                                <h3 class="font-style-normal font-weight-600 font-size-24 font-color-main-color">No nome</h3>
+                                <h4 class="font-style-normal font-weight-500 font-size-20 font-color-737272">No field</h4>
+                            </span>
+                        {% endif %}
+                        </div>
+                </section>
+                <section class="company-main display-flex">
+                    <section class="company-main-left">
+                        <section class="display-flex align-items-center">
+                            <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color" style="margin-right: 20px;">Rating</h2>
+                            <i class="fa-solid fa-star font-color-ffd700 font-size-23"></i>
+                            {% if profile.get_rating == None %}
+                                <h2 class="font-color-ffd700 font-size-23" style="margin-left: 10px;" id="rating-value">Not rated yet</h2>
+                            {% else %}
+                                <h2 class="font-color-ffd700 font-size-23" style="margin-left: 10px;" id="rating-value">{{ profile.get_rating }}</h2>
+                            {% endif %}
+                        </section>
+                        <section class="rating-box-grid">
+                            <div class="rating-stars display-flex align-items-center">
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <p class="font-style-normal font-weight-500 font-size-16 line-height-120 font-color-737272">({{ profile.get_num_ratings }})</p>
+                            </div>
+                        </section>
+                        <section class="linked-accounts">
+                            <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Linked Accounts</h2>
+                            <div class="linked-accounts-grid">
+                                {% if profile.instagram_link %}
+                                    <i class="fa-brands fa-instagram font-weight-600 font-size-30 font-color-main-color"></i>
+                                    <a href="{{profile.instagram_link}}" target="_blank" class="font-size-22 font-color-main-color text-decoration-no truncate" style="width: 100%;">Instagram</a>
+                                {% endif %}
+                                {% if profile.linkedin_link %}
+                                    <i class="fa-brands fa-linkedin font-weight-600 font-size-30 font-color-main-color"></i>
+                                    <a href="{{profile.linkedin_link}}" target="_blank" class="font-size-22 font-color-main-color text-decoration-no truncate" style="width: 100%;">LinkedIn</a>
+                                {% endif %}
+                                {% if profile.facebook_link %}
+                                    <i class="fa-brands fa-facebook font-weight-600 font-size-30 font-color-main-color"></i>
+                                    <a href="{{profile.facebook_link}}" target="_blank" class="font-size-22 font-color-main-color text-decoration-no truncate" style="width: 100%;">Facebook</a>
+                                {% endif %}
+                                {% if profile.website_link %}
+                                    <i class="fa-solid fa-globe font-weight-600 font-size-30 font-color-main-color"></i>
+                                    <a href="{{profile.website_link}}" target="_blank" class="font-size-22 font-color-main-color text-decoration-no truncate" style="width: 100%;">Website</a>
+                                {% endif %}                            
+                            </div>                
+                        </section>
+                    </section>
+                    <div class="vertical"></div>
+                    <section>
+                        <section class="profile-bio">
+                            <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Bio</h2>
+                            {% if profile.description %}
+                                <p class="font-style-normal font-weight-300 font-size-18 line-height-140">{{ profile.description|safe }}</p>
+                            {% else %}
+                                <p class="font-style-normal font-weight-300 font-size-18 line-height-140">No description yet</p>
+                            {% endif %}
+                        </section>
+                        <section class="profile-company-jobs">
+                            <div style="display: flex; align-items: center;">
+                                <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">My Jobs</h2>
+                                <a title="Add job" href="{% url 'post_job' %}" class="btn margin-btn text-decoration-no font-style-normal font-weight-500 font-size-20 font-color-white" style="padding: 0.2rem 1.5rem;"><i class="fa-solid fa-plus"></i> Add</a>
+                            </div>
+                            <div class="profile-c-3-1 display-flex flex-wrap">
+                                {% if jobs %}
+                                    {% for job in jobs %}
+                                    <div class="profile-company-job-box">
+                                        <div class="profile-company-job-edit"><a href="{% url 'edit_job' job.id %}"><i class="fa-solid fa-pen-to-square"></i></a></div>
+                                        <h3 class="truncate"><a href="{% url 'view_job' job.id %}" class="font-weight-600 font-size-16 font-color-main-color text-decoration-no link-hover">{{ job.title }}</a></h3>
+                                        <p class="truncate font-weight-500 font-size-14 font-color-737272">{{ job.category }}</p>
+                                        <hr>
+                                        <h5 class="font-style-normal font-weight-600 font-size-14 font-color-737272">Timeline: <span class="font-weight-500">{{ job.timeline }}</span></h5>
+                                        <h5 class="font-style-normal font-weight-600 font-size-14 font-color-737272" style="margin-top: 0.4rem;">Budget: <span class="font-color-main-color">&#36;{{ job.salary }}</span></h5>        
+                                        <div class="display-flex align-items-center" style="margin-top: 1.563rem; column-gap: 0.3rem;">
+                                            <div class="skill display-f-c-c font-style-normal font-weight-600 font-size-10 font-color-main-color">Python</div>
+                                            <div class="skill display-f-c-c font-style-normal font-weight-600 font-size-10 font-color-main-color">Adobe Illustrator</div>
+                                        </div>
+                                    </div>          
+                                    {% endfor %}
+                                {% else %}
+                                    <p>No jobs posted yet.</p>
+                                {% endif %}
+                            </div>
+                            {% if jobs %}
+                            <div class="pagination">
+                                <span class="step-links">
+                                    {% if jobs.has_previous %}
+                                        <a href="?page={{ jobs.previous_page_number }}"><i class="fa-solid fa-angle-left"></i></a>
+                                    {% endif %}
+                                    <span class="current-page">
+                                        {{ jobs.number }}&#47;{{ jobs.paginator.num_pages }} 
+                                    </span>       
+                                    {% if jobs.has_next %}
+                                        <a href="?page={{ jobs.next_page_number }}"><i class="fa-solid fa-angle-right"></i></a>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            {% endif %}
+                        </section>
+                    </section>
+                </section>
+                <section class="reviews-section">
+                    <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Reviews</h2>
+                    {% if page_obj %}
+                        {% for rating in page_obj %}
+                        <div class="review">
+                            <div class="review-info display-sb-c">
+                                <div>
+                                    <h4 class="font-weight-500 font-size-16">{{ rating.reviewer }}</h4>
+                                    <p class="font-weight-400 font-size-15 font-color-737272">{{ rating.created_at|date:"d.m.Y" }}</p>
+                                </div>
+                                <div>
+                                    <p class="display-none" id="rating_user_value">{{ rating.rating }}</p>
+                                    <i class="fa-solid fa-star starr font-size-22 font-color-ffd700"></i>
+                                    <i class="fa-solid fa-star starr font-size-22 font-color-ffd700"></i>
+                                    <i class="fa-solid fa-star starr font-size-22 font-color-ffd700"></i>
+                                    <i class="fa-solid fa-star starr font-size-22 font-color-ffd700"></i>
+                                    <i class="fa-solid fa-star starr font-size-22 font-color-ffd700"></i>
+                                </div>
+                            </div>
+                            <div class="review-comment">
+                                <p>
+                                    <span class="font-weight-500 font-size-16">Comment: </span>
+                                    {{ rating.comment }}
+                                </p>
+                            </div>
+                        </div>
+                        <script>
+                            $(document).ready(function() {
+                                // Get the rating valueW
+                                var rating_user = Math.round(parseFloat($('#rating_user_value').text()));
+                            
+                                // Get the star elements
+                                var starrs = $('.starr');
+                            
+                                // Set the class of each star element based on the rating value
+                                starrs.each(function(index) {
+                                    if (index < rating_user) {
+                                        $(this).removeClass('fa-regular').addClass('fa-solid');
+                                    } else {
+                                        $(this).removeClass('fa-solid').addClass('fa-regular');
+                                    }
+                                });
+                            });
+                        </script>
+                        {% endfor %}
+                    {% else %}
+                        <p>No reviews yet</p>
+                    {% endif%}
+                    {% if page_obj %}
+                        <div class="pagination">
+                            <span class="step-links">
+                                {% if page_obj.has_previous %}
+                                    <a href="?page={{ page_obj.previous_page_number }}"><i class="fa-solid fa-angle-left"></i></a>
+                                {% endif %}
+                                <span class="current-page">
+                                    {{ page_obj.number }}&#47;{{ page_obj.paginator.num_pages }} 
+                                </span>       
+                                {% if page_obj.has_next %}
+                                    <a href="?page={{ page_obj.next_page_number }}"><i class="fa-solid fa-angle-right"></i></a>
+                                {% endif %}
+                            </span>
+                    </div>
+                    {% endif %}
+                </section>
+            </main>
+        {% elif role == 'freelancer' %}
+            <main>
+                <section class="company-head display-flex">
+                    <a href="{% url 'edit_profile' role=role %}" class="btn text-decoration-no font-style-normal font-weight-500 font-size-20 font-color-white" style="padding: 0.2rem 2.5rem;">Edit</a>
+                    <img src="{{ user.freelancer.photo.url }}" alt="PIC" class="profile-c-img object-fit-cover">
+                    <div>
+                        <h2 class="freelancer-name-h2 font-style-normal font-weight-600 font-size-32 font-color-main-color">{{ profile.first_name }} {{ profile.last_name }}</h2>
+                        <div class="display-flex flex-direction-column font-weight-400 font-size-18 font-color-737272" style="column-gap: 1.5rem;">    
+                            {% if profile.occupation == '' %}
+                                <p>Occupation is not specified</p>
+                            {% else %}
+                                <p>{{ profile.occupation }}</p>
+                            {% endif %}
+                            <p class="">{{ profile.level }}</p>
+                        </div>
+                </section>
+                <section class="company-main display-flex">
+                    <section class="company-main-left">
+                        <section class="display-flex align-items-center">
+                            <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color" style="margin-right: 20px;">Rating</h2>
+                            <i class="fa-solid fa-star font-color-ffd700 font-size-23"></i>
+                            {% if profile.get_rating == None %}
+                                <h2 class="font-color-ffd700 font-size-23" style="margin-left: 10px;" id="rating-value">Not rated yet</h2>
+                            {% else %}
+                                <h2 class="font-color-ffd700 font-size-23" style="margin-left: 10px;" id="rating-value">{{ profile.get_rating }}</h2>
+                            {% endif %}
+                        </section>
+                        <section class="rating-box-grid">
+                            <div class="rating-stars display-flex align-items-center">
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <i class="fa-solid fa-star star font-size-30 font-color-ffd700"></i>
+                                <p class="font-style-normal font-weight-500 font-size-16 line-height-120 font-color-737272">({{ profile.get_num_ratings }})</p>
+                            </div>
+                        </section>
+                        <section class="portfolio-box">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Portfolio</h2>
+                                <a title="Add Project" id="add-project-btn" title="Add project"  class="btn margin-btn text-decoration-no font-style-normal font-weight-500 font-size-20 font-color-white" style="padding: 0.2rem 1.5rem;"><i class="fa-solid fa-plus"></i> Add</a>
+                            </div>
+                            <div class="modal-overlay" id="project-modal-id">
+                                <div class="project-modal" >
+                                    <span title="Close" class="close font-color-black font-size-40 font-weight-700">&times;</span>
+                                    <h2 class="font-style-normal font-weight-600 font-size-22 font-color-main-color">Upload new project</h2>
+                                    {% if project_form %}
+                                        <form method="POST" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <section class="project-form display-flex flex-direction-column">
+                                                <span style="margin-top: 1rem;">
+                                                    <label for="id_title" class="font-style-normal font-weight-600 font-size-20 font-color-main-color">Title</label>
+                                                    <input type="text" name="title" maxlength="100" required="" id="id_title" placeholder="Text">
+                                                </span>
+                                                <span>
+                                                    <label for="id_description" class="font-style-normal font-weight-600 font-size-20 font-color-main-color">Description</label>
+                                                    <p class="font-style-normal font-weight-500 font-size-18 font-color-737272">Write short decription of your project</p>
+                                                    <textarea name="description" cols="40" rows="10" required="" id="id_description" placeholder="The project is ..."></textarea>
+                                                </span>
+                                                <span>  
+                                                    <label for="id_link" class="font-style-normal font-weight-600 font-size-20 font-color-main-color">Link</label>
+                                                    <p class="font-style-normal font-weight-500 font-size-18 font-color-737272">Paste your link to your project or cv</p>
+                                                    <input type="url" name="link" maxlength="200" required="" id="id_link" placeholder="Link">
+                                                </span>
+                                                <span>
+                                                    <label for="id_platform" class="font-style-normal font-weight-600 font-size-20 font-color-main-color">Platform</label>
+                                                    <p class="font-style-normal font-weight-500 font-size-18 font-color-737272">Write project platform where it from</p>
+                                                    <input type="text" name="platform" maxlength="50" required="" id="id_platform" placeholder="Ex.: GitHub, Figma">
+                                                </span>
+                                                <span style="align-items: flex-end;">
+                                                    <button type="submit" class="btn btn-btn font-style-normal font-weight-500 font-size-16 font-color-white" style="padding: 0.2rem 1.5rem;">Add</button>
+                                                </span>
+                                            </section>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="portfolio-box-grid">
+                                {% if jobs %}
+                                    {% for project in jobs %}
+                                        <div class="portfolio-item">
+                                            <p class="display-none">{{ project.id }}</p>
+                                            <h3 class="truncate">{{ project.title }}</h3>
+                                            <p class="">{{ project.description }}</p>
+                                            <div style="margin-top: 1.188rem;">
+                                                <p class="portfolio-link">Click the link</p>
+                                                <div class="portfolio-box-skills-container">
+                                                    <div class="job-box-skill"><a href="{{ project.link }}">{{ project.platform }}</a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% include 'modals/view_portfolio.html' %}
+                                    {% endfor %}
+                                {% else %}
+                                    <p>No projects yet</p>
+                                {% endif %}
+                            </div>
+                            {% if jobs %}
+                                <div class="pagination">
+                                    <span class="step-links">
+                                        {% if jobs.has_previous %}
+                                            <a href="?page={{ jobs.previous_page_number }}"><i class="fa-solid fa-angle-left"></i></a>
+                                        {% endif %}
+                                        <span class="current-page">
+                                            {{ jobs.number }}&#47;{{ jobs.paginator.num_pages }} 
+                                        </span>       
+                                        {% if jobs.has_next %}
+                                            <a href="?page={{ jobs.next_page_number }}"><i class="fa-solid fa-angle-right"></i></a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            {% endif %}
+                        </section>
+                        <script src="{% static 'js/view_portfolio.js' %}"></script>
+                    </section>
+                    <div class="vertical"></div>
+                    <section>
+                        <section class="profile-bio">
+                            <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Bio</h2>
+                            {% if profile.bio %}
+                                <p class="font-style-normal font-weight-300 font-size-18 line-height-140">{{ profile.bio|safe }}</p>
+                            {% else %}
+                                <p class="font-style-normal font-weight-300 font-size-18 line-height-140">No bio yet</p>
+                            {% endif %}
+                        </section>
+                        <section class="skills-section">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Skills and Expertise</h2>
+                                <button type="button" id="add-skills-btn-id" class="btn margin-btn btn-btn font-style-normal font-weight-500 font-size-20 font-color-white" style="padding: 0.2rem 1.5rem;"><i class="fa-solid fa-plus"></i> Add</button>
+                                
+                            </div>
+                            <div id="add-skills-container-id" class="add-skills-container">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <h4 class="font-style-normal font-weight-600 font-size-18 font-color-main-color">Your current skills</h4>
+                                    <div id="checked-skills" class="profile-skill-box display-flex flex-wrap align-items-flex-start">
+                                        {% for skill in skills %}
+                                            {% if skill in request.user.freelancer.skills.all %}
+                                                <div class="form-check profile-skill selected">
+                                                    <input type="checkbox" class="form-check-input" id="{{ skill.name }}" name="skill_names" value="{{ skill.name }}" checked>
+                                                    <label class="form-check-label font-style-normal font-weight-500 font-size-16" for="{{ skill.name }}">{{ skill.name }}</label>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+
+                                    <h4 class="font-style-normal font-weight-600 font-size-18 font-color-main-color">Add other skills</h4>
+                                    <div id="unchecked-skills" class="profile-skill-box display-flex flex-wrap align-items-flex-start">
+                                        {% for skill in skills %}
+                                            {% if skill not in request.user.freelancer.skills.all %}
+                                                <div class="form-check profile-skill">
+                                                    <input type="checkbox" class="form-check-input" id="{{ skill.name }}" name="skill_names" value="{{ skill.name }}">
+                                                    <label class="form-check-label" for="{{ skill.name }}">{{ skill.name }}</label>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                
+                                    <h4 class="font-style-normal font-weight-600 font-size-18 font-color-main-color">Add new skills</h4>
+                                    <div id="skill-inputs" class="profile-skill-box display-flex flex-wrap align-items-flex-start" >
+                                        <div class="form-group skill-input">
+                                            <input type="text" class="form-control" name="new_skill" placeholder="Enter a new skill...">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-btn font-style-normal font-weight-500 font-size-20 font-color-white" style="padding: 0.1rem 1.5rem;" id="add-skill-btn">Add</button>
+                                        <button type="submit" class="btn btn-btn font-style-normal font-weight-500 font-size-20 font-color-white" style="padding: 0.1rem 1.5rem;">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="profile-skill-box-id" class="profile-skill-box display-flex flex-wrap align-items-flex-start">
+                                {% for skill in profile.skills.all %}
+                                    <div class="profile-skill">
+                                        <p class="font-style-normal font-weight-500 font-size-16">{{ skill.name }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <script>
+                                const addSkillBtn = $('#add-skill-btn');
+                                const skillInputsDiv = $('#skill-inputs');
+                                let numSkills = 1;
+
+                                addSkillBtn.on('click', () => {
+                                const newSkillInput = `
+                                    <div class="form-group skill-input">
+                                        <input type="text" class="form-control" name="new_skill_${numSkills}" placeholder="Enter a new skill...">
+                                    </div>
+                                `;
+                                skillInputsDiv.prepend(newSkillInput);
+                                numSkills++;
+                                });
+
+                                $('.profile-skill input[type="checkbox"]').on('change', function(event) {
+                                    event.preventDefault();
+                                    var profileSkill = $(this).parent();
+                                    if ($(this).is(':checked')) {
+                                        profileSkill.addClass('selected');
+                                    } else {
+                                        profileSkill.removeClass('selected');
+                                    }
+                                    return false;
+                                });
+
+                                $(document).ready(function() {
+                                    $("button#add-skills-btn-id").click(function() {
+                                        $("div#add-skills-container-id").toggle();
+                                        $("div#profile-skill-box-id").toggle();
+                                    });
+                                });
+                            </script>
+                        </section>
+                        <section class="skills-section">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Education</h2>
+                                <button type="button" id="add-educations-btn-id" class="btn margin-btn btn-btn font-style-normal font-weight-500 font-size-20 font-color-white" style="padding: 0.2rem 1.5rem;"><i class="fa-solid fa-plus"></i> Add</button>
+                            </div>
+                            <div id="add-educations-container-id">
+                                <form class="pr-ed-form" method="post"> 
+                                    {% csrf_token %} 
+                                    {{ education_formset.management_form }} 
+                                    {% for form in education_formset.forms %} 
+                                        {{ form.as_p }} 
+                                    {% endfor %} 
+                                    <button type="submit">Save</button> 
+                                </form>
+                            </div>
+                            <div class="experiences-grid display-flex flex-direction-column" id="profile-education-grid-id">
+                                {% for education in profile.educations.all %} 
+                                <div class="profile-education-grid">
+                                    <p class="font-style-normal font-weight-500 font-size-20 line-height-140">{{ education.year_of_study }}</p>
+                                    <div>
+                                        <h3 class="font-style-normal font-weight-500 font-size-20 line-height-140">{{ education.university }}</h3>
+                                        <div class="experiencebox" style="margin-top: 0.8rem;">
+                                            <p class="font-style-normal font-weight-400 font-size-16 line-height-140">{{ education.specialization }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %} 
+                                    <p>No education added yet.</p> 
+                                {% endfor %}
+                            </div>
+                            <script>
+                                $(document).ready(function() {
+                                    $("button#add-educations-btn-id").click(function() {
+                                        $("div#add-educations-container-id").toggle();
+                                        $("div#profile-education-grid-id").toggle();
+                                    });
+                                });
+                            </script>
+                        </section>
+                        <section>
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Experience</h2>
+                                <button type="button" id="add-experiences-btn-id" class="btn margin-btn btn-btn font-style-normal font-weight-500 font-size-20 font-color-white" style="padding: 0.2rem 1.5rem;"><i class="fa-solid fa-plus"></i> Add</button>
+                            </div>
+                            <div id="add-experiences-container-id">
+                                <form class="pr-ed-form" method="post"> 
+                                    {% csrf_token %} 
+                                        {{ experience_formset.management_form }} 
+                                    {% for form in experience_formset.forms %} 
+                                        {{ form.as_p }} 
+                                    {% endfor %} 
+                                    <button type="submit">Save</button> 
+                                </form>
+                            </div>
+                            <div class="experiences-grid display-flex flex-direction-column" id="profile-experience-grid-id">
+                                {% for experience in profile.experiences.all %} 
+                                <div class="profile-education-grid">
+                                    <p class="font-style-normal font-weight-500 font-size-20 line-height-140">{{ experience.work_duration }}</p>
+                                    <div>
+                                        <h3 class="font-style-normal font-weight-500 font-size-20 line-height-140" style="margin-bottom: 0.8rem;">{{ experience.company_name }}</h3>
+                                        <div class="experiencebox">
+                                            <h4 class="font-style-normal font-weight-500 font-size-20 line-height-140">{{ experience.position }}</h4>
+                                            <p class="font-style-normal font-weight-400 font-size-16 line-height-140">{{ experience.description }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% empty %} 
+                                    <p>No experience added yet.</p> 
+                                {% endfor %}
+                            </div>
+                            <script>
+                                $(document).ready(function() {
+                                    $("button#add-experiences-btn-id").click(function() {
+                                        $("div#add-experiences-container-id").toggle();
+                                        $("div#profile-experience-grid-id").toggle();
+                                    });
+                                });
+                            </script>
+                        </section>
+                    </section>
+                </section>
+                <section class="reviews-section">
+                    <h2 class="font-style-normal font-weight-600 font-size-25 font-color-main-color line-height-140">Reviews</h2>
+                    {% if page_obj %}
+                        {% for rating in page_obj %}
+                        <div class="review">
+                            <div class="review-info display-sb-c">
+                                <div>
+                                    <h4 class="font-weight-500 font-size-16">{{ rating.reviewer }}</h4>
+                                    <p class="font-weight-400 font-size-15 font-color-737272">{{ rating.created_at|date:"d.m.Y" }}</p>
+                                </div>
+                                <div>
+                                    <p class="display-none" id="rating_user_value">{{ rating.rating }}</p>
+                                    <i class="fa-solid fa-star starr font-size-22 font-color-ffd700"></i>
+                                    <i class="fa-solid fa-star starr font-size-22 font-color-ffd700"></i>
+                                    <i class="fa-solid fa-star starr font-size-22 font-color-ffd700"></i>
+                                    <i class="fa-solid fa-star starr font-size-22 font-color-ffd700"></i>
+                                    <i class="fa-solid fa-star starr font-size-22 font-color-ffd700"></i>
+                                </div>
+                            </div>
+                            <div class="review-comment">
+                                <p>
+                                    <span class="font-weight-500 font-size-16">Comment: </span>
+                                    {{ rating.comment }}
+                                </p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No reviews yet</p>
+                    {% endif%}
+                    {% if page_obj %}
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page={{ page_obj.previous_page_number }}"><i class="fa-solid fa-angle-left"></i></a>
+                            {% endif %}
+                            <span class="current-page">
+                                {{ page_obj.number }}&#47;{{ page_obj.paginator.num_pages }} 
+                            </span>       
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}"><i class="fa-solid fa-angle-right"></i></a>
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% endif %}
+                </section>
+            </main>
+            <script src="{% static 'js/post_project.js' %}"></script>
+        {% endif %}
+    </div>
+    {% include 'elements/footer.html' %}
+</div>
+<script src="{% static 'js/rating.js' %}"></script>
+{% endblock %}

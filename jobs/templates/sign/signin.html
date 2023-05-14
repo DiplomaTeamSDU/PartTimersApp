@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sign In{% endblock %}
+{% block content %}
+<main class="login-container display-flex">  
+    <section class="left-login width-reg center">
+        <h1 class="title-login font-color-white">Continue your <span class="title-login-span">journey</span> with us</h1>
+    </section>
+    <section class="right-login width-reg display-f-c-c flex-direction-column ">
+        <a class="close" href="{% url 'home' %}">&times;</a>
+        <form method="post">
+            {% csrf_token %}
+            <div class="login-box display-flex flex-direction-column">
+                <h2 style="font-size: 36px; margin-bottom: 55px;">Log in</h2>
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                {% endif %}
+                
+                <div class="login-fields">
+                    <input type="text" name="email" required placeholder="Email address">
+                    <input type="password" name="password" required placeholder="Password">
+                </div>
+                <div>
+                    {% if form.errors.email %}
+                        <div class="alert alert-danger">{{ form.errors.email }}</div>
+                    {% endif %}
+                    {% if form.errors.password %}
+                        <div class="alert alert-danger">{{ form.errors.password }}</div>
+                    {% endif %}
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <button type="submit" class="btn btn-btn font-style-normal font-weight-500 font-size-18 font-color-white" style="padding: 0.4rem 1.8rem;">Sign In</button> 
+                    <a href="{% url 'password_reset' %}" class="login-reset">Forgot your password?</a>
+                </div>
+                <div class="display-flex align-items-center" style="margin-top: 20px;">
+                    <p style="margin-right: 35px; font-weight: 500; font-size: 16px;">Don't have an account?</p>
+                    <a href="{% url 'register' %}" style="text-decoration: none; color: #4C56CC; font-weight: 500; font-size: 16px;">Create new one</a>
+                </div>
+            </div>
+        </form>
+    </section>
+</main>
+{% endblock %}

@@ -10,7 +10,7 @@ SECRET_KEY = 'django-insecure--#$$t1lm0*hf05y5u7i$pda2u^t^g*$f8%g7$b70s+5t!jo3j*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -18,6 +18,7 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/profile/'
 
 INSTALLED_APPS = [
+    'chat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -29,6 +30,7 @@ INSTALLED_APPS = [
     'jobs',
     'ckeditor',
     'channels',
+    'active_link',
 ]
 
 MIDDLEWARE = [
@@ -61,11 +63,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'parttimers.wsgi.application'
 
+ASGI_APPLICATION = 'parttimers.asgi.application'
 
-ASGI_APPLICATION = '[jobs].routing.application'
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    "default": {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+        # "BACKEND": "channels_redis.core.RedisChannelLayer",
+        # "CONFIG": {
+        #     "hosts": [("127.0.0.1", 6380)],
+        # },
     },
 }
 
@@ -145,11 +151,20 @@ USE_I18N = True
 
 USE_TZ = True
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '190103045@stu.sdu.edu.kz'
+EMAIL_HOST_PASSWORD = 'jptuyhubbnsmykxu'
 
 
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'jobs/static')
+    os.path.join(BASE_DIR, 'jobs/static/')
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -190,8 +205,25 @@ CKEDITOR_CONFIGS = {
           "groups": ["about"]
         }
       ],
-        # 'toolbar': 'full',
-        'height': 400,
+        'removePlugins': 'exportpdf',
+        'height': 200,
+        'width': '100%',
+    },
+    'edit_profile_bio': {
+        'skin': 'n1theme,/static/ckeditor/n1theme/',
+        'toolbar_EditProfileCustomToolbar': [
+            {'name': 'styles', 'items': ['Styles', 'Format', 'FontSize']},
+            {'name': 'basicstyles', 'items': ['Bold', 'Italic', 'Underline', 'Strike']},
+            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
+            {'name': 'paragraph', 'items': ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
+            {'name': 'links', 'items': ['Link', 'Unlink']},
+            {'name': 'insert', 'items': ['SpecialChar', 'PageBreak']},
+            {'name': 'colors', 'items': ['TextColor']},
+            {'name': 'tools', 'items': ['Maximize']},
+        ],
+        'toolbar': 'EditProfileCustomToolbar',
+        'removePlugins': 'exportpdf',
+        'height': 150,
         'width': '100%',
     },
 }

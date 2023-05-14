@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Active Projects{% endblock %}
+{% block content %}
+<div>
+    <div class="wrapper">
+        {% include 'elements/navbar.html' %}
+        <main>
+            <h1 class="application-h1 font-style-normal font-weight-600 font-color-main-color">Active Projects</h1>
+            <div class="application display-flex">
+                <button id="ongoing-button" class="btn-no-border font-style-normal font-weight-500 font-size-20 font-color-042552 opacity-07">On-going</button>
+                <button id="finished-button" class="btn-no-border font-style-normal font-weight-500 font-size-20 font-color-042552 opacity-07">Finished</button>
+            </div>
+            <hr class="margin16 opacity-hr">
+            {% if request.user.company %}  
+                <section id="ongoing-id" class="applications-active display-flex flex-direction-column"> 
+                    {% for job in jobs %} 
+                        {% for application in job.jobapplication_set.all %} 
+                            {% if application.job.status == 'progress' or application.job.status == 'pending_review' %} 
+                                    <div class="application-job-active display-sb-c"> 
+                                        <div class="display-flex flex-direction-column align-content-sb"> 
+                                            <p class="font-style-normal font-weight-500 font-color-042552 font-size-24 opacity-07">{{ application.job.title }}</p> 
+                                            <p class="font-style-normal font-weight-400 font-color-e9a31b font-size-18 opacity-07">
+                                                {% if application.job.status == 'progress' %}
+                                                    In Progress
+                                                {% elif application.job.status == 'pending_review' %}
+                                                    On Review
+                                                {% endif %}
+                                            </p> 
+                                        </div>   
+                                        
+                                        <div class="display-flex flex-direction-column align-items-flex-end"> 
+                                            <p class="font-style-normal font-weight-500 font-color-042552 font-size-16 opacity-07">Due To {{ application.job.timeline }}</p> 
+                                            {% if application.job.status == 'pending_review' %} 
+                                                <button id="submit-btn-{{ application.job.id }}" class="btn btn-btn font-style-normal font-weight-500 font-size-16 font-color-white" style="padding: 0.2rem 1.5rem;">View Submission</button> 
+                                            {% endif %}
+                                        </div> 
+                                    </div> 
+                                    
+                                    {% for submission in job.submission_set.all %} 
+                                        <div class="modal-overlay" id="submit-modal-{{ application.job.id }}"> 
+                                            {% include 'modals/view_submission.html' %} 
+                                        </div>  
+                                    {% endfor %}
+                            {% endif %}
+                        {% empty %}  
+                            <p>No applications found.</p> 
+                        {% endfor %} 
+                    {% empty %}  
+                        <p>You haven't posted any jobs yet.</p>  
+                    {% endfor %} 
+                </section>   
+                <section id="finished-id" class="applications-active display-flex flex-direction-column"> 
+                    {% for job in jobs %} 
+                        {% for application in job.jobapplication_set.all %} 
+                                {% if application.job.status == 'completed' %} 
+                                    <div class="application-job-active display-sb-c"> 
+                                        <div class="display-flex flex-direction-column align-content-sb"> 
+                                            <a href="{% url 'view_job' job_id=application.job.id %}" class="text-decoration-no font-weight-500 font-color-042552 font-size-24 opacity-07">{{ application.job.title }}</a> 
+                                            <p class="font-style-normal font-weight-400 font-color-379909 font-size-18 opacity-07">Done</p> 
+                                        </div> 
+                                        <div class="display-flex flex-direction-column align-items-flex-end"> 
+                                            <p class="font-style-normal font-weight-500 font-color-042552 font-size-16 opacity-07">Due To {{ application.job.timeline }}</p> 
+                                            <button id="submit-btn-{{ application.job.id }}" class="btn btn-btn font-style-normal font-weight-500 font-size-16 font-color-white" style="padding: 0.2rem 1.5rem;">View Submission</button>
+                                        </div> 
+                                    </div> 
+                                    {% for submission in job.submission_set.all %} 
+                                    <div class="modal-overlay" id="submit-modal-{{ application.job.id }}"> 
+                                        {% include 'modals/view_submission.html' %} 
+                                    </div>  
+                                    {% endfor %} 
+                            {% endif %} 
+                        {% empty %}  
+                            <p>No applications found.</p> 
+                        {% endfor %} 
+                    {% empty %}  
+                        <p>You haven't posted any jobs yet.</p>  
+                    {% endfor %} 
+                </section>   
+                <script src="{% static 'js/submit-work.js' %}"></script>
+            {% else %}
+                <section id="ongoing-id" class="applications-active display-flex flex-direction-column">
+                    {% if applications %} 
+                        {% for application in applications %}
+                            {% if application.job.status == 'progress' or application.job.status == 'pending_review' %} 
+                            <div class="application-job-active display-sb-c">
+                                <div class="display-flex flex-direction-column align-content-sb">
+                                    <p class="font-style-normal font-weight-500 font-color-042552 font-size-24 opacity-07">{{ application.job.title }}</p>
+                                    <p class="font-style-normal font-weight-400 font-color-e9a31b font-size-18 opacity-07">
+                                        {% if application.job.status == 'progress' %}
+                                            In Progress
+                                        {% elif application.job.status == 'pending_review' %}
+                                            On Review
+                                        {% endif %}
+                                    </p> 
+                                </div>
+                                <div class="display-flex flex-direction-column align-items-flex-end">
+                                    <p class="font-style-normal font-weight-500 font-color-042552 font-size-16 opacity-07">Due To {{ application.job.timeline }}</p>
+                                    <button id="submit-btn-{{ application.job.id }}" class="btn btn-btn font-style-normal font-weight-500 font-size-16 font-color-white" style="padding: 0.2rem 1.5rem;">
+                                        {% if application.job.status == 'progress' %}
+                                            Submit Work
+                                        {% elif application.job.status == 'pending_review' %}
+                                            Resubmit Work
+                                        {% endif %}
+                                    </button>
+                                </div>
+                            </div>
+                            {% endif %}
+                        <div class="modal-overlay" id="submit-modal-{{ application.job.id }}">
+                            {% include 'modals/submit_work.html' %}
+                        </div>
+                        {% endfor %} 
+                    {% else %} 
+                        <p>You have not applied to any jobs yet.</p> 
+                    {% endif %} 
+                </section>
+                <section id="finished-id" class="applications-active display-flex flex-direction-column">
+                    {% if applications %} 
+                        {% for application in applications %}
+                        {% if application.job.status == 'completed' %}
+                        <div class="application-job-active display-sb-c">
+                            <div class="display-flex flex-direction-column align-content-sb">
+                                <p class="font-style-normal font-weight-500 font-size-24 opacity-07"><a class="font-color-042552 text-decoration-no" href="{% url 'view_job' job_id=application.job.id %}">{{ application.job.title }}</a></p>
+                                <p class="font-style-normal font-weight-400 font-color-379909 font-size-18 opacity-07">Done</p> 
+                            </div>
+                            <div class="display-flex flex-direction-column align-items-flex-end">
+                                <p class="font-style-normal font-weight-500 font-color-042552 font-size-16 opacity-07">Due To {{ application.job.timeline }}</p>
+                                
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="modal-overlay" id="submit-modal-{{ application.job.id }}">
+                            {% include 'modals/submit_work.html' %}
+                        </div>
+                        {% endfor %} 
+                    {% else %} 
+                        <p>You have not applied to any jobs yet.</p> 
+                    {% endif %} 
+                </section>
+                <script src="{% static 'js/submit-work.js' %}"></script>
+            {% endif %}
+        </main>
+    </div>
+    {% include 'elements/footer.html' %}
+</div>
+{% endblock %}
