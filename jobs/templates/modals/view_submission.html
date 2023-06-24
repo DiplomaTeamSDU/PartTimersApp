@@ -1,0 +1,89 @@
+<section class="view-submission"> 
+    
+    <span title="Close" class="close font-color-black font-size-40 font-weight-700">&times;</span> 
+    <h1 class="font-style-normal font-weight-600 font-size-25 font-color-main-color" style="margin-bottom: 1rem;">{{ application.job.title }}</h1>
+    <p class="font-style-normal font-weight-400 font-size-20 font-color-main-color">Status</p>
+    {% if application.job.status == 'progress' %}
+        <p class="font-style-normal font-weight-400 font-color-e9a31b font-size-18 opacity-07" style="margin-bottom: 1rem;">In Progress</p>
+    {% elif application.job.status == 'pending_review' %}
+        <p class="font-style-normal font-weight-400 font-color-e9a31b font-size-18 opacity-07" style="margin-bottom: 1rem;">On Review</p>
+    {% elif application.job.status == 'completed' %}
+        <p class="font-style-normal font-weight-400 font-color-379909 font-size-18 opacity-07" style="margin-bottom: 1rem;">Done</p>
+    {% endif %}
+
+    {% if application.job.status == 'pending_review' %}
+    <form class="display-flex flex-direction-column" method="POST" enctype="multipart/form-data"> 
+        {% csrf_token %}  
+
+        <div class="file-download-submission">
+            {% if submission.file %}
+                {% if submission.file.url %}
+                    <a href="{{ submission.file.url }}" target="_blank" class="display-sb-c text-decoration-no font-size-16 font-color-042552 opacity-07" style="padding: 1rem 1rem;">
+                        {{ submission.file }}
+                        <i class="fa-solid fa-download"></i>
+                    </a>
+                {% endif %}
+                {% else %}
+                <div class="display-sb-c" style="padding: 1rem 1rem;">
+                    <p class="display-sb-c font-size-16 font-color-042552 opacity-07">No file</p>
+                    <i class="fa-solid fa-download"></i>
+                </div>
+            {% endif %}
+
+        </div>
+        <span class="display-flex align-items-center justify-content-sb">
+            <div class="horizontal-line"></div>
+            <p class="font-style-normal font-weight-400 font-color-main-color font-size-25 opacity-0">OR</p>
+            <div class="horizontal-line"></div>
+        </span>
+
+        <div class="file-download-submission">
+            {% if submission.link %}
+                <a href="{{ submission.link }}" class="font-style-normal font-weight-400 font-color-042552 opacity-07 font-size-16 truncated-link" style="padding: 1rem 1rem;">{{ submission.link }}</a> 
+            {% else %}
+                <p class="font-style-normal font-weight-400 font-color-042552 opacity-07 font-size-16" style="padding: 1rem 1rem;">There's no link</p>
+            {% endif %}
+        </div>
+        
+
+        <input type="hidden" name="submission_id" value="{{ submission.id}}"> 
+        <input type="hidden" name="action" value="accept"> 
+        <div>
+            <button type="submit" class="btn btn-btn font-style-normal font-weight-500 font-size-16 font-color-white" style="padding: 0.2rem 1.5rem;">Accept Work</button>  
+        </div>
+    </form> 
+
+    {% else %}
+        <section class="display-flex flex-direction-column">
+            <div class="file-download-submission">
+                {% if submission.file %}
+                    {% if submission.file.url %}
+                        <a href="{{ submission.file.url }}" target="_blank" class="display-sb-c text-decoration-no font-size-16 font-color-042552 opacity-07" style="padding: 1rem 1rem;">
+                            {{ submission.file }}
+                            <i class="fa-solid fa-download"></i>
+                        </a>
+                    {% endif %}
+                    {% else %}
+                    <div class="display-sb-c" style="padding: 1rem 1rem;">
+                        <p class="display-sb-c font-size-16 font-color-042552 opacity-07">No file</p>
+                        <i class="fa-solid fa-download"></i>
+                    </div>
+                {% endif %}
+    
+            </div>
+            <span class="display-flex align-items-center justify-content-sb">
+                <div class="horizontal-line"></div>
+                <p class="font-style-normal font-weight-400 font-color-main-color font-size-25 opacity-0">OR</p>
+                <div class="horizontal-line"></div>
+            </span>
+    
+            <div class="file-download-submission">
+                {% if submission.link %}
+                    <a href="{{ submission.link }}" class="font-style-normal font-weight-400 font-color-042552 opacity-07 font-size-16 truncated-link" style="padding: 1rem 1rem;">{{ submission.link }}</a> 
+                {% else %}
+                    <p class="font-style-normal font-weight-400 font-color-042552 opacity-07 font-size-16" style="padding: 1rem 1rem;">There's no link</p>
+                {% endif %}
+            </div>
+        </section>
+    {% endif %}
+</section>

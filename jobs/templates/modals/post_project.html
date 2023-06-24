@@ -1,0 +1,32 @@
+<!-- <div class="modal fade" id="create-project-modal" tabindex="-1" role="dialog" aria-labelledby="create-project-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="create-project-modal-label">Create Project</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ project_form.as_p }}
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="project-modal" id="project-modal-id">
+    <span title="Close" class="close font-color-black font-size-40 font-weight-700">&times;</span>
+    <h1>Upload new project</h1>
+    {% if project_form %}
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ project_form.as_p }}
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    {% endif %}
+    
+</div>

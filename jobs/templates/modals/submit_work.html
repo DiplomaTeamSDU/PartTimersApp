@@ -1,0 +1,39 @@
+<section class="submit-work">
+    <span title="Close" class="close font-color-black font-size-40 font-weight-700">&times;</span>
+    <h1 class="font-style-normal font-weight-600 font-size-25 font-color-main-color" style="margin-bottom: 1rem;">{{ application.job.title }}</h1>
+    <p class="font-style-normal font-weight-400 font-size-20 font-color-main-color">Status</p>
+    <p class="font-style-normal font-weight-400 font-color-e9a31b font-size-18 opacity-07" style="margin-bottom: 1rem;">
+        {% if application.job.status == 'progress' %}
+            In Progress
+        {% elif application.job.status == 'pending_review' %}
+            On Review
+        {% endif %}
+    </p> 
+    <form class="display-flex flex-direction-column" method="POST" enctype="multipart/form-data">  
+        {% csrf_token %}  
+        <div class="file-add-area display-f-c-c">
+            <input type="file" name="file" id="id_file">
+            <label for="id_file" class="custom-file-label display-flex flex-direction-column align-items-center justify-content-center">
+                <i class="fa-solid fa-upload font-size-24"></i>
+                <p>Click to upload your project  </p>
+            </label>
+        </div>
+        
+        <span class="display-flex align-items-center justify-content-sb">
+            <div class="horizontal-line"></div>
+            <p class="font-style-normal font-weight-400 font-color-main-color font-size-25 opacity-0">OR</p>
+            <div class="horizontal-line"></div>
+        </span>
+        <div>
+            <label for="link" class="font-style-normal font-weight-500 font-color-042552 font-size-16 opacity-07">Paste your link to your project or cv</label>
+            <input class="link-inp font-size-16" type="url" name="link" maxlength="255" id="id_link" placeholder="Link to project">
+        </div>
+        
+        <!-- {{ form.as_p }}   -->
+        <input type="hidden" name="job_id" value="{{ application.job.id }}"> 
+        <div>
+            <button type="submit" class="btn btn-btn font-style-normal font-weight-500 font-size-16 font-color-white" style="padding: 0.2rem 1.5rem;">Submit Work</button>   
+        </div>
+        
+    </form>
+</section>

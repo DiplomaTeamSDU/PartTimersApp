@@ -1,0 +1,27 @@
+<div class="container rating-container">
+    <p class="rating-icon"><i class="fa-solid fa-comments rating-icon"></i></p>
+    <h1 class="rating-h1">Please, rate your experience</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="rating-container-form">
+            <h2 class="rating-h2">Buy again or recommend</h2>
+            <p class="rating-p">Would you recommend this freelancer? Please, rate service by stars</p>
+            <div class="rating-form">
+                <input type="radio" name="rating" value="5" required="" id="id_rating_5">
+                <label for="id_rating_5" class="fa-solid fa-star"></label>
+                <input type="radio" name="rating" value="4" required="" id="id_rating_4">
+                <label for="id_rating_4" class="fa-solid fa-star"></label>
+                <input type="radio" name="rating" value="3" required="" id="id_rating_3">
+                <label for="id_rating_3" class="fa-solid fa-star"></label>
+                <input type="radio" name="rating" value="2" required="" id="id_rating_2">
+                <label for="id_rating_2" class="fa-solid fa-star"></label>
+                <input type="radio" name="rating" value="1" required="" id="id_rating_1">
+                <label for="id_rating_1" class="fa-solid fa-star"></label>
+            </div>
+            <h2 class="rating-h2">Wat was like working with this freelancer?</h2>
+            <p class="rating-p">Comment your experience with this freelancer</p>
+            <textarea name="comment" cols="40" rows="3" id="id_comment" placeholder="Text" cl></textarea>
+        </div>
+        <div class="rating-btn"><button type="submit">Send</button></div>
+    </form>
+</div>

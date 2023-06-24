@@ -1,0 +1,57 @@
+{% load static %}
+<header>
+    <nav class="display-sb-c">
+        <ul class="nav-ul display-sb-c">
+            <li><a href="{% url 'home' %}"><img src="{% static 'images/logo.svg' %}" alt="Logo"></a></li>
+            <li class="mob-hide"><a class="font-style-normal font-color-black font-weight-500 font-size-18 text-decoration-no nav-link-hover" href="{% url 'home' %}">Home</a></li>
+            <li class="mob-hide"><a class="font-style-normal font-color-black font-weight-500 font-size-18 text-decoration-no nav-link-hover" href="{% url 'find_freelancer' %}">Find Talent</a></li>
+            <li class="mob-hide"><a class="font-style-normal font-color-black font-weight-500 font-size-18 text-decoration-no nav-link-hover" href="{% url 'view_jobs' %}">Find Work</a></li>
+        </ul>
+        <div class="nav-right">
+            {% if user.is_authenticated %}
+                <ul class="list-style-no nav-ul-right display-sb-c">
+                    <li><a href="/chat/" class="fa-solid fa-envelope text-decoration-no font-size-20 font-color-333333 nav-link-hover" target="_blank"></a></li>
+                    <li class="li-sub">
+                        {% if user.company %}
+                            <img src="{{ user.company.logo.url }}" class="object-fit-cover" alt="employer_profile_image" style="border-radius: 50%; cursor: pointer; border: 1px solid #737272a1" width="50px" height="50px">
+                        {% elif user.freelancer %}
+                            <img src="{{ user.freelancer.photo.url }}" class="object-fit-cover" alt="freelancer_profile_image" style="border-radius: 50%; cursor: pointer; border: 1px solid #737272a1" width="50px" height="50px">
+                        {% endif %} 
+                        <ul class="list-style-no ul-sub">
+                            <li class="ul-sub-li display-flex">
+                                {% if user.company %}
+                                    <img src="{{ user.company.logo.url }}" class="object-fit-cover" alt="employer_profile_image" style="border-radius: 50%; cursor: pointer; border: 1px solid #737272a1" width="60px" height="60px">
+                                    <div>
+                                       <h3 class="width-12 font-style-normal font-weight-500 font-size-20 truncate-webkit-2">{{ user.company.name }}</h3>
+                                       <p class=" width-12 font-style-normal font-weight-300 font-size-16 font-color-737272 truncate">{{ user.company.field }}</p>
+                                    </div>
+                                {% elif user.freelancer %}
+                                    <img src="{{ user.freelancer.photo.url }}" class="object-fit-cover" alt="freelancer_profile_image" style="border-radius: 50%; cursor: pointer; border: 1px solid #737272a1" width="60px" height="60px">
+                                    <div>
+                                       <h3 class="width-12 font-style-normal font-weight-500 font-size-20 truncate-webkit-2">{{ user.freelancer.first_name }} {{ user.freelancer.last_name }}</h3>
+                                       <p class="width-12 font-style-normal font-weight-300 font-size-16 font-color-737272 truncate">{{ user.freelancer.occupation }}</p>
+                                    </div>
+                                {% endif %}
+                            </li>
+                            <li class="ul-sub-lis content-f007 display-flex">
+                                <a href="{% url 'profile' %}" class="font-style-normal font-weight-500 font-size-20 text-decoration-no font-color-black nav-link-hover">My Profile</a>
+                            </li>
+                            <li class="ul-sub-lis content-f004 display-flex">
+                                <a href="{% url 'active_projects' %}" class="font-style-normal font-weight-500 font-size-20 text-decoration-no font-color-black nav-link-hover">Active Projects</a>
+                            </li>
+                            <li class="ul-sub-lis content-f15b display-flex">
+                                <a href="{% url 'applications' %}" class="font-style-normal font-weight-500 font-size-20 text-decoration-no font-color-black nav-link-hover">My Applications</a>
+                            </li>
+                            <li class="display-flex justify-content-center" style="margin-top: 1.25rem;">
+                                <a class="font-style-normal font-weight-500 font-color-red text-decoration-no font-size-20" href="{% url 'logout' %}">Log Out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            {% else %}
+                <a class="font-style-normal font-color-black font-weight-500 font-size-18 text-decoration-no nav-link-hover" href="{% url 'login' %}">Login</a>
+                <a class="font-style-normal font-color-white font-weight-500 font-size-18 text-decoration-no sign-up-btn sign-up-btn-margin"  href="{% url 'register' %}">Sign Up</a>
+            {% endif %}
+        </div>
+    </nav>
+</header>

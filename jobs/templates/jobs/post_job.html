@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Post Job{% endblock %}
+{% block content %}
+<div>
+    <div class="wrapper">
+        {% include 'elements/navbar.html' %}
+        <main>
+            <h1 class="font-style-normal font-weight-700 font-size-40 font-color-main-color text-align-center">My Profile</h1>
+            <div class="post-job-container">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="post-job-1">
+                        <h2 style="margin: 0; font-weight: 600; font-size: 26px; color: #4C56CC;">Upload new vacancy</h2>
+                        <input type="submit" value="Apply" class="applybtn1 btn btn-btn font-style-normal font-weight-500 font-size-20 font-color-white" style="padding: 0.4rem 1.5rem; font-size: 16px !important;">
+                    </div>
+                    <div class="post-job-2">
+                        <label for="{{ form.title.id_for_label }}" class="header-25-colored">{{ form.title.label }}</label>
+                        <input type="text" name="title" maxlength="255" required="" id="id_title" placeholder="Text">
+                        {% if form.title.errors %}
+                            <div class="error-message">{{ form.title.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="post-job-3">
+                        <label for="{{ form.description.id_for_label }}" class="header-25-colored">What are you looking for to get done?</label>
+                        <p style="margin: 0 0 20px 0; font-weight: 500; font-size: 16px; line-height: 140%; color: #737272;">This will help to get your brief to the right talent. Specifics help here.</p>
+                        <!-- <textarea name="description" cols="40" rows="10" required="" placeholder="I need a ..." id="id_description"></textarea> -->
+                        {{ form.media }}
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <div class="error-message">{{ form.description.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div style="margin-top: 1.25rem;">
+                        <label class="input-file">
+                            <input type="file" name="file">
+                            <span class="input-file-btn">Attach File <i class="fa-solid fa-upload"></i></span>           
+                            <span class="input-file-text">Attach .pdf with size 5 mb max</span>
+                        </label>
+                        {% if form.file.errors %}
+                            <div class="error-message">{{ form.file.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="post-job-4">
+                        <label for="{{ form.category.id_for_label }}" class="header-25-colored">Choose category that fits your vacancy?</label>
+                        {{ form.category }}
+                        {% if form.category.errors %}
+                            <div class="error-message">{{ form.category.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- <div class="form-group"> 
+                        <label for="{{ form.skills.id_for_label }}">Skills:</label> 
+                        <select name="{{ form.skills.html_name }}" id="{{ form.skills.id_for_label }}" multiple> 
+                            {% for skill in form.skills.field.queryset %} 
+                                <option value="{{ skill.pk }}" {% if skill in form.skills.value %}selected{% endif %}>{{ skill }}</option> 
+                            {% endfor %} 
+                        </select> 
+                        {% if form.skills.errors %} 
+                            <div class="errors"> 
+                                {% for error in form.skills.errors %} 
+                                    <p>{{ error }}</p> 
+                                {% endfor %} 
+                            </div> 
+                        {% endif %} 
+                    </div> -->
+                    <!-- <script>
+                        $(document).ready(function() { 
+                            $('select[multiple]').mousedown(function(e) { 
+                            e.preventDefault(); 
+                            
+                            var select = this; 
+                            var scroll = select.scrollTop; 
+                            
+                            e.target.selected = !e.target.selected; 
+                            
+                            setTimeout(function() { 
+                                select.scrollTop = scroll; 
+                            }, 0); 
+                            
+                            $(select).focus(); 
+                            }).mousemove(function(e) { 
+                            e.preventDefault(); 
+                            }); 
+                        }); 
+                    </script> -->
+                    <div class="post-job-4 display-flex flex-direction-column">
+                        <!-- <label for="{{ form.category.id_for_label }}" class="header-25-colored">Write position that fits your vacancy?</label> -->
+                        <!-- {{ form.position }} -->
+                        <label for="id_category" class="header-25-colored">Write position that fits your vacancy</label>
+                        <input type="text" name="position" maxlength="20" required="" id="id_position" placeholder="Ex.: Data Analyst, UI/UX Designer">
+                        {% if form.position.errors %}
+                            <div class="error-message">{{ form.position.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="post-job-5">
+                        <div style="margin-right: 1.5rem;">
+                            <label for="{{ form.salary.id_for_label }}" class="header-25-colored">{{ form.salary.label }}</label>
+                            <input type="number" name="salary" min="0" id="id_salary" placeholder="Salary">
+                            {% if form.salary.errors %}
+                                <div class="error-message">{{ form.salary.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.timeline.id_for_label }}" class="header-25-colored">{{ form.timeline.label }}</label>
+                            <!-- {{ form.timeline }} -->
+                            <input type="text" pattern="\d{1,2}\.\d{1,2}\.\d{4}" placeholder="dd.mm.yyyy" name="timeline">
+                            {% if form.timeline.errors %}
+                                <div class="error-message">{{ form.timeline.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- {{ form.as_p }} -->
+                </form>
+            </div>
+        </main>
+    </div>
+    {% include 'elements/footer.html' %}
+</div>
+<script src="{% static 'js/post-job.js' %}"></script>
+{% endblock %}

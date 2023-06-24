@@ -1,0 +1,674 @@
+/* COMPANY PROFILE PAGE */
+.company-head {
+    position: relative;
+    column-gap: 4.375rem;
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+}
+
+.company-head a,
+.company-head button {
+    position: absolute;
+    right: 0;
+}
+
+.company-head h3 {
+    margin-top: 0.3rem;
+}
+
+.profile-c-img, .company-image {
+    min-width: 120px;
+    min-height: 120px;
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 50%;
+    border: 0.5px solid #747474b9;
+}
+
+.vertical {
+    border-left: 1px solid #c9c9c9;
+    margin: 0 2rem;
+}
+
+.rating-box-grid {
+    margin-top: 1.3rem;
+    margin-bottom: 3.125rem;
+    width: 20.625rem;
+}
+
+.rating-stars {
+    column-gap: 1rem;
+} 
+
+.linked-accounts-grid {
+    display: grid;
+    grid-template-columns: 2rem auto;
+    align-items: center;
+    justify-items: center;
+    row-gap: 1rem;
+    column-gap: 0.8rem;
+}
+
+.linked-accounts input {
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    font-size: 1.125rem;
+}
+
+.linked-accounts input:focus {
+    outline: 1px solid #737272;
+}
+
+.linked-accounts a:hover {
+    color: #6770cc;
+    font-weight: 500;
+}
+
+.company-head h3,
+.linked-accounts h2,
+.profile-bio h2 {
+    margin-bottom: 1rem;
+}
+
+.profile-bio {
+    margin-bottom: 2rem;
+}
+
+/* JOBS THAT COMPANY POSTED */
+.profile-c-3-1 {
+    row-gap: 3rem;
+    column-gap: 1.5rem;
+    margin-top: 2.75rem;
+}
+
+.profile-company-job-box {
+    box-sizing: border-box;
+    padding: 1.688rem 1.25rem;
+    position: relative;
+    background: #FFFEFE;
+    border: 1px solid #DADADA;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;  
+    cursor: pointer;
+
+    width: 13rem;
+}
+
+.profile-company-job-box:hover {
+    background: #eeeded;
+}
+
+.profile-company-job-box h3 {
+    width: 85%;
+}
+
+.profile-company-job-box hr {
+    margin: 0.5rem 0;
+    opacity: 0.8;
+}
+
+.profile-company-job-edit {
+    position: absolute;
+    right: 10%;
+}
+
+.profile-company-job-edit a {
+    color: #4C56CC;
+}
+
+.profile-company-job-edit a:hover {
+    color: #7279c9;
+}
+
+.skill {
+    background: #E2DDFF;
+    border-radius: 3.125rem;
+    padding: 0.1rem 0.5rem;
+    flex-direction: row;
+}
+
+.btn {
+    border-radius: 1.25rem;
+    background-color: #4C56CC;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #747ddd;
+    transition: 0.2s ease;
+}
+
+.btn:active {
+    background-color: #747ddd;
+}
+
+.btn-btn {
+    border: 0;
+    cursor: pointer;
+}
+
+.margin-btn {
+    margin-left: 2rem;
+}
+
+#add-educations-container-id {
+    display: none;
+}
+
+#add-experiences-container-id {
+    display: none;
+}
+
+/* COMPANY EDIT PROFILE PAGE */
+.company-head-edit {
+    display: grid;
+    grid-template-columns: 200px auto;
+    align-items: center;
+    row-gap: 0.8rem;
+}
+
+.field-input input {
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    border-radius: 0.625rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    width: 19.375rem;
+}
+
+.profile-bio-richtext textarea {
+    width: 500px;
+}
+
+.bio-textarea textarea {
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    border-radius: 10px;
+    width: 100%;
+    height: 10rem;
+    padding: 1rem;
+    font-size: 1rem;
+}
+
+.bio-textarea textarea:focus,
+.field-input input:focus {
+    outline: 0.5px solid #737272;
+}
+
+.company-image-edit {
+    width: 7.5rem;
+    height: 7.5rem;
+    border-radius: 50%;
+    border: 0.5px solid #747474;
+}
+
+/* FREELANCER PROFILE PAGE */
+.profile-skill-box {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.skills-section {
+    margin-bottom: 2rem;
+}
+
+.profile-skill {
+    padding: 0.4rem 1rem;
+    background: #E2DDFF;
+    border-radius: 3.125rem;  
+    text-align: center;
+}
+
+.profile-skill p,
+.form-check-label {
+    color: #042552;
+    opacity: 0.7;
+}
+
+.profile-skill input[type="checkbox"] {
+    opacity: 0;
+    background-color: #000000;
+    pointer-events: auto;
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+.profile-skill label {
+    cursor: pointer;
+}
+
+.profile-skill.unchecked {
+    background-color: #E2DDFF;
+    color: #042552;
+    opacity: 0.7;
+}
+
+.profile-skill.selected {
+    background-color: #c4bbf7;
+    color: #fff;
+}
+
+.skill-input input {
+    padding: 0.4rem 1rem;
+    background: #E2DDFF;
+    border-radius: 3.125rem; 
+    border: 0; 
+    font-size: 1rem;
+    /* width: fit-content; */
+}
+
+.skill-input input:focus {
+    outline: 0;
+}
+
+.profile-education-grid {
+    display: grid;
+    grid-template-columns: 200px auto;
+    align-items: center;
+    row-gap: 2rem;
+}
+
+.experiences-grid {
+    row-gap: 1.8rem;
+}
+
+
+
+/* FREELANCER PROFILE EDIT PAGE */
+.freelancer-edit-border {
+    border: 2px solid #4C56CC;
+    border-radius: 2.125rem;
+    padding: 6.188rem 6.875rem;
+    margin-top: 1rem;
+}
+
+.profile-image {
+    position: relative;
+}
+
+.profile-img {
+    width: 11.563rem;
+    height: 11.563rem;
+    border-radius: 50%;
+    border: 0.5px solid #747474;
+}
+
+.circle,
+.circle-f {
+    cursor: pointer;
+    position: absolute;
+    transform: translateX(-50%);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%; 
+    background-color: #4C56CC; 
+}
+
+.circle {
+    bottom: -0.5rem;
+    left: 50%;
+}
+
+.circle-f {
+    bottom: -0.5rem;
+    left: 50%;
+}
+  
+.circle:hover,
+.circle-f:hover {
+    background-color: #6871d3; 
+    transition: 0.3s ease;
+}
+
+.freelancer-head {
+    column-gap: 4rem;
+    margin-bottom: 5rem;
+}
+
+.freelancer-head button {
+    position: absolute;
+    right: 0;
+}
+
+.freelancer-head-edit {
+    display: grid;
+    grid-template-columns: 10rem auto;
+    align-items: center;
+    row-gap: 0.4rem;
+}
+
+.freelancer-bio-edit,
+.freelancer-skills-edit {
+    margin-bottom: 2rem;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 9999;
+}
+
+.project-modal { 
+    position: fixed; 
+    z-index: 1; 
+    padding: 1.875rem; 
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 34px;
+    overflow: hidden;
+    width: 30.25rem;
+}
+
+.project-form {
+    row-gap: 1rem;
+}
+
+.project-form input,
+.project-form textarea {
+    background: #FFFFFF;
+    border: 2px solid #4C56CC;
+    border-radius: 0.7rem;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+}
+
+.project-form input:focus,
+.project-form textarea:focus {
+    border: 0;
+    outline: 2px solid #73727283;
+}
+
+.project-form textarea {
+    height: 100px;
+    
+}
+
+.project-form span {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-photo-modal {
+    /* display: none;  */
+    position: fixed; 
+    z-index: 1; 
+    padding: 1.875rem; 
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 34px;
+    overflow: hidden;
+}
+
+.edit-photo-modal-content {
+    margin: auto;
+    width: 31.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 30px;
+}
+
+.company-image-edit {
+    width: 7.5rem;
+    height: 7.5rem;
+    border-radius: 50%;
+    border: 0.5px solid #747474;
+}
+
+.close {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    transition: 0.3s;
+}
+  
+.close:hover,
+.close:focus {
+color: #bbb;
+text-decoration: none;
+cursor: pointer;
+}
+
+.add-skills-container {
+    display: none;
+}
+
+/* REVIEW SECTION */
+.reviews-section {
+    margin-top: 5rem;
+}
+
+.reviews-section h2 {
+    margin-bottom: 1.9rem;
+}
+
+.review {
+    width: 100%;
+    border-top: 1px solid #4141413b;
+    padding: 1.8rem 0;
+}
+
+.review-info {
+    width: 60%;
+}
+
+.review-info i {
+    margin-left: 7px;
+}
+
+.review-comment {
+    width: 60%;
+    margin-top: 1rem;
+    word-wrap: break-word
+}
+
+.portfolio-box {
+    margin-bottom: 50px;
+}
+
+.portfolio-box-grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 1.5rem;
+    row-gap: 2.313rem;
+}
+
+.portfolio-item  {
+    box-sizing: border-box;
+    padding: 0.875rem;
+    width: 11.625rem;
+    height: 10.625rem;
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.portfolio-item h3 {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 140%;
+    color: #4C56CC;
+    margin: 0.438rem 0 .5rem 0;
+}
+
+.portfolio-item p {
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 140%;
+    color: #000000;
+    margin: 0;
+}
+
+.portfolio-item a {
+    text-decoration: none;
+    color: #4C56CC;
+}
+
+.portfolio-item:hover {
+    background: #d3d3d3;
+    transition: 0.3s ease;
+}
+
+.portfolio-link {
+    font-weight: 300;
+    font-size: 10px !important;
+    line-height: 140%;
+    color: #545454;
+    margin: 0;
+}
+
+.portfolio-item-modal {
+    display: none;
+    position: fixed; 
+    z-index: 1; 
+    padding: 1.875rem; 
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 34px;
+    overflow: hidden;
+    width: 30rem;
+}
+
+@media (min-width: 30.0625rem) and (max-width: 49.9375rem) {
+    /* Styles for smartphones in landscape orientation and tablets (481px - 799px) */
+    .wrapper {
+        max-width: 90%;
+    }  
+
+    .company-main {
+        flex-direction: column;
+    }
+
+    .linked-accounts {
+        margin-bottom: 2rem;
+    }
+
+    .company-head {
+        flex-direction: column;
+        row-gap: 2rem;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .company-image {
+        min-width: 80px;
+        min-height: 80px;
+        max-width: 80px;
+        max-height: 80px;
+    }
+
+    .company-head-edit {
+        grid-template-columns: 150px auto;
+        row-gap: 0.8rem;
+    }
+
+    .portfolio-box-grid {
+        /* display: grid; */
+        justify-content: center;
+        /* grid-template-columns: auto auto; */
+        /* column-gap: 1.5rem; */
+        /* row-gap: 2.313rem; */
+    }
+
+    .field-input input {
+        width: 15rem;
+    }
+
+    .profile-c-3-1 {
+        justify-content: center;
+    }
+}
+
+@media (min-width: 50rem) and (max-width: 74.9375rem) {
+    /* Styles for medium-sized screens such as laptops and smaller desktops (800px - 1199px) */
+    .wrapper {
+        max-width: 85%;
+    }  
+
+    .company-main {
+        flex-direction: column;
+    }
+
+    .linked-accounts {
+        margin-bottom: 2rem;
+    }
+
+    .linked-accounts ul {
+        display: flex;
+        column-gap: 2rem;
+        align-items: flex-start;
+    }
+
+    .profile-c-3-1 {
+        justify-content: center;
+    }
+
+    .company-head {
+        column-gap: 2rem;
+    }
+
+    .freelancer-name-h2 {
+        width: 10rem;
+    }
+
+    .portfolio-box-grid {
+        display: flex;
+        justify-content: center;
+        /* grid-template-columns: auto auto; */
+        /* column-gap: 1.5rem; */
+        /* row-gap: 2.313rem; */
+    }
+
+    .company-head-edit {
+        grid-template-columns: 150px auto;
+        row-gap: 0.8rem;
+    }
+
+    .field-input input {
+        width: 15rem;
+    }
+    
+
+    .footer {
+        column-gap: 1.7rem;
+    }
+}
+
+@media (min-width: 75rem) and (max-width: 89.938rem) {
+    /* Styles for medium-sized screens such as laptops and smaller desktops (1200px - 1439px) */
+    .wrapper {
+        max-width: 85%;
+    }     
+
+    .profile-c-3-1 {
+        column-gap: 1rem;
+        row-gap: 1.5rem;
+    }
+    
+    .profile-company-job-box {
+        width: 12rem;
+    }
+}

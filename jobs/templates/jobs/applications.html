@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My Applications{% endblock %}
+{% block content %}
+<div>
+    <div class="wrapper">
+        {% include 'elements/navbar.html' %}
+        <main>
+            {% if request.user.company %} 
+            <h1 class="application-h1 font-style-normal font-weight-600 font-size-32 font-color-main-color">Applicants list for your vacancies</h1>
+            <hr class="margin16">
+            <div class="applications-grid" id="applications-vacancies-id">
+                <p class="application-date">Vacancy</p>
+                <p class="application-date">Status</p>
+                <p class="application-date">Date</p>
+                {% for job in jobs %}
+                    {% for application in job.jobapplication_set.all %}
+                    <div class="application-job">
+                        <p><a href="{% url 'view_freelancer' freelancer_id=application.freelancer.id %}">{{ application.freelancer.first_name }} {{ application.freelancer.last_name }}</a></p>
+                        <div class="dashed-line"></div>
+                        <p>{{ application.freelancer.occupation }} <a href="{% url 'view_job' job.id %}"><span class="application-to">for</span> {{ application.job.title }}</a></p>
+                    </div>
+                    <div style="margin-bottom: 40px;" class="application-status">
+                        {{ application.status }}
+                    </div>
+                    <div style="margin-bottom: 40px;" class="application-date">Posted on {{ job.created_at|date:"F d, Y" }}</div>
+                    {% empty %} 
+                        <p>No applications found.</p>
+                    {% endfor %} 
+                {% empty %} 
+                    <p>You haven't posted any jobs yet.</p> 
+                {% endfor %}
+            </div>
+            <div class="applications-grid" id="applications-applicants-id">
+                <p class="application-date">Vacancy</p>
+                <p class="application-date">Status</p>
+                <p class="application-date">Date</p>
+                {% for job in jobs %}
+                    {% for application in job.jobapplication_set.all %}
+                    <div class="application-job">
+                        <p><a href="{% url 'view_freelancer' freelancer_id=application.freelancer.id %}">{{ application.freelancer.first_name }} {{ application.freelancer.last_name }}</a></p>
+                        <div class="dashed-line"></div>
+                        <p><a>{{ application.freelancer.occupation }}</a></p>
+                    </div>
+                    <div style="margin-bottom: 40px;" class="application-status">
+                        {{ application.status }}
+                    </div>
+                    <div style="margin-bottom: 40px;" class="application-date">Posted on {{ job.created_at|date:"F d, Y" }}</div>
+                    {% empty %} 
+                        <p>No applications found.</p>
+                    {% endfor %} 
+                {% empty %} 
+                    <p>You haven't posted any jobs yet.</p> 
+                {% endfor %}
+            </div>
+            {% else %} 
+                <h1 class="application-h1 font-style-normal font-weight-600 font-size-32 font-color-main-color">My apllications and invitations</h1>
+                <div class="application display-flex">
+                    <button id="applications-button" class="btn-no-border font-style-normal font-weight-500 font-size-20 font-color-042552 opacity-07">Applications</button>
+                    <button id="invitations-button" class="btn-no-border font-style-normal font-weight-500 font-size-20 font-color-042552 opacity-07">Invitations</button>
+                </div>
+                <hr class="margin16 opacity-hr">
+                <div class="applications-grid" id="applications-pending-id">
+                    <p class="application-date">Vacancy</p>
+                    <p class="application-date">Status</p>
+                    <p class="application-date">Date</p>
+                    {% if applications %} 
+                        {% for application in applications %}
+                        {% if application.status == 'pending' %} 
+                        <div class="application-job">
+                            <p><a href="{% url 'view_job' job_id=application.job.id %}">{{ application.job.title }}</a></p>
+                            <div class="dashed-line"></div>
+                            <p><span class="application-to">to</span> {{ application.job.company.name }}</p>
+                        </div>
+                        <div style="margin-bottom: 40px;" class="application-status">
+                            {{ application.status }}
+                        </div>
+                        <div style="margin-bottom: 40px;" class="application-date">Posted {{ application.job.created_at|date:"F d, Y" }}</div>
+                        {% endif %}
+                        {% endfor %} 
+                    </ul> 
+                    {% else %} 
+                        <p>You have not applied to any jobs yet.</p> 
+                    {% endif %} 
+                </div>
+                <div class="applications-grid" id="applications-accepted-id">
+                    <p class="application-date">Vacancy</p>
+                    <p class="application-date">Status</p>
+                    <p class="application-date">Date</p>
+                    {% if applications %} 
+                        {% for application in applications %}
+                        {% if application.status == 'accepted' %} 
+                        <div class="application-job">
+                            <p><a href="{% url 'view_job' job_id=application.job.id %}">{{ application.job.title }}</a></p>
+                            <div class="dashed-line"></div>
+                            <p><span class="application-to">to</span> {{ application.job.company.name }}</p>
+                        </div>
+                        <div style="margin-bottom: 40px;" class="application-status">
+                            {{ application.status }}
+                        </div>
+                        <div style="margin-bottom: 40px;" class="application-date">Posted {{ application.job.created_at|date:"F d, Y" }}</div>
+                        {% endif %}
+                        {% endfor %} 
+                    </ul> 
+                    {% else %} 
+                        <p>You have not applied to any jobs yet.</p> 
+                    {% endif %} 
+                </div>
+            {% endif %} 
+        </main>
+        <script src="{% static 'js/applications.js' %}"></script>
+    </div>
+    {% include 'elements/footer.html' %}
+</div>
+{% endblock %}

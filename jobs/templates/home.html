@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="background">
+    <div class="wrapper">
+        {% include 'elements/navbar.html' %}
+        <main>
+            <section class="home-main display-flex justify-content-sb">
+                <div class="main-left display-flex flex-direction-column">
+                    <h1 class="font-style-normal font-weight-700 font-size-57 line-height-120">Find the <span class="font-color-ffb922">job</span> of your Dreams</h1>
+                    <form method="GET" action="{% url 'view_jobs' %}"> 
+                        <div class="home-search display-flex align-items-center justify-content-sb">
+                            <div style="margin-left: 1rem;">
+                                <label for="seacrh"><i class="fa-solid fa-magnifying-glass font-size-20 font-color-main-color"></i></label>
+                                <input type="text" name="search" placeholder="Job title or keyword" class="font-style-normal font-size-15 font-weight-300 font-color-828282" value="{{ search_query }}">
+                            </div>
+                            <button type="submit" class="font-style-normal font-color-white font-weight-500 font-size-16 search-btn">Search</button>
+                        </div>  
+                        
+                        <div class="home-trending"> 
+                            <h3 class="font-style-normal font-weight-500 font-size-22">Trending Jobs keyword : </h3> 
+                            <ul class="list-style-no display-flex" style="margin-top: 1.438rem; column-gap: 2.188rem;"> 
+                                <li><a href="{% url 'view_jobs' %}?search=Web+Designer" class="font-style-normal font-weight-700 font-size-16 font-color-main-color text-decoration-no">Web Designer</a></li> 
+                                <li><a href="{% url 'view_jobs' %}?search=UI%2FUX+Designer" class="font-style-normal font-weight-700 font-size-16 font-color-main-color text-decoration-no">UI/UX Designer</a></li> 
+                                <li><a href="{% url 'view_jobs' %}?search=Frontend" class="font-style-normal font-weight-700 font-size-16 font-color-main-color text-decoration-no">Frontend</a></li> 
+                            </ul> 
+                        </div> 
+                    </form>
+                </div>
+                <img src="" class="home-main-image">
+            </section>
+            <section class="home-category">
+                <h4 class="font-style-normal font-weight-500 font-size-16 font-color-main-color text-align-center">Popular Job Categories</h4>
+                <h1 class="font-style-normal font-weight-600 font-size-32 text-align-center">Choose Categories</h1>
+                <div class="category-container display-flex justify-content-center">
+                    <!-- {% if job.status == "pending"%}{% endif %} -->
+                    {% for category in categories %}
+                        <a class="category-box display-flex text-decoration-no" href="{% url 'view_jobs' %}?category={{ category.id }}">
+                            <i class="fa-solid fa-bullhorn font-size-36 font-color-main-color"></i>
+                            <div class="category-info">
+                                <h4 class="font-style-normal font-weight-700 font-size-16 font-color-black">{{ category.name }}</h4>
+                                
+                                <p class="font-style-normal font-weight-500 font-size-12 font-color-737272">{{ category.job_set.count }} Jobs Available</p>
+                                
+                            </div>
+                        </a>
+
+                    {% endfor %}
+
+                    <!-- <a class="category-box display-flex text-decoration-no" href="{% url 'view_jobs' %}?category={{ 1 }}">
+                        <i class="fa-solid fa-bullhorn font-size-36 font-color-main-color"></i>
+                        <div class="category-info">
+                            <h4 class="font-style-normal font-weight-700 font-size-16 font-color-black">Marketing & Communication</h4>
+                            <p class="font-style-normal font-weight-500 font-size-12 font-color-737272">58 Jobs Available</p>
+                        </div>
+                    </a>
+                    <a class="category-box display-flex text-decoration-no" href="{ url 'find_work'}">
+                        <i class="fa-solid fa-pen-nib font-size-36 font-color-main-color"></i>
+                        <div class="category-info">
+                            <h4 class="font-style-normal font-weight-700 font-size-16 font-color-black">UI/UX Design</h4>
+                            <p class="font-style-normal font-weight-500 font-size-12 font-color-737272">120 Jobs Available</p>
+                        </div>
+                    </a>
+                    <a class="category-box display-flex text-decoration-no" href="{ url 'find_work'}">
+                        <i class="fa-solid fa-hand-holding-dollar font-size-36 font-color-main-color"></i>
+                        <div class="category-info">
+                            <h4 class="font-style-normal font-weight-700 font-size-16 font-color-black">Finance Management</h4>
+                            <p class="font-style-normal font-weight-500 font-size-12 font-color-737272">230 Jobs Available</p>
+                        </div>
+                    </a>
+                    <a class="category-box display-flex text-decoration-no" href="{ url 'find_work'}">
+                        <i class="fa-solid fa-laptop-code font-size-36 font-color-main-color"></i>
+                        <div class="category-info">
+                            <h4 class="font-style-normal font-weight-700 font-size-16 font-color-black">Web Development</h4>
+                            <p class="font-style-normal font-weight-500 font-size-12 font-color-737272">100 Jobs Available</p>
+                        </div>
+                    </a>
+                    <a class="category-box display-flex text-decoration-no" href="{ url 'find_work'}">
+                        <i class="fa-solid fa-folder-open font-size-36 font-color-main-color"></i>
+                        <div class="category-info">
+                            <h4 class="font-style-normal font-weight-700 font-size-16 font-color-black">Project Management</h4>
+                            <p class="font-style-normal font-weight-500 font-size-12 font-color-737272">87 Jobs Available</p>
+                        </div>
+                    </a>
+                    <a class="category-box display-flex text-decoration-no" href="{ url 'find_work'}">
+                        <i class="fa-solid fa-handshake-simple font-size-36 font-color-main-color"></i>
+                        <div class="category-info">
+                            <h4 class="font-style-normal font-weight-700 font-size-16 font-color-black">Business & Consulting</h4>
+                            <p class="font-style-normal font-weight-500 font-size-12 font-color-737272">23 Jobs Available</p>
+                        </div>
+                    </a>
+                    <a class="category-box display-flex text-decoration-no" href="{ url 'find_work'}">
+                        <i class="fa-solid fa-palette font-size-36 font-color-main-color"></i>
+                        <div class="category-info">
+                            <h4 class="font-style-normal font-weight-700 font-size-16 font-color-black">Graphic Designer</h4>
+                            <p class="font-style-normal font-weight-500 font-size-12 font-color-737272">65 Jobs Available</p>
+                        </div>
+                    </a>
+                    <a class="category-box display-flex text-decoration-no" href="{ url 'find_work'}">
+                        <i class="fa-solid fa-clapperboard font-size-36 font-color-main-color"></i>
+                        <div class="category-info">
+                            <h4 class="font-style-normal font-weight-700 font-size-16 font-color-black">Video Editor</h4>
+                            <p class="font-style-normal font-weight-500 font-size-12 font-color-737272">120 Jobs Available</p>
+                        </div>
+                    </a> -->
+                </div>
+            </section>
+            <section class="home-popular-jobs">
+                <h4 class="font-style-normal font-weight-500 font-size-16 font-color-main-color text-align-center">Featured Jobs</h4>
+                <h1 class="font-style-normal font-weight-600 font-size-32 font-color-042552 text-align-center">You will find popular <span class="font-color-ffb922">featured</span> work</h1>
+                <p class="font-style-normal font-weight-400 font-size-16 font-color-042552 popular-jobs-p">Fully nobis id expedita dolores officiis layered dolor sit amet laboriosam.</p>
+                <!-- <ul class="list-style-no display-flex justify-content-center job-class">
+                    <li><a href="" class="text-decoration-no font-color-506686">All Recent</a></li>
+                    <li><a href="" class="text-decoration-no font-color-506686">Finance</a></li>
+                    <li><a href="" class="text-decoration-no font-color-506686">Development</a></li>
+                    <li><a href="" class="text-decoration-no font-color-506686">Marketing</a></li>
+                    <li><a href="" class="text-decoration-no font-color-506686">Specialist</a></li>
+                </ul> -->
+                <div class="vacancy-container">
+                {% if jobs %}
+                    {% for job in jobs %}
+                        <div class="vacancy-box">
+                            <h3 class="vacancy-title truncate text-align-center font-style-normal font-weight-600 font-size-18 font-color-042552">{{ job.title }}</h3>
+                            <div class="display-flex align-items-center flex-direction-column">
+                                <p class="truncate vacancy-author font-weight-500 font-size-16 font-color-042552">{{ job.company.name }}</p>
+                                <p class="vacancy-salary font-weight-500 font-size-16 font-color-042552"><i class="fa-sharp fa-solid fa-money-bill-1-wave font-color-43ba7f"></i> ${{ job.salary }}</p>
+                                <a href="{% url 'view_job' job.id %}" class="vacancy-apply-btn text-decoration-no font-weight-600 font-color-main-color">Apply Now</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No jobs posted yet.</p>
+                {% endif %}
+                </div>
+                <a href="{% url 'view_jobs' %}" class="display-flex justify-content-center align-items-center font-style-normal font-weight-500 font-size-16 text-decoration-no font-color-main-color link-main-color-hover" id="seeallbtn ">See All Jobs <i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem;"></i></a>
+            </section>
+            <section class="home-get-know-better display-flex flex-direction-column align-items-center">
+                <h1 class="font-style-normal font-weight-600 font-size-40 font-color-main-color">Get know better</h1>
+                <p class="get-know-p font-style-normal font-weight-500 font-size-18">Lorem ipsum dolor sit amet. Sed dolore nemo aut ratione eligendi aut animi reprehenderit id omnis impedit. Ex quae quas aut modi impedit aut iste ullam eos possimus laborum. </p>
+                <!-- <img src="{% static 'images/screenshot.png' %}" class="get-know-content responsive-img" alt=""> -->
+                <iframe class="get-know-content" src="https://www.youtube-nocookie.com/embed/-UV3xm9pZ0g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <a class="font-style-normal font-color-white font-weight-500 font-size-18 text-decoration-no sign-up-btn"  href="{% url 'register' %}">Sign Up</a>
+            </section>
+            <section class="home-create-personal-profile display-flex">
+                <img src="{% static 'images/Image.png' %}" alt="" class="responsive-img">
+                <div class="create-profile display-flex flex-direction-column">
+                    <h4 class="font-style-normal font-weight-500 font-size-18 font-color-main-color">Create Profile</h4>
+                    <h2 class="font-style-normal font-weight-600 font-size-40 font-color-333333">Build Your Personal Account Profile</h2>
+                    <p class="font-style-normal font-weight-300 font-size-16" style="margin: 2.438rem 0;">Create an account for the job information you want, get daily notifications and you can easily apply directly to the company you want and create an account now for free</p>
+                    <a class="font-style-normal font-color-white font-weight-500 font-size-18 text-decoration-no sign-up-btn" href="{% url 'register' %}">Create Account</a>
+                </div>
+            </section>
+            <section class="home-how-it-works display-sb-c flex-wrap">
+                <div class="how-it-works">
+                    <h4 class="font-style-normal font-weight-500 font-size-18 font-color-main-color">How It Works</h4>
+                    <h2 class="font-style-normal font-weight-600 font-size-40 font-color-333333">Easy Step To Find and Apply Your Dream Job</h2>
+                    <p class="font-style-normal font-weight-300 font-size-16" style="width: 70%;">We will help you to find your dream job easily, let us
+                        help you manage everything you need</p>
+                    <div class="how-it-works-1">
+                        <span>
+                            <h5 class="font-style-normal font-weight-700 font-size-16 font-color-ff9a62">Easy to uload Your Best CV and Portofolio</h5>
+                            <p class="font-style-normal font-weight-300 font-size-16">You can upload your resume, CV, and portofolio directly to Jobbb</p>
+                        </span>
+                        <span>
+                            <h5 class="font-style-normal font-weight-700 font-size-16 font-color-ff9a62" style="margin-top: 36px;">Apply for your dream job from the best company</h5>
+                            <p class="font-style-normal font-weight-300 font-size-16">We will provide recommendations for your choice companies from all over the world</p>
+                        </span>
+                    </div>
+                </div>
+                <img src="{% static 'images/image2.png' %}" class="responsive-img" alt="how-it-works">
+            </section>
+            <section class="home-cv display-flex align-items-center">
+                <div class="container7-1">
+                    <h1 class="font-style-normal font-weight-600 font-size-46 font-color-white line-height-120">Want to create new cv?   
+                    Get Updated your cv with us!</h1>
+                </div>
+                <div class="container7-2 display-f-c-c">
+                    <a class="home-cv-btn font-style-normal font-weight-600 font-size-27 font-color-main-color text-decoration-no" href="{% url 'profile' %}">Create a new resume</a>
+                </div>
+            </section>
+        </main>
+        <!-- {% include 'elements/footer.html' %} -->
+    </div>
+    {% include 'elements/footer.html' %}
+</div>
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock %}

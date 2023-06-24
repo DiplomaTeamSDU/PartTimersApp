@@ -1,0 +1,29 @@
+
+<script>
+    const addSkillBtn = document.querySelector('#add-skill-btn');
+    const skillInputsDiv = document.querySelector('#skill-inputs');
+    let numSkills = 1;
+
+    addSkillBtn.addEventListener('click', () => {
+        const newSkillInput = `
+            <div class="form-group">
+                <input type="text" class="form-control" name="new_skill_${numSkills}" placeholder="Enter a new skill...">
+            </div>
+        `;
+        skillInputsDiv.insertAdjacentHTML('beforeend', newSkillInput);
+        numSkills++;
+    });
+
+
+    $('.profile-skill input[type="checkbox"]').on('change', function(event) {
+        event.preventDefault();
+        var profileSkill = $(this).parent();
+        if ($(this).is(':checked')) {
+            profileSkill.addClass('selected');
+        } else {
+            profileSkill.removeClass('selected');
+        }
+        return false;
+    });
+</script>
+

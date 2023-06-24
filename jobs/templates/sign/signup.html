@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Registration{% endblock %}
+{% block content %}
+<main class="login-container display-flex">   
+    <section class="left-login width-reg center">
+        <h1 class="title-login font-color-white">Start your <span class="title-login-span">journey</span> with us</h1>
+    </section>
+    <section class="right-login width-reg display-f-c-c flex-direction-column ">
+        <a class="close" href="{% url 'home' %}">&times;</a>
+        <form method="post">
+            {% csrf_token %}
+            <div class="login-box display-flex flex-direction-column">
+                <h2 class="font-style-normal font-weight-700 font-size-36 line-height-120 font-color-12141c">Registration</h2>
+                <p class="font-style-normal font-weight-500 font-size-18 line-height-120 font-clor-5a5a5a" style="margin-top: 2rem;">Select your position</p>
+                <div class="radio-buttons display-flex">
+                    <label for="id_choice_0"><input type="radio" name="choice" value="freelancer" required="" id="id_choice_0">
+                        I am a freelancer</label>
+                    <label for="id_choice_1"><input type="radio" name="choice" value="company" required="" id="id_choice_1">
+                        I am an employer (company)</label>
+                </div>
+                <div class="login-fields">
+                    <div class="display-flex">
+                        <input title="Provide your first name" type="first_name" name="first_name" autofocus required id="id_first_name" placeholder="First name">
+                        <input title="Provide your last name" type="last_name" name="last_name" autofocus required id="id_last_name" placeholder="Last name">
+                    </div>
+                    <input title="Provide your existing email" type="email" name="email" autofocus required id="id_email" placeholder="Email Address">
+                    <input title="Provide your password" type="password" name="password1" autocomplete="new-password" required id="id_password1" placeholder="Password">
+                    <input title="Confirm your password" type="password" name="password2" autocomplete="new-password" required id="id_password2" placeholder="Confirm Password">
+                </div>
+                <div>
+                    <button title="Sign Up" type="submit" class="btn btn-btn font-style-normal font-weight-500 font-size-16 font-color-white" style="padding: 0.5rem 3rem;">Sign Up</button> 
+                </div>
+                <div class="display-flex align-items-center" style="margin-top: 20px;">
+                    <p style="margin-right: 35px; font-weight: 500; font-size: 16px;">Already have an account?</p>
+                    <a title="Log In" href="{% url 'login' %}" class="font-style-normal font-weight-500 text-decoration-no font-size-16 line-height-10 font-color-main-color link-hover">Log In</a>
+                </div>
+            </div>
+            
+        </form>
+    </section>
+</main>
+<script>
+    $(document).ready(function() {
+        // Select "I am a freelancer" radio button by default
+        $('input:radio[id="id_choice_0"]').prop('checked', true);
+
+        // update placeholder text when radio button is changed
+        $('input[type=radio][name=choice]').change(function() {
+            if (this.value === 'freelancer') {
+                $('#id_first_name').attr('placeholder', 'First name');
+                $('#id_first_name').attr('title', 'Provide your first name');
+                $('#id_last_name').attr('placeholder', 'Last name');
+                $('#id_first_name').attr('title', 'Provide your last name');
+            }
+            else if (this.value === 'company') {
+                $('#id_first_name').attr('placeholder', 'Company name');
+                $('#id_first_name').attr('title', 'Provide company name');
+                $('#id_last_name').attr('placeholder', 'Field (ex. Banking, Technology Company)');
+                $('#id_last_name').attr('title', 'Provide field of your company');
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,453 @@
+/* SECTION MAIN */
+.home-main {
+    margin-top: 5rem;
+    margin-bottom: 20rem;
+    /* height: 90vh; */
+}
+
+.main-left {
+    width: 44%;
+    /* justify-content: space-between; */
+}
+
+.main-left h1 {
+    width: 80%;
+    margin-bottom: 7rem;
+}
+
+.home-search {
+    background: #FFFFFF;
+    border: 0.125rem solid #4C56CC; 
+    border-radius: 2rem;
+    padding: 0.438rem 0.563rem;
+    width: 90%;
+    margin-bottom: 4rem;
+}
+
+.search-btn {
+    padding: 0.75rem 3.563rem;
+    background: #4C56CC;
+    border-radius: 2.188rem;
+    cursor: pointer;
+    outline: 0;
+    border: 0;
+}
+
+.search-btn:hover {
+    background-color: #747ddd;
+    transition: 0.2s ease;
+}
+
+.home-search input {
+    border-style: none;
+    padding-left: 0.781rem;
+    background: transparent;
+    outline: none;
+}
+
+.main-right {
+    /* display: block; */
+    /* margin-left: auto; */
+    margin-right: auto;
+}
+
+.home-main-image {
+    border-radius: 50px;
+    width: 50%;
+}
+
+/* SECTION CATEGORY */
+.home-category {
+    margin-bottom: 12rem;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.category-container {
+    flex-wrap: wrap;
+    gap: 2.188rem;
+    margin-top: 5.5rem;
+}
+
+.category-box {
+    flex-direction: row;
+    align-items: center;
+    padding: 1.25rem 1.577rem;
+    column-gap: 2.438rem;
+    width: 17.5rem;
+    height: 6.688rem;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4.20586px 21.0293px #FFEFE0;
+    border-radius: 1.972rem;
+}
+
+.category-box:hover,
+.category-box:hover i,
+.category-box:hover h4,
+.category-box:hover p {
+    background: #4C56CC;
+    color: #FFFFFF;
+}
+
+.category-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 4.188rem;
+}
+
+/* SECTION FEATURED JOBS */
+.popular-jobs-p {
+    display: flex;
+    justify-content: center;
+}
+
+.job-class {
+    margin-top: 2.813rem;
+    column-gap: 2rem;
+}
+
+.vacancy-container {
+    display: grid;
+    justify-content: center;
+    column-gap: 0.313rem;
+    row-gap: 1.563rem;
+    grid-template-columns: repeat(auto-fill, 19.125rem);
+    grid-template-rows: repeat(auto-fill, 14.375rem);
+    margin-top: 3.125rem;
+    margin-bottom: 3.125rem;
+}
+
+.vacancy-box {
+    padding: 1.563rem 0;
+    height: 14.375rem;
+    background: #FFFFFF;
+    box-shadow: 0.375rem 0.625rem 2.5rem rgba(0, 0, 0, 0.08);
+    border-radius: 0.625rem;
+}
+
+.vacancy-title,
+.vacancy-box p {
+    padding: 0 2rem;
+}
+
+.vacancy-author, 
+.vacancy-salary {
+    opacity: 0.7;
+}
+
+.vacancy-salary {
+    margin-top: 1.438rem;
+    margin-bottom: 1.875rem;
+}
+
+.vacancy-apply-btn {
+    background: #E2DDFF;
+    border-radius: 3.125rem;
+    border: 1px solid #E2DDFF;
+    padding: 0.313rem 0.813rem;
+}
+
+.vacancy-apply-btn:hover {
+    background: #c3bbee;
+    transition: 0.2s ease;
+}
+
+.link-main-color-hover:hover {
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+/* SECTION GET KNOW BETTER */
+.home-get-know-better {
+    margin: 10rem 0;
+}
+
+.get-know-p {
+    width: 43.563rem;
+    text-align: justify;
+    margin: 1rem 0 3.25rem 0;
+}
+
+.get-know-content {
+    margin-bottom: 3.25rem;
+    width: 840px;
+    height: 472.5px;
+}
+
+/* SECTION CREATE ACCOUNT PROFILE */
+.home-create-personal-profile {
+    gap: 4.688rem;
+}
+
+.create-profile {
+    align-items: flex-start;
+}
+
+.home-create-personal-profile img {
+    width: 90%;
+    height: 100%;
+}
+
+/* SECTION HOW IT WORKS */
+.home-how-it-works {
+    margin-top: 8rem;
+}
+
+.how-it-works {
+    width: 40%;
+}
+
+.create-profile h2,
+.how-it-works h2 {
+    line-height: 120%;
+}
+
+.how-it-works h2 {
+    margin-bottom: 2.875rem;
+}
+
+.how-it-works-1 {
+    margin-left: 3.125rem;
+    margin-top: 2.875rem;
+}
+
+.home-how-it-works img {
+    width: 55%;
+}
+
+/* SECTION CV */
+.home-cv {
+    background: #4C56CC;
+    border-radius: 5.257rem;
+    height: 26.375rem;
+    margin-top: 10rem;
+}
+
+.container7-1 {
+    width: 60%;
+    padding-left: 3.75rem;
+}
+
+.container7-2 {
+    background-image: url('../images/whitelinepng.png');
+    background-position: right 82% bottom 25%;
+    background-size: 200%;
+    height: 100%;
+    width: 40%;
+}
+
+.home-cv-btn {
+    background: #FFFFFF;
+    border-radius: 1.971rem;
+    padding: 1.25rem 2rem;
+}
+
+.home-cv-btn:hover {
+    background-color: #a9adda;
+    color: #FFFFFF;
+    transition: 0.2s ease;
+}
+
+
+@media (max-width: 30rem) {
+    /* Styles for smartphones in portrait orientation (480px) */
+    .wrapper {
+        max-width: 90%;
+    }   
+
+    .home-main {
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: 10rem;
+    }
+
+    .main-left {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .main-left h1 {
+        font-size: 2.5rem;
+        text-align: center;
+    }
+
+    .get-know-content {
+        margin-bottom: 3.25rem;
+        width: 100%;
+        height: 50%;
+    }
+
+}
+
+
+@media (min-width: 30.0625rem) and (max-width: 49.9375rem) {
+    /* Styles for smartphones in landscape orientation and tablets (481px - 799px) */
+    .wrapper {
+        max-width: 90%;
+    }  
+
+    .get-know-content {
+        margin-bottom: 3.25rem;
+        width: 280px;
+        height: 157.5px;
+    }
+    
+    .home-main {
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: 10rem;
+    }
+
+    .main-left {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .main-left h1 {
+        font-size: 2.5rem;
+        text-align: center;
+    }
+    
+    .main-right,
+    .home-how-it-works img,
+    .home-search-location {
+        display: none;
+    }
+
+    .how-it-works,
+    .get-know-p {
+        width: 100%;
+    }
+
+    .home-search {
+        width: 25rem;
+        margin: 2rem 0;
+    }
+
+    .search-btn {
+        padding: 0.75rem 1.5rem;
+    }
+
+    .category-box {
+        padding: 1.25rem 1.577rem;
+        column-gap: 0.7rem;
+        width: 10.5rem;
+        height: 6.688rem;
+    }
+
+    .category-box i {
+        font-size: 20px;
+    }
+
+    .category-info h4 {
+        font-size: 0.7rem;
+    }
+
+    .category-info p {
+        font-size: 0.5rem;
+    }
+
+    .job-class,
+    .home-create-personal-profile,
+    .home-how-it-works {
+        flex-wrap: wrap;
+    }
+
+    .home-cv {
+        border-radius: 4rem;
+        height: 10rem;
+    }
+
+    .container7-1 h1 {
+        font-size: 1rem;
+    }
+
+    .home-cv-btn {
+        font-size: 0.8rem;
+        padding: 0.75rem .8rem;
+    }
+
+}
+
+@media (min-width: 50rem) and (max-width: 74.9375rem) {
+    /* Styles for medium-sized screens such as laptops and smaller desktops (800px - 1199px) */
+    .home-main {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10rem;
+    }
+    
+    .home-main-image {
+        width: 80%;
+    }
+    
+    .main-left {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 5rem;
+    }
+
+    .main-right {
+        display: none;
+    }
+
+    .home-search {
+        width: 30rem;
+        /* margin: 2rem 0; */
+        margin-bottom: 2.5rem;
+    }
+
+    .main-left h1 {
+        text-align: center;
+        font-size: 2.875rem;
+        margin-bottom: 3rem;
+    }
+
+    .home-create-personal-profile img {
+        width: 30%;
+    }
+
+    .home-cv {
+        height: 15rem;
+    }
+
+    .container7-1 h1 {
+        font-size: 1.5rem;
+    }
+
+    .home-cv-btn {
+        font-size: 1rem;
+    }
+
+    .get-know-content {
+        width: 616px;
+        height: 346.5px;
+    }
+}
+
+@media (min-width: 75rem) and (max-width: 89.938rem) {
+    /* Styles for medium-sized screens such as laptops and smaller desktops (1200px - 1439px) */
+    .main-left h1 {
+        font-size: 2.5rem;
+    }
+
+    .search-btn {
+        padding: 0.75rem 2rem;
+    }
+
+    .get-know-content {
+        width: 728px;
+        height: 409.5px;
+    }
+}

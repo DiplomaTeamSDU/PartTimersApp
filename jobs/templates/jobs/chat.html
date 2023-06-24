@@ -1,0 +1,30 @@
+{% load static %}
+{% block content %}
+    <div class="chat-box">
+        <div class="row">
+            <div id="chat">
+                {% for message in chat_messages %}
+                    {% if request.user.freelancer == receiver %}
+                        {{ sender.first_name }}
+                        <!-- <p>({{ message.timestamp|date:"DATETIME_FORMAT" }}): {{ message.message }}</p> -->
+                        <p>{{ message.message }}</p>
+                    {% else %}
+                        {{ sender.first_name }} {{ sender.last_name }}
+                        <p>({{ message.timestamp|date:"DATETIME_FORMAT" }}): {{ message.message }}</p>
+                    {% endif %}
+                    <!-- <p>{{ message.sender.name }} {{ message.sender.last_name }} ({{ message.timestamp|date:"DATETIME_FORMAT" }}): {{ message.message }}</p> -->
+    
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="chat-container">
+        <form id="message-form" method="POST">
+            {% csrf_token %}
+            <div class="chat">
+                <input type="text" name="message" class="form-control" placeholder="Type your message here...">
+                <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
